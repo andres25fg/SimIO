@@ -5,7 +5,6 @@ import java.util.Random;
 import java.lang.Math;
 public class RandomGenerator {
     Random r = new Random();
-
     public double uniform(double a, double b){
         return a+(b-a)*r.nextDouble();
     }
