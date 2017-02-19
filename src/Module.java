@@ -46,18 +46,27 @@ abstract class Module {
     }
 
     // En este metodo no estoy my seguro e como manejar la lista de eventos
-    public void arrive(Connection c) {
+    public boolean arrive(Connection c) {
+        boolean being_served=false;
         if(getFreeServers()==0) {
             sendToStack(c);
         }else{
             //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
             reduceFreeServer();
-
-
+            being_served=true;
         }
+        return being_served;
     }
-    public void exit(Connection c) {
-
+    public Connection exit(int proba) {
+        reduceFreeServer();
+        Connection next;
+        if(stackConnections.isEmpty()!=true){
+            next = stackConnections.getFirst();
+            int duration = generateServiceTime(proba); //hay que ver como pasar el tiempo de servicio, talvez agregarlo a la conexion
+        }else{
+            next=null;
+        }
+        return next;
     }
 
 
