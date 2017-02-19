@@ -44,7 +44,7 @@ public class Simulation  {
     }
 
     /**
-     * Método que saca el siguiente evento de la lista
+     * Método que saca el siguiente evento de la cola
      * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos. Lo saca de la cola
      */
     private QueryEvent getNextEvent() {
