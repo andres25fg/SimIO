@@ -4,7 +4,7 @@ import java.util.PriorityQueue;
 /**
  * Created by felipe on 17/2/2017.
  */
-public class AbstractModule {
+abstract class Module {
     private StatisticsModule statistics; // Objeto de la clase StatisticsModule para guardar estadísticas
     private int freeServers; // Número de servidores libres dle módulo
     private int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
@@ -13,7 +13,7 @@ public class AbstractModule {
     private ArrayDeque<Connection> stackConnections; // Cola de conexiones del módulo
     private PriorityQueue<QueryType> stackQueries; // Cola de consultas
 
-    public AbstractModule(){
+    public Module(){
     }
 
     public void setFreeServers(int freeServers) {
@@ -36,7 +36,29 @@ public class AbstractModule {
         return maxSimConnections;
     }
 
-    public int getNumClientsServed() {
-        return numClientsServed;
+    public void sendToStack(Connection c) { stackConnections.add(c);}
+
+    public void reduceFreeServer() { freeServers--;}
+
+    //este metodo se puede cambair en las clases hijas dependiendo de como se ocupe generar el service time
+    public int generateServiceTime(int proba){
+        return proba;
     }
+
+    // En este metodo no estoy my seguro e como manejar la lista de eventos
+    public void arrive(Connection c) {
+        if(getFreeServers()==0) {
+            sendToStack(c);
+        }else{
+            //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
+            reduceFreeServer();
+
+
+        }
+    }
+    public void exit(Connection c) {
+
+    }
+
+
 }
