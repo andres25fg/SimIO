@@ -22,14 +22,19 @@ public class Simulation  {
     private PriorityQueue<QueryEvent> eventList; // Lista de eventos del sistema
 
 
-    public Simulation(){
-
+    public Simulation(int numSims, int secsSim, int slowMode, int slowModeSecs){
+        this.setClock(0);
+        this.setNumSimulations(numSims);
+        this.setSlowMode(slowMode);
+        this.setSecondsSimulation(slowModeSecs);
     }
 
 
 
     public void beginSimulation(){
+        while(numSimulations > 0) {
 
+        }
     }
     //procesa el primer elemento de la pila
    /* public void ProcesEvent(){
@@ -75,6 +80,26 @@ public class Simulation  {
             se agrega un nuevo elemento a eventList con la conexion que estamos trabajando excepto para exit y time_out;
         }
     }*/
+
+    public void setClock(int clock) {
+        this.clock = clock;
+    }
+
+    public void setSlowMode(boolean slowMode) {
+        this.slowMode = slowMode;
+    }
+
+    public void setSlowModeSeconds(int slowModeSeconds) {
+        this.slowModeSeconds = slowModeSeconds;
+    }
+
+    public void setNumSimulations(int numSimulations) {
+        this.numSimulations = numSimulations;
+    }
+
+    public void setSecondsSimulation(int secondsSimulation) {
+        this.secondsSimulation = secondsSimulation;
+    }
 
     public static void main (String[] args){
             QueryEvent queryE = new QueryEvent();
