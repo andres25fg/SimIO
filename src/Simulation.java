@@ -44,8 +44,8 @@ public class Simulation  {
     }
 
     /**
-     * Método que saca el siguiente evento de la cola
-     * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos. Lo saca de la cola
+     * Método que saca el siguiente evento de la cola y lo elimina de la cola
+     * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos.
      */
     private QueryEvent getNextEvent() {
         return eventList.pop();
@@ -182,12 +182,13 @@ public class Simulation  {
     }
 
     public static void main (String[] args){
-            QueryEvent queryE = new QueryEvent();
-            /*
-            Agregar evento de entrada en el tiempo 0
-            while(clock < TIEMPO DE SIMULACION){
-                processEvent();
-             */
+        //QueryEvent queryE = new QueryEvent();
+
+        /*
+        Agregar evento de entrada en el tiempo 0
+        while(clock < TIEMPO DE SIMULACION){
+            processEvent();
+         */
         /*for (QueryType i : new QueryType[] { QueryType.DDL, QueryType.UPDATE, QueryType.JOIN, QueryType.SELECT}) {
             System.out.println(i.toString() + " " + i.getPriority() + " " + i.getReadOnly());
         }*/
