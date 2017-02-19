@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Created by felipe on 17/2/2017.
  */
@@ -28,8 +30,17 @@ public class Connection {
         return type;
     }
 
-    public void setType(QueryType type) {
-        this.type = type;
+    public void setType() {
+        double r =new Random().nextDouble();
+        if(r>=0.00&&r<0.32){
+            type=QueryType.SELECT;
+        }else if(r>=0.32&&r<0.60){
+            type=QueryType.UPDATE;
+        }else if(r>=0.60&&r<0.93){
+            type=QueryType.JOIN;
+        }else if(r>=0.93&&r<1){
+            type=QueryType.DDL;
+        }
     }
 
     public ModuleFlag getCurrentModule() {

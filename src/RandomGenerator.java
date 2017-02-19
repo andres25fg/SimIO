@@ -8,9 +8,11 @@ public class RandomGenerator {
     public double uniform(double a, double b){
         return a+(b-a)*r.nextDouble();
     }
+
     public double[] normal(int u, int o){
         double r1 = r.nextDouble();
         double r2 = r.nextDouble();
+
 
         double z[]= new double[2];
         z[1]= Math.pow(-2*Math.log(r1), .5)*Math.sin(2*Math.PI*r2);
@@ -19,6 +21,7 @@ public class RandomGenerator {
         z[2]=u+o*z[2];
         return z;
     }
+
     public double exponential(double l){
         return -1/l*Math.log(r.nextDouble());
     }
