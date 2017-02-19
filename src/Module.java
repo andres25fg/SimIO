@@ -11,7 +11,7 @@ public abstract class Module {
     private RandomGenerator random; // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
     private Deque<Connection> stackConnections; // Cola de conexiones del módulo
-    private PriorityQueue<QueryType> stackQueries; // Cola de consultas
+    private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
     public Module(){
     }
@@ -36,10 +36,18 @@ public abstract class Module {
         return maxSimConnections;
     }
 
-    public void setStackQueries(PriorityQueue<QueryType> stackQueries) {
+    public void setStackQueries(PriorityQueue<Connection> stackQueries) {
         this.stackQueries = stackQueries;
     }
 
+    public PriorityQueue<Connection> getStackQueries() {
+        return stackQueries;
+    }
+
+    /**
+     * Método que agrega una conexión a la cola
+     * @param c
+     */
     public void sendToStack(Connection c) { stackConnections.add(c);}
 
     public void reduceFreeServer() { freeServers--;}
