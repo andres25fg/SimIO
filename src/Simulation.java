@@ -36,10 +36,10 @@ public class Simulation  {
 
         }
     }
-    //procesa el primer elemento de la pila
+    //procesa el primer elemento de la cola
    /* public void ProcesEvent(){
         boolean endConnection = false; //false = la conexion aun no termina, true terminar conexion
-        actualEvent = saca evento de la cola();
+        QueryEvent actualEvent = saca evento de la cola();
             clock =  actualEvent.getTime();
             //se procesa segun el tipo de evento
         switch (tipo de evento){
@@ -58,19 +58,65 @@ public class Simulation  {
                 module = QueryEvent.getConecction().getCurrentModule(); // se busca el modulo actual
                 switch (tipo de evento){
                     case "CLIENT_ADMIN":
-                        ProcessAdministratorModule.arrive();
+                        Connection client_a = ClientAdministratorModule.exit();
+                        if(client_a!= null){
+                            //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
+                            //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                            //no se como ponerle el tipo de enum a cada evento, tal vez enviando un parametro extra al constructor de QueryEvent o revisando el moduleFlag (pero creo que
+                            //esto seria mas lento)
+                            QueryEvent event = new Event(client_a);
+                            eventList.add(event);
+                        }
+                        boolean processing = ProcessAdministratorModule.arrive();
+                        if(processing==true){
+                            //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
+                            QueryEvent event = new Event(actualEvent);
                         break;
                     case "PROCESS_ADMIN":
-                        QueryExecutionsModule.arrive();
+                        Connection client_p = ProcessAdministratorModule.exit()
+                        if(client_p!= null){
+                            //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
+                            //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                            QueryEvent event = new Event(client_p);
+                            eventList.add(event);
+                        }
+                        boolean processing = QueryExecutionsModule.arrive();
                         break;
                     case "QUERY_EXE":
-                        TransactionsModule.arrive();
+                        Connection client_q = QueryExecutionsModule.exit();
+                        if(client_q!= null){
+                            //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
+                            //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                            QueryEvent event = new Event(client_q);
+                            eventList.add(event);
+                        }
+                        boolean processing = TransactionsModule.arrive();
+                        if(processing==true){
+                            //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
+                            QueryEvent event = new Event(actualEvent);
                         break;
                     case "TRANSACTION":
-                       QueryProcessorModule().arrive();
+                       Connection client_t = TransactionsModule.exit();
+                       if(client_t!= null){
+                            //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
+                            //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                            QueryEvent event = new Event(client_t);
+                            eventList.add(event);
+                        }
+                        boolean processing = QueryProcessorModule.arrive();
+                        if(processing==true){
+                            //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
+                            QueryEvent event = new Event(actualEvent);
                         break;
                     case "QUERY_PROCESSOR":
-                        no se que va aqui pasa a otro modulo o le ponemos que salga?
+                        Connection client_q_p = QueryProcessorModule.Exit();
+                        if(client_q_p!= null){
+                            //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
+                            //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                            QueryEvent event = new Event(client_q_p);
+                            eventList.add(event);
+                        }
+
                         break;
                 break;
             }
