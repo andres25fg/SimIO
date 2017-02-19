@@ -61,7 +61,7 @@ public abstract class Module {
         }
         return being_served;
     }
-    public Connection exit(int proba) {
+    public Connection exit() {
         reduceFreeServer();
         Connection next;
         if(stackConnections.isEmpty()!=true){

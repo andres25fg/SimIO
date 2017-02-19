@@ -20,18 +20,23 @@
     }
 }
 public class QueryEvent {
-     private  double eventTime=0;
+     private  int eventTime=0;
      private  EventType type;
+     private Connection connection;
 
-    QueryEvent(int time, EventType type){
-        eventTime= time;
+    QueryEvent(int time, EventType type, Connection connection){
+        this.eventTime= time;
         this.type = type;
+        this.connection = connection;
     }
 
     public String getType(){
         return type.getType();
     }
-    public double getEventTime(){
+    public int getEventTime(){
         return eventTime;
+    }
+    public Connection getConnection(){
+        return connection;
     }
 }
