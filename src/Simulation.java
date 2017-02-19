@@ -1,10 +1,9 @@
-import java.util.PriorityQueue;
+import java.util.Deque;
 
 /**
  * Clase Simualtion
  *
  * Esta clase contiene la definición de la clase principal de la simulación que se encarga de comunicarse con las demás clases del sistema
- *
  *
  */
 
@@ -19,27 +18,50 @@ public class Simulation  {
     private QueryExecutionsModule queryExecutions; // Query Exections
     private QueryProcessorModule queryProcessor; // Query Processor
     private TransactionsModule transactions; // Transactions
-    private PriorityQueue<QueryEvent> eventList; // Lista de eventos del sistema
+    private Deque<QueryEvent> eventList; // Lista de eventos del sistema
 
 
-    public Simulation(int numSims, int secsSim, int slowMode, int slowModeSecs){
-        this.setClock(0);
-        this.setNumSimulations(numSims);
-        this.setSlowMode(slowMode);
-        this.setSecondsSimulation(slowModeSecs);
+    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs){
+        this.setClock(0); // Inicializamos el reloj en el tiempo 0
+        this.setNumSimulations(numSims); // Se guarda el número de simulaciones que se van a realizar
+        this.setSlowMode(slowMode); // Se guarda la bandera del Slow Mode
+        this.setSecondsSimulation(slowModeSecs); // Se guardan los segundos del delay para el Slow Mode
+
+        // Creamos los objetos específicos de cada módulo con el cual se comunica Simulation
+        this.clientAdministrator = new ClientAdministratorModule();
+        this.processAdministrator = new ProcessAdministratorModule();
+        this.queryExecutions = new QueryExecutionsModule();
+        this.queryProcessor = new QueryProcessorModule();
+        this.transactions = new TransactionsModule();
     }
 
+    /**
+     * Método que agrega un QueryEvent a la cola de eventos
+     * @param newEvent
+     */
+    private void addQueryEvent(QueryEvent newEvent) {
+        eventList.add(newEvent);
+    }
 
+    /**
+     * Método que saca el siguiente evento de la lista
+     * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos. Lo saca de la cola
+     */
+    private QueryEvent getNextEvent() {
+        return eventList.pop();
+    }
 
     public void beginSimulation(){
         while(numSimulations > 0) {
+            while(secondsSimulation > 0) {
 
+            }
         }
     }
     //procesa el primer elemento de la cola
    /* public void ProcesEvent(){
         boolean endConnection = false; //false = la conexion aun no termina, true terminar conexion
-        QueryEvent actualEvent = saca evento de la cola();
+        QueryEvent actualEvent = this.getNextEvent();
             clock =  actualEvent.getTime();
             //se procesa segun el tipo de evento
         switch (tipo de evento){
@@ -65,7 +87,7 @@ public class Simulation  {
                             //no se como ponerle el tipo de enum a cada evento, tal vez enviando un parametro extra al constructor de QueryEvent o revisando el moduleFlag (pero creo que
                             //esto seria mas lento)
                             QueryEvent event = new Event(client_a);
-                            eventList.add(event);
+                            eventList.addQueryEvent(event);
                         }
                         boolean processing = ProcessAdministratorModule.arrive();
                         if(processing==true){
@@ -78,7 +100,7 @@ public class Simulation  {
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_p);
-                            eventList.add(event);
+                            eventList.addQueryEvent(event);
                         }
                         boolean processing = QueryExecutionsModule.arrive();
                         break;
@@ -88,7 +110,7 @@ public class Simulation  {
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_q);
-                            eventList.add(event);
+                            eventList.addQueryEvent(event);
                         }
                         boolean processing = TransactionsModule.arrive();
                         if(processing==true){
@@ -101,7 +123,7 @@ public class Simulation  {
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_t);
-                            eventList.add(event);
+                            eventList.addQueryEvent(event);
                         }
                         boolean processing = QueryProcessorModule.arrive();
                         if(processing==true){
@@ -114,7 +136,7 @@ public class Simulation  {
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_q_p);
-                            eventList.add(event);
+                            eventList.addQueryEvent(event);
                         }
 
                         break;
