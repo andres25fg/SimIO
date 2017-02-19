@@ -82,61 +82,73 @@ public class Simulation  {
                     case "CLIENT_ADMIN":
                         Connection client_a = ClientAdministratorModule.exit();
                         if(client_a!= null){
+                            int serviceTime = ClientAdministratorModule.generateServiceTime();
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             //no se como ponerle el tipo de enum a cada evento, tal vez enviando un parametro extra al constructor de QueryEvent o revisando el moduleFlag (pero creo que
                             //esto seria mas lento)
                             QueryEvent event = new Event(client_a);
-                            eventList.addQueryEvent(event);
+                            eventList.addQueryEvent(event, serviceTime);
                         }
                         boolean processing = ProcessAdministratorModule.arrive();
                         if(processing==true){
                             //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                            QueryEvent event = new Event(actualEvent);
+                            int serviceTime = ClientAdministratorModule.generateServiceTime()
+                            QueryEvent event = new Event(actualEvent, serviceTime);
                         break;
                     case "PROCESS_ADMIN":
-                        Connection client_p = ProcessAdministratorModule.exit()
+                        Connection client_p = ProcessAdministratorModule.exit();
                         if(client_p!= null){
+                            int serviceTime = ProcessAdministratorModule.generateServiceTime()
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_p);
-                            eventList.addQueryEvent(event);
+                            eventList.addQueryEvent(event, serviceTime);
                         }
                         boolean processing = QueryExecutionsModule.arrive();
+                        if(processing==true){
+                            //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
+                            int serviceTime = ProcessAdministratorModule.generateServiceTime();
+                            QueryEvent event = new Event(actualEvent, serviceTime);
                         break;
                     case "QUERY_EXE":
                         Connection client_q = QueryExecutionsModule.exit();
                         if(client_q!= null){
+                            int serviceTime = QueryExecutionsModule.generateServiceTime();
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_q);
-                            eventList.addQueryEvent(event);
+                            eventList.addQueryEvent(event, serviceTime);
                         }
                         boolean processing = TransactionsModule.arrive();
                         if(processing==true){
+                            int serviceTime = QueryExecutionsModule.generateServiceTime();
                             //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                            QueryEvent event = new Event(actualEvent);
+                            QueryEvent event = new Event(actualEvent, serviceTime);
                         break;
                     case "TRANSACTION":
                        Connection client_t = TransactionsModule.exit();
                        if(client_t!= null){
+                            int serviceTime = TransactionsModule.generateServiceTime();
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_t);
-                            eventList.addQueryEvent(event);
+                            eventList.addQueryEvent(event, serviceTime);
                         }
                         boolean processing = QueryProcessorModule.arrive();
                         if(processing==true){
+                            int serviceTime = TransactionsModule.generateServiceTime();
                             //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                            QueryEvent event = new Event(actualEvent);
+                            QueryEvent event = new Event(actualEvent, serviceTime);
                         break;
                     case "QUERY_PROCESSOR":
                         Connection client_q_p = QueryProcessorModule.Exit();
                         if(client_q_p!= null){
+                            int serviceTime = QueryProcessorModule.generateServiceTime(),
                             //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                             //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                             QueryEvent event = new Event(client_q_p);
-                            eventList.addQueryEvent(event);
+                            eventList.addQueryEvent(event, serviceTime);
                         }
 
                         break;

@@ -66,7 +66,6 @@ public abstract class Module {
         Connection next;
         if(stackConnections.isEmpty()!=true){
             next = stackConnections.getFirst();
-            int duration = generateServiceTime(proba); //hay que ver como pasar el tiempo de servicio, talvez agregarlo a la conexion
         }else{
             next=null;
         }
