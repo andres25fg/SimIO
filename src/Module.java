@@ -4,7 +4,7 @@ import java.util.PriorityQueue;
 /**
  * Created by felipe on 17/2/2017.
  */
-abstract class Module {
+public abstract class Module {
     private StatisticsModule statistics; // Objeto de la clase StatisticsModule para guardar estadísticas
     private int freeServers; // Número de servidores libres dle módulo
     private int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
@@ -34,6 +34,10 @@ abstract class Module {
 
     public int getMaxSimConnections() {
         return maxSimConnections;
+    }
+
+    public void setStackQueries(PriorityQueue<QueryType> stackQueries) {
+        this.stackQueries = stackQueries;
     }
 
     public void sendToStack(Connection c) { stackConnections.add(c);}
