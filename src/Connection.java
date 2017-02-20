@@ -10,6 +10,10 @@ public class Connection {
     private int result;//Resultado de la consulta
     private int arrivalTime;//Tiempo de llegada al sistema
 
+    boolean transactionModule=false; // permite conocer si la conexion ya paso por el modulo de transacciones, despues
+    double blocksRead;
+    // es atendido por algunos modulos por segunda vez
+
     public Connection() {
     }
 
@@ -67,9 +71,17 @@ public class Connection {
         this.result = result;
     }
 
+    public void setTransactionModuleTrue(){
+        transactionModule = true;
+    }
+    public boolean getTransactionModule(){
+        return transactionModule;
+    }
+    public void setBlocksRead(double b){
+        blocksRead = b;
+    }
 
-
-
-
-
+    public double getBlocksRead() {
+        return blocksRead;
+    }
 }
