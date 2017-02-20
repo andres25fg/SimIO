@@ -2,7 +2,14 @@ import java.util.Deque;
 import java.util.PriorityQueue;
 
 /**
- * Created by felipe on 17/2/2017.
+ * Clase Module
+ *
+ * Esta clase abstracta contiene la definición de atributos y métodos base que se utilizan en los módulos principales dle sistema.
+ * Estos modulos heredan herdan la superclase Module.
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
 public abstract class Module {
     private StatisticsModule statistics; // Objeto de la clase StatisticsModule para guardar estadísticas

@@ -1,8 +1,12 @@
 /**
- * Created by felipe on 17/2/2017.
+ * Enumeration EventType
+ *
+ * Enumeration que define los diferentes tipos de eventos que se procesan en la simulación
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
-
-//enum con los tipos de eventos
  enum EventType {
     CONECTION_IN("connection_in"),
     CONNECTION_OUT("connection_out"),
@@ -19,6 +23,12 @@
         return type;
     }
 }
+
+/**
+ * Clase QueryEvent
+ *
+ * Clase que define el objeto evento
+ */
 public class QueryEvent {
      private  double eventTime=0;
      private  EventType type;

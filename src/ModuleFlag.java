@@ -1,5 +1,11 @@
 /**
- * Created by felipe on 17/2/2017.
+ * Enumeration ModuleFlag
+ *
+ * Enumeration que define los tipos de módulos. De manera que se pueda utilizar como banderas para revisar en donde se encuentra la conexión
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
 public enum ModuleFlag {
     CLIENT_ADMIN("Curent ModuleI is Client Administrator"),

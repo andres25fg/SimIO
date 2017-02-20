@@ -1,5 +1,9 @@
 /**
- * Created by felipe on 17/2/2017.
+ * Clase QueryProcessorModule
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
 public class QueryProcessorModule extends Module{
 }

@@ -1,5 +1,11 @@
 /**
- * Created by felipe on 17/2/2017.
+ * Clase StatisticsModule
+ *
+ * Clase que define el objeto de StatisticsModule que se utiliza para guardar las estadísticas de cada módulo
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
 public class StatisticsModule {
     private double stackAverageTime;// Variable para guardar el tiempo promedio en cola

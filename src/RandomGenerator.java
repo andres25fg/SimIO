@@ -1,8 +1,15 @@
-/**
- * Created by felipe on 17/2/2017.
- */
 import java.util.Random;
 import java.lang.Math;
+
+/**
+ * Clase RandomGenerator
+ *
+ * Define el generador de variables aleatorios que el sistema utiliza.
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
+ */
 public class RandomGenerator {
     Random r = new Random();
     public double getRandom(){

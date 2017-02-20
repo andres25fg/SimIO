@@ -5,8 +5,10 @@ import java.util.Deque;
  *
  * Esta clase contiene la definición de la clase principal de la simulación que se encarga de comunicarse con las demás clases del sistema
  *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
-
 public class Simulation  {
     private double clock; // Reloj del sistema
     private boolean slowMode; // Booleano para saber si la simulación se va a hacer en modo lento

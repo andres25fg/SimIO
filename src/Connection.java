@@ -1,7 +1,13 @@
 import java.util.Random;
 
 /**
- * Created by felipe on 17/2/2017.
+ * Clase Connection
+ *
+ * Esta clase contiene la definición del objeto conexión
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
 public class Connection {
     private QueryType type; /// Tipo de consulta DDL, JOIN ETC

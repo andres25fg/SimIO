@@ -1,5 +1,11 @@
 /**
- * Created by felipe on 17/2/2017.
+ * Enumeration QueryType
+ *
+ * Define los tipos de consultas que pueden procesarse en el sistema
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
  */
 public enum QueryType {
     DDL(1, false),

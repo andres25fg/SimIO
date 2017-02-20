@@ -1,9 +1,14 @@
+/**
+ * Clase TransactionsModule
+ *
+ * Felipe Rosabal
+ * Kevin Mora Alfaro
+ * Andrés González Caldas
+ */
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-/**
- * Created by felipe on 17/2/2017.
- */
 public class TransactionsModule extends Module{
 
     /**
