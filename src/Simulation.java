@@ -66,14 +66,19 @@ public class Simulation  {
      * procesa el primer elemento de la lista de eventos
      */
 
-    public void ProcesEvent(){
+    public void procesEvent(){
         boolean endConnection = false; //false = la conexion aun no termina, true terminar conexion
         QueryEvent actualEvent = this.getNextEvent();
-            clock =  actualEvent.getEventTime();
-            //se procesa segun el tipo de evento
+        clock =  actualEvent.getEventTime();
+        //se procesa segun el tipo de evento
         switch (actualEvent.toString()){
             case "CONNECTION_IN":
-                Connection newConnection =clientAdministrator.creeateConnection();
+                if(!clientAdministrator.checkMaxConnections()){ // Se revisa si el Client Administrator tiene servidores libres o no
+                    clientAdministrator.rejectConnection(); // Si no tiene servidores libres se rechaza la conexión
+                } else { // Si hay servidores libres, se crea la conexión
+                    Connection newConnection = clientAdministrator.createConnection();
+                    clientAdministrator.arrive(newConnection);
+                }
                 // falta definir como se va a trabajar esta parte.
                 break;
             case "CONNECTION_OUT":

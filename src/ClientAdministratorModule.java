@@ -4,11 +4,36 @@
  * Created by felipe on 17/2/2017.
  */
 public class ClientAdministratorModule extends Module {
+    private int rejectedConnections; // Número de conexiones rechazadas
 
-    public Connection creeateConnection(){
+    public ClientAdministratorModule() {
+
+    }
+
+    public Connection createConnection(){
         Connection c;
         c = new Connection();
         return c;
+    }
+
+    /**
+     * Método que revisa si el número de conexiones máximas simultaneas ha sido alcanzado
+     * @return devuelve true en caso de tener servidores libres, y falso en el caso contrario
+     */
+    public boolean checkMaxConnections() {
+       int servers = super.getFreeServers();
+       boolean check = false;
+       if(servers == 0) {
+           check = true;
+       }
+       return check;
+    }
+
+    /**
+     * Aumenta la cantidad de conexiones rechazadas
+     */
+    public void rejectConnection() {
+        rejectedConnections++;
     }
 
     public void endConnection( int timeout){

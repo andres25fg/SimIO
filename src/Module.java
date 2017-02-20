@@ -45,13 +45,28 @@ public abstract class Module {
     }
 
     /**
+     * Método que retorna el número de conexiones que hay dentro de la cola de prioridades
+     * @return
+     */
+    public int getPriorityQueueSize() {
+        return stackQueries.size();
+    }
+
+    /**
      * Método que agrega una conexión a la cola
-     * @param c
+     * @param c: Conexión que se va agregar a la cola
      */
     public void sendToStack(Connection c) { stackConnections.add(c);}
 
+    /**
+     * Método que reduce el número de servidores libres del módulo
+     */
     public void reduceFreeServer() { freeServers--;}
 
+    /**
+     * Método que libera un servidor del módulo
+     */
+    public void freeOneServer() { freeServers++;}
 
     /**
      * metodo para calcular el tiempo de servicio en cada modulo
