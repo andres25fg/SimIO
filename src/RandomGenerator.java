@@ -12,6 +12,7 @@ import java.lang.Math;
  */
 public class RandomGenerator {
     Random r = new Random();
+    private double t=0;
     public double getRandom(){
         return r.nextDouble();
     }
@@ -36,5 +37,12 @@ public class RandomGenerator {
 
     public double exponential(double l){
         return -1/l*Math.log(r.nextDouble());
+    }
+
+    public double poisson (double l){
+        t=t-Math.log(r.nextDouble())/l;
+
+        return t;
+
     }
 }

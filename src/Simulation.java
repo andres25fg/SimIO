@@ -18,6 +18,7 @@ public class Simulation  {
     private int numSimulations; // Número de veces que se va a realizar la simulación
     private int secondsSimulation; // Segundos para la simulación normal
     private int timeOut; // Segundos que tiene una conexion para ser atendida
+    private double lambda = 1/1.7143; // llega un cliente cada 1.7143 segunos (60/35)
     private ClientAdministratorModule clientAdministrator; // Client Administrator
     private ProcessAdministratorModule processAdministrator; // Process Administrator
     private QueryExecutionsModule queryExecutions; // Query Exections
@@ -44,6 +45,14 @@ public class Simulation  {
         Comparator<QueryEvent> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
         PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // Instanciamos la cola de prioridades con el
         setStackQueries(stack);
+
+
+        clock=0;
+
+        numSimulations = numSims;
+        secondsSimulation = secsSim;
+        this.slowMode = slowMode;
+        slowModeSeconds = slowModeSecs;
     }
 
     public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
@@ -70,8 +79,6 @@ public class Simulation  {
         return eventList.size();
     }
 
-
-
     /**
      * Método que saca el siguiente evento de la cola y lo elimina de la cola
      * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos.
@@ -81,10 +88,19 @@ public class Simulation  {
     }
 
     public void beginSimulation(){
-        while(numSimulations > 0) {
-            while(secondsSimulation > 0) {
-
+        RandomGenerator random = new RandomGenerator();
+        for(int i=0; i<numSimulations; i++) {
+            //para las llegadas agrego una conexion de tipo nulo
+            clock =0;
+            QueryEvent firstArrival = new QueryEvent(0,EventType.values()[0],null);
+            eventList.add(firstArrival);
+            while(secondsSimulation > clock) {
+                procesEvent();
+                QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
+                eventList.add(nextArrival);
+                //se actualiza la interfaz y las estadisticas;
             }
+            //se crea html con estadisticas
         }
     }
 
@@ -136,6 +152,7 @@ public class Simulation  {
                                     //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                     double serviceTime = processAdministrator.generateServiceTime(2, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
                                     QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                    eventList.add(event);
                                 } else {
                                     //estadisticas de procesos rechazados
                                 }
@@ -160,7 +177,6 @@ public class Simulation  {
                                 //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                 double serviceTime = queryExecutions.generateServiceTime(3, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
-                                ;
                                 eventList.add(event);
                             }
                             break;
@@ -263,8 +279,14 @@ public class Simulation  {
     }
 
     public static void main (String[] args){
-        //QueryEvent queryE = new QueryEvent();
+        int secSim=0;
+        int numSim=0;
+        boolean slowMode= false;
+        int slowModeSecs=0;
 
+        Simulation simulation = new Simulation(secSim, numSim, slowMode, slowModeSecs);
+
+        //QueryEvent queryE = new QueryEvent();
         /*
         Agregar evento de entrada en el tiempo 0
         while(clock < TIEMPO DE SIMULACION){
