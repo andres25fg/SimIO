@@ -1,4 +1,6 @@
+import java.util.Comparator;
 import java.util.Deque;
+import java.util.PriorityQueue;
 
 /**
  * Clase Simualtion
@@ -21,7 +23,7 @@ public class Simulation  {
     private QueryExecutionsModule queryExecutions; // Query Exections
     private QueryProcessorModule queryProcessor; // Query Processor
     private TransactionsModule transactions; // Transactions
-    private Deque<QueryEvent> eventList; // Lista de eventos del sistema
+    private PriorityQueue<QueryEvent> eventList; // Lista de eventos del sistema
     public StatisticsModule statistics;
 
 
@@ -38,6 +40,18 @@ public class Simulation  {
         this.queryProcessor = new QueryProcessorModule();
         this.transactions = new TransactionsModule();
         this.statistics = new StatisticsModule();
+
+        Comparator<QueryEvent> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
+        PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // Instanciamos la cola de prioridades con el
+        setStackQueries(stack);
+    }
+
+    public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
+        this.eventList = stackQueries;
+    }
+
+    public PriorityQueue<QueryEvent> getStackQueries() {
+        return eventList;
     }
 
     /**
@@ -49,11 +63,21 @@ public class Simulation  {
     }
 
     /**
+     * Método que retorna el número de conexiones que hay dentro de la cola de prioridades
+     * @return
+     */
+    public int getPriorityQueueSize() {
+        return eventList.size();
+    }
+
+
+
+    /**
      * Método que saca el siguiente evento de la cola y lo elimina de la cola
      * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos.
      */
     private QueryEvent getNextEvent() {
-        return eventList.pop();
+        return eventList.poll();
     }
 
     public void beginSimulation(){
@@ -249,5 +273,26 @@ public class Simulation  {
         /*for (QueryType i : new QueryType[] { QueryType.DDL, QueryType.UPDATE, QueryType.JOIN, QueryType.SELECT}) {
             System.out.println(i.toString() + " " + i.getPriority() + " " + i.getReadOnly());
         }*/
+    }
+
+
+
+    public class QueryComparator implements Comparator<QueryEvent> {
+        /**
+         * Método que realiza la comparación de prioridades de la cola
+         * @param query1
+         * @param query2
+         * @return
+         */
+        public int compare(QueryEvent query1, QueryEvent query2) {
+            //Hace una resta entre las prioridades de cada conexión para determinar el orden
+            int priority;
+            if(query1.getEventTime() - query2.getEventTime()>0){
+                priority=1;
+            }else{
+                priority = -1;
+            }
+            return priority;
+        }
     }
 }
