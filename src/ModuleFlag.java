@@ -8,11 +8,11 @@
  * Andrés González Caldas
  */
 public enum ModuleFlag {
-    CLIENT_ADMIN("Curent ModuleI is Client Administrator"),
-    PROCESS_ADMIN("Curent ModuleI is Process Administrator"),
-    QUERY_EXE("Curent ModuleI is Query Executor"),
-    TRANSACTION("Curent ModuleI is Transactions"),
-    QUERY_PROCESSOR("Current ModuleI Query Processor");
+    CLIENT_ADMIN("Current Module is Client Administrator"),
+    PROCESS_ADMIN("Current Module is Process Administrator"),
+    QUERY_EXE("Current Module is Query Executor"),
+    TRANSACTION("Current Module is Transactions"),
+    QUERY_PROCESSOR("Current Module Query Processor");
 
 
     private String msj;
