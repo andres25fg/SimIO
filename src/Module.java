@@ -13,9 +13,9 @@ import java.util.PriorityQueue;
  */
 public abstract class Module {
     private StatisticsModule statistics; // Objeto de la clase StatisticsModule para guardar estadísticas
-    private int freeServers; // Número de servidores libres dle módulo
-    private int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
-    private RandomGenerator random; // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
+    private int freeServers=5; // Número de servidores libres dle módulo
+    private int maxSimConnections=5; // Número máximo de conexiones simultaneas que le módulo puede procesar
+    private RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
     private Deque<Connection> stackConnections; // Cola de conexiones del módulo
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
@@ -78,7 +78,7 @@ public abstract class Module {
     /**
      * metodo para calcular el tiempo de servicio en cada modulo
      * @param module: permite conocer para cual modulo se calcula el tiempo de servicio (1:administracion de clientes,
-     * 2 : administracion de procesos, 3: procesamiento de consultas, 4: transacciones)
+     * 2 : administracion de procesos, 3: procesamiento de consultas, 4: transaccionesá)
      * @return
      */
     public double generateServiceTime(int module, boolean readOnly, String type){

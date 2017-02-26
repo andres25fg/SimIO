@@ -24,9 +24,9 @@ public class ClientAdministratorModule extends Module {
      */
     public boolean checkMaxConnections() {
        int servers = super.getFreeServers();
-       boolean check = false;
+       boolean check = true;
        if(servers == 0) {
-           check = true;
+           check = false;
        }
        return check;
     }

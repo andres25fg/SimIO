@@ -8,10 +8,10 @@
  * Andrés González Caldas
  */
  enum EventType {
-    CONECTION_IN("connection_in"),
-    CONNECTION_OUT("connection_out"),
-    TIME_OUT("time_out"),
-    EXIT_MODULE("exit_Module");
+    CONNECTION_IN("CONNECTION_IN"),
+    CONNECTION_OUT("CONNECTION_OUT"),
+    TIME_OUT("TIME_OUT"),
+    EXIT_MODULE("EXIT_MODULE");
 
     private String type;
 

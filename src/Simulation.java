@@ -53,6 +53,7 @@ public class Simulation  {
         secondsSimulation = secsSim;
         this.slowMode = slowMode;
         slowModeSeconds = slowModeSecs;
+        beginSimulation();
     }
 
     public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
@@ -88,14 +89,20 @@ public class Simulation  {
     }
 
     public void beginSimulation(){
-        RandomGenerator random = new RandomGenerator();
         for(int i=0; i<numSimulations; i++) {
             //para las llegadas agrego una conexion de tipo nulo
-            clock =0;
+            RandomGenerator random = new RandomGenerator();
+            clock = 0;
+            eventList.clear();
             QueryEvent firstArrival = new QueryEvent(0,EventType.values()[0],null);
             eventList.add(firstArrival);
             while(secondsSimulation > clock) {
                 procesEvent();
+
+                //prueba
+                System.out.println("relog "+clock);
+                //prueba
+
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
                 eventList.add(nextArrival);
                 //se actualiza la interfaz y las estadisticas;
@@ -113,13 +120,32 @@ public class Simulation  {
         QueryEvent actualEvent = this.getNextEvent();
         clock =  actualEvent.getEventTime();
         //se procesa segun el tipo de evento
-        switch (actualEvent.toString()){
+
+        //prueba
+        System.out.println(actualEvent.getType());
+        //prueba
+
+        switch (actualEvent.getType()){
             case "CONNECTION_IN":
                 if(!clientAdministrator.checkMaxConnections()){ // Se revisa si el Client Administrator tiene servidores libres o no
                     clientAdministrator.rejectConnection(); // Si no tiene servidores libres se rechaza la conexión
+                    //prueba
+                    System.out.println("rechaza conexion");
+                    //prueba
+
                 } else { // Si hay servidores libres, se crea la conexión
+
+                    //prueba
+                    System.out.println("recibe conexion");
+                    //prueba
+
                     Connection newConnection = clientAdministrator.createConnection();
+                    newConnection.setCurrentModule(ModuleFlag.values()[0]);
                     clientAdministrator.arrive(newConnection);
+                    newConnection.setType();
+                    double serviceTime = processAdministrator.generateServiceTime(1, newConnection.getType().getReadOnly(), newConnection.getType().toString());
+                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], newConnection);
+                    eventList.add(event);
                 }
                 // falta definir como se va a trabajar esta parte.
                 break;
@@ -141,9 +167,13 @@ public class Simulation  {
                 }
                 else{
                     boolean processing;
-                    switch (actualModule.toString()) {
+                    switch (actualModule.getModule()) {
 
                         case "CLIENT_ADMIN":
+
+                            //prueba
+                            System.out.println("sale conexion(client_Admin)");
+                            //prueba
 
                             if (!actualConnection.getTransactionModule()) {
                                 processing = processAdministrator.arrive(actualConnection); // el proceso llega el siguente modulo
@@ -151,7 +181,8 @@ public class Simulation  {
                                 if (processing == true) {
                                     //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                     double serviceTime = processAdministrator.generateServiceTime(2, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
-                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                    actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                     eventList.add(event);
                                 } else {
                                     //estadisticas de procesos rechazados
@@ -160,52 +191,74 @@ public class Simulation  {
                                 // se saca el proceso del modulo
                                 //la conexion termina cuando se cargan los bloques del disco
                                 Connection client_a = clientAdministrator.exit();
+                                QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
                             }
                             break;
 
                         case "PROCESS_ADMIN":
+
+                            //prueba
+                            System.out.println("sale conexion(proces_Admin)");
+                            //prueba
+
                             Connection client_p = processAdministrator.exit();
                             if (client_p != null) {
                                 double serviceTime = processAdministrator.generateServiceTime(2, client_p.getType().getReadOnly(), client_p.getType().toString());
                                 //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                                 //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], client_p);
+                                actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_p);
                                 eventList.add(event);
                             }
                             processing = queryExecutions.arrive(actualConnection);
                             if (processing == true) {
                                 //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                 double serviceTime = queryExecutions.generateServiceTime(3, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                actualConnection.setCurrentModule(ModuleFlag.values()[2]);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
                             break;
 
                         case "QUERY_EXE":
+
+                            //prueba
+                            System.out.println("sale conexion(query_Exe)");
+                            //prueba
+
+
                             Connection client_q = queryExecutions.exit();
                             if (client_q != null) {
                                 double serviceTime = queryProcessor.generateServiceTime(3, client_q.getType().getReadOnly(), client_q.getType().toString());
                                 //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                                 //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], client_q);
+                                actualConnection.setCurrentModule(ModuleFlag.values()[2]);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_q);
                                 eventList.add(event);
                             }
                             processing = transactions.arrive(actualConnection);
                             if (processing == true) {
                                 double serviceTime = transactions.generateServiceTime(4, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
                                 //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                actualConnection.setCurrentModule(ModuleFlag.values()[3]);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
                             break;
 
                         case "QUERY_PROCESSOR":
+
+                            //prueba
+                            System.out.println("sale conexion(queryProcessor)");
+                            //prueba
+
                             Connection client_q_p = queryProcessor.exit();
                             if (client_q_p != null) {
                                 double serviceTime = queryProcessor.generateServiceTime(4, client_q_p.getType().getReadOnly(), client_q_p.getType().toString());
                                 //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                                 //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], client_q_p);
+                                actualConnection.setCurrentModule(ModuleFlag.values()[4]);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_q_p);
                                 eventList.add(event);
                             }
 
@@ -214,7 +267,8 @@ public class Simulation  {
                                 if (processing == true) {
                                     double serviceTime = transactions.generateServiceTime(5, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
                                     //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                    actualConnection.setCurrentModule(ModuleFlag.values()[4]);
+                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                     eventList.add(event);
                                 }
                             } else {
@@ -223,19 +277,25 @@ public class Simulation  {
                                 if (processing == true) {
                                     double serviceTime = actualConnection.getBlocksRead() / 2;
                                     //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                    actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                     eventList.add(event);
                                 }
                             }
                             break;
 
                         case "TRANSACTION":
+
+                            //prueba
+                            System.out.println("sale conexion(transaction)");
+                            //prueba
+
                             Connection client_t = transactions.exit();
                             if (client_t != null) {
                                 double serviceTime = transactions.generateServiceTime(5, client_t.getType().getReadOnly(), client_t.getType().toString());
                                 //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                                 //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], client_t);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_t);
                                 eventList.add(event);
                             }
                             actualConnection.setTransactionModuleTrue();
@@ -245,7 +305,7 @@ public class Simulation  {
                                 double serviceTime = Math.pow(actualConnection.getBlocksRead(), 2) / 1000; // este tiempo es en milisegundos
                                 //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[4], actualConnection);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
                             break;
@@ -279,12 +339,12 @@ public class Simulation  {
     }
 
     public static void main (String[] args){
-        int secSim=0;
-        int numSim=0;
+        int secSim=100;
+        int numSim=1;
         boolean slowMode= false;
         int slowModeSecs=0;
 
-        Simulation simulation = new Simulation(secSim, numSim, slowMode, slowModeSecs);
+        Simulation simulation = new Simulation(numSim, secSim, slowMode, slowModeSecs);
 
         //QueryEvent queryE = new QueryEvent();
         /*
