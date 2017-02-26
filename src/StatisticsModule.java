@@ -8,50 +8,61 @@
  * Andrés González Caldas
  */
 public class StatisticsModule {
-    private double stackAverageTime;// Variable para guardar el tiempo promedio en cola
-    private double ddlAverageTome; // Tempo promedio de las consultas DDL
-    private double selectAverageTome; // Tempo promedio de las consultas Join
-    private double joinAverageTome; // Tempo promedio de las consultas Select
-    private double uptdateAverageTome; // Tempo promedio de las consultas Update
+    private double stackAverageTime=0;// Variable para guardar el tiempo promedio en cola
+    private double numstack=0;
+    private double ddlAverageTime=0; // Tempo promedio de las consultas DDL
+    private double numDdl=0;
+    private double selectAverageTime=0; // Tempo promedio de las consultas Join
+    private double numSelect=0;
+    private double joinAverageTime=0; // Tempo promedio de las consultas Select
+    private double numJoin=0;
+    private double uptdateAverageTime=0; // Tempo promedio de las consultas Update
+    private double numUdpate=0;
 
     public double getStackAverageTime() {
-        return stackAverageTime;
+        return stackAverageTime/numstack;
     }
 
     public void setStackAverageTime(double stackAverageTime) {
-        this.stackAverageTime = stackAverageTime;
+        this.stackAverageTime += stackAverageTime/numSelect;
+        numstack++;
     }
 
-    public double getDdlAverageTome() {
-        return ddlAverageTome;
+    public double getDdlAverageTime() {
+        return ddlAverageTime/numDdl;
     }
 
-    public void setDdlAverageTome(double ddlAverageTome) {
-        this.ddlAverageTome = ddlAverageTome;
+    public void setDdlAverageTime(double ddlAverageTime) {
+        this.ddlAverageTime += ddlAverageTime;
+        numDdl++;
     }
 
-    public double getSelectAverageTome() {
-        return selectAverageTome;
+    public double getSelectAverageTime() {
+        return selectAverageTime/numSelect;
     }
 
-    public void setSelectAverageTome(double selectAverageTome) {
-        this.selectAverageTome = selectAverageTome;
+    public void setSelectAverageTime(double selectAverageTime) {
+        this.selectAverageTime += selectAverageTime;
+        numSelect++;
     }
 
-    public double getJoinAverageTome() {
-        return joinAverageTome;
+    public double getJoinAverageTime() {
+        return joinAverageTime/numSelect;
     }
 
-    public void setJoinAverageTome(double joinAverageTome) {
-        this.joinAverageTome = joinAverageTome;
+    public void setJoinAverageTime(double joinAverageTime) {
+        this.joinAverageTime += joinAverageTime;
+        numJoin++;
     }
 
-    public double getUptdateAverageTome() {
-        return uptdateAverageTome;
+    public double getUptdateAverageTime() {
+        return uptdateAverageTime/numJoin;
+
     }
 
-    public void setUptdateAverageTome(double uptdateAverageTome) {
-        this.uptdateAverageTome = uptdateAverageTome;
+    public void setUptdateAverageTime(double uptdateAverageTime) {
+        this.uptdateAverageTime = uptdateAverageTime;
+        numUdpate++;
     }
 
     public StatisticsModule() {
