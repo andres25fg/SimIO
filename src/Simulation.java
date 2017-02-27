@@ -361,7 +361,6 @@ public class Simulation  {
         int slowModeSecs=0;
         Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs);
 
-
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
