@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
  * Andrés González Caldas
  */
 public abstract class Module {
-    private StatisticsModule statistics; // Objeto de la clase StatisticsModule para guardar estadísticas
+    private StatisticsModule statistics = new StatisticsModule(); // Objeto de la clase StatisticsModule para guardar estadísticas
     private int freeServers=5; // Número de servidores libres dle módulo
     private int maxSimConnections=5; // Número máximo de conexiones simultaneas que le módulo puede procesar
     private RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
@@ -122,10 +122,12 @@ public abstract class Module {
     }
 
     // En este metodo no estoy my seguro e como manejar la lista de eventos
-    public boolean arrive(Connection c) {
+    public boolean arrive(Connection c, double clock) {
         boolean being_served=false;
         if(getFreeServers()==0) {
             sendToStack(c);
+            c.setStack(true);
+            c.setStackArrivalTime(clock);
         }else{
             //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
             reduceFreeServer();
@@ -142,6 +144,38 @@ public abstract class Module {
             next=null;
         }
         return next;
+    }
+
+    /**
+     *
+     * @param c conexion que va a ser atendida
+     * @param serviceTime tiempo de servicio de la conexion
+     * @param clock hora actual del sistema
+     */
+    public void updateStatistics(Connection c, double serviceTime, double clock){
+        // se revisa si la conexion entro a la cola del modulo
+        if(c.getStack()){
+            //si entro a la cola al tiempo de servicio se le suma el tiempo que paso en la cola y se coloca
+            serviceTime += clock-c.getStackArrivalTime();
+            c.setStack(false);
+        }
+        switch (c.getType().toString()){
+            case "DDL":
+                statistics.setDdlAverageTime(serviceTime);
+                break;
+            case "UPDATE":
+                statistics.setUpdateAverageTime(serviceTime);
+                break;
+            case "JOIN":
+                statistics.setJoinAverageTime(serviceTime);
+                break;
+            case  "SELECT":
+                statistics.setSelectAverageTime(serviceTime);
+        }
+    }
+
+    public StatisticsModule getStatistic(){
+        return statistics;
     }
 
 

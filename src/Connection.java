@@ -16,6 +16,9 @@ public class Connection {
     private int result;//Resultado de la consulta
     private int arrivalTime;//Tiempo de llegada al sistema
 
+    private double stackArrivalTime=0; //hora a la que entro a la cola (del modulo actual)
+    private boolean stack = false; //permite saber si entro a la cola del modulo.
+
     boolean transactionModule=false; // permite conocer si la conexion ya paso por el modulo de transacciones, despues
     double blocksRead;
     // es atendido por algunos modulos por segunda vez
@@ -89,5 +92,17 @@ public class Connection {
 
     public double getBlocksRead() {
         return blocksRead;
+    }
+    public void setStackArrivalTime(double time){
+        stackArrivalTime = time;
+    }
+    public double getStackArrivalTime(){
+        return stackArrivalTime;
+    }
+    public void setStack (boolean stack){
+        this.stack = stack;
+    }
+    public boolean getStack(){
+        return stack;
     }
 }

@@ -126,6 +126,35 @@ public class Simulation  {
             System.out.println("promedio join "+statistics.getJoinAverageTime()+" num "+statistics.getNumJoin());
             System.out.println("promedio update "+statistics.getUpdateAverageTime()+" num "+statistics.getNumSelect());
 
+            System.out.println("clientAdministrator ");
+            System.out.println("promedio select "+clientAdministrator.getStatistic().getSelectAverageTime()+" num "+clientAdministrator.getStatistic().getNumSelect());
+            System.out.println("promedio ddl "+clientAdministrator.getStatistic().getDdlAverageTime()+" num "+clientAdministrator.getStatistic().getNumDdl());
+            System.out.println("promedio join "+clientAdministrator.getStatistic().getJoinAverageTime()+" num "+clientAdministrator.getStatistic().getNumJoin());
+            System.out.println("promedio update "+clientAdministrator.getStatistic().getUpdateAverageTime()+" num "+clientAdministrator.getStatistic().getNumSelect());
+
+            System.out.println("processAdministrator ");
+            System.out.println("promedio select "+processAdministrator.getStatistic().getSelectAverageTime()+" num "+processAdministrator.getStatistic().getNumSelect());
+            System.out.println("promedio ddl "+processAdministrator.getStatistic().getDdlAverageTime()+" num "+processAdministrator.getStatistic().getNumDdl());
+            System.out.println("promedio join "+processAdministrator.getStatistic().getJoinAverageTime()+" num "+processAdministrator.getStatistic().getNumJoin());
+            System.out.println("promedio update "+processAdministrator.getStatistic().getUpdateAverageTime()+" num "+processAdministrator.getStatistic().getNumSelect());
+
+            System.out.println("queryExecutions ");
+            System.out.println("promedio select "+queryExecutions.getStatistic().getSelectAverageTime()+" num "+queryExecutions.getStatistic().getNumSelect());
+            System.out.println("promedio ddl "+queryExecutions.getStatistic().getDdlAverageTime()+" num "+queryExecutions.getStatistic().getNumDdl());
+            System.out.println("promedio join "+queryExecutions.getStatistic().getJoinAverageTime()+" num "+queryExecutions.getStatistic().getNumJoin());
+            System.out.println("promedio update "+queryExecutions.getStatistic().getUpdateAverageTime()+" num "+queryExecutions.getStatistic().getNumSelect());
+
+            System.out.println("queryProcessor ");
+            System.out.println("promedio select "+queryProcessor.getStatistic().getSelectAverageTime()+" num "+queryProcessor.getStatistic().getNumSelect());
+            System.out.println("promedio ddl "+queryProcessor.getStatistic().getDdlAverageTime()+" num "+queryProcessor.getStatistic().getNumDdl());
+            System.out.println("promedio join "+queryProcessor.getStatistic().getJoinAverageTime()+" num "+queryProcessor.getStatistic().getNumJoin());
+            System.out.println("promedio update "+queryProcessor.getStatistic().getUpdateAverageTime()+" num "+queryProcessor.getStatistic().getNumSelect());
+
+            System.out.println("transactions ");
+            System.out.println("promedio select "+transactions.getStatistic().getSelectAverageTime()+" num "+transactions.getStatistic().getNumSelect());
+            System.out.println("promedio ddl "+transactions.getStatistic().getDdlAverageTime()+" num "+transactions.getStatistic().getNumDdl());
+            System.out.println("promedio join "+transactions.getStatistic().getJoinAverageTime()+" num "+transactions.getStatistic().getNumJoin());
+            System.out.println("promedio update "+transactions.getStatistic().getUpdateAverageTime()+" num "+transactions.getStatistic().getNumSelect());
 
             //se crea html con estadisticas
         }
@@ -164,9 +193,10 @@ public class Simulation  {
 
                     Connection newConnection = clientAdministrator.createConnection();
                     newConnection.setCurrentModule(ModuleFlag.values()[0]);
-                    clientAdministrator.arrive(newConnection);
+                    clientAdministrator.arrive(newConnection, clock);
                     newConnection.setType();
                     double serviceTime = processAdministrator.generateServiceTime(0, newConnection.getType().getReadOnly(), newConnection.getType().toString());
+                    clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
                     QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
                 }
@@ -207,12 +237,13 @@ public class Simulation  {
                             //prueba
 
                             if (!actualConnection.getTransactionModule()) {
-                                processing = processAdministrator.arrive(actualConnection); // el proceso llega el siguente modulo
+                                processing = processAdministrator.arrive(actualConnection, clock); // el proceso llega el siguente modulo
                                 // si es atendido se calcula el tiempo de servicio
                                 if (processing == true) {
                                     //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                     double serviceTime = processAdministrator.generateServiceTime(1, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                                    processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                     eventList.add(event);
                                 } else {
@@ -239,14 +270,16 @@ public class Simulation  {
                                 //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                                 //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                                 actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                                processAdministrator.updateStatistics(client_p, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_p);
                                 eventList.add(event);
                             }
-                            processing = queryProcessor.arrive(actualConnection);
+                            processing = queryProcessor.arrive(actualConnection, clock);
                             if (processing == true) {
                                 //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                 double serviceTime = queryProcessor.generateServiceTime(2, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
+                                queryProcessor.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
@@ -264,35 +297,25 @@ public class Simulation  {
                                 //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
                                 //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
+                                queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_q_p);
                                 eventList.add(event);
                             }
 
-                            if (!actualConnection.getTransactionModule()) {
-                                processing = transactions.arrive(actualConnection);
-                                if (processing == true) {
-                                    //Cada transaccion va a tomar un tiempo p ∗ 0.03 segundos en coordinar la ejecucion de una transaccion (p es el nunero de procesos concurrentes).
-                                    double serviceTime = (transactions.getMaxSimConnections()-transactions.getFreeServers())*.03;
-                                    //transactions es el modulo encargado de leer los bloques del disco
-                                    double diskBloks = transactions.generateServiceTime(3, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
-                                    actualConnection.setBlocksRead(diskBloks);
-                                    //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                    actualConnection.setCurrentModule(ModuleFlag.values()[3]);
-                                    //cada bloque del disco ocupa 1/10 segundos para ser leido
-                                    serviceTime += diskBloks/10;
-                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
-                                    eventList.add(event);
-                                }
-                            } else {
-                                //segundo ingreso al modulo de administrador de clientes
-                                processing = clientAdministrator.arrive(actualConnection);
-                                if (processing == true) {
-                                    double serviceTime = actualConnection.getBlocksRead() / 2;
-                                    //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                    actualConnection.setCurrentModule(ModuleFlag.values()[1]);
-                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
-                                    eventList.add(event);
-                                }
+                            processing = transactions.arrive(actualConnection, clock);
+                            if (processing == true) {
+                                //Cada transaccion va a tomar un tiempo p ∗ 0.03 segundos en coordinar la ejecucion de una transaccion (p es el nunero de procesos concurrentes).
+                                double serviceTime = (transactions.getMaxSimConnections()-transactions.getFreeServers())*.03;
+                                //transactions es el modulo encargado de leer los bloques del disco
+                                double diskBloks = transactions.generateServiceTime(3, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
+                                actualConnection.setBlocksRead(diskBloks);
+                                //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
+                                actualConnection.setCurrentModule(ModuleFlag.values()[3]);
+                                //cada bloque del disco ocupa 1/10 segundos para ser leido
+                                serviceTime += diskBloks/10;
+                                transactions.updateStatistics(actualConnection, serviceTime, clock);
+                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
+                                eventList.add(event);
                             }
                             break;
 
@@ -315,14 +338,15 @@ public class Simulation  {
                                 //cada bloque del disco ocupa 1/10 segundos para ser leido
                                 serviceTime += diskBloks/10;
                                 client_t.setCurrentModule(ModuleFlag.values()[3]);
+                                transactions.updateStatistics(client_t, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_t);
                                 eventList.add(event);
                             }
 
                             // se pasa al true el booleano que indica que ya paso por el modulo de transacciones
                             actualConnection.setTransactionModuleTrue();
-                            //segunda entrada a queryProcesor (en el enunciado luego dice ejecutor asi que lo estoy enviando a queryExecutions )
-                            processing = queryExecutions.arrive(actualConnection);
+                            //segunda entrada a queryProcesor (en el enunciado luego dice ejecutor de consultas asi que lo estoy enviando a queryExecutions )
+                            processing = queryExecutions.arrive(actualConnection, clock);
                             if (processing == true) {
                                 double serviceTime = Math.pow(actualConnection.getBlocksRead(), 2) / 1000; // este tiempo es en milisegundos
                                 if(actualConnection.getType().toString()=="UPDATE"){
@@ -335,6 +359,7 @@ public class Simulation  {
 
                                 actualConnection.setCurrentModule(ModuleFlag.values()[4]);
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
+                                queryExecutions.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
@@ -359,6 +384,7 @@ public class Simulation  {
 
                                 actualConnection.setCurrentModule(ModuleFlag.values()[4]);
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
+                                queryExecutions.updateStatistics(client_q, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
@@ -366,6 +392,7 @@ public class Simulation  {
                             //regresa al modulo de administracion de clientes
                             double serviceTime = actualConnection.getBlocksRead()/2;
                             actualConnection.setCurrentModule(ModuleFlag.values()[0]);
+                            clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                             eventList.add(event);
                             break;
