@@ -17,7 +17,7 @@ public class Simulation  {
     private int slowModeSeconds; // Segundos de la simulación para el modo lento
     private int numSimulations; // Número de veces que se va a realizar la simulación
     private int secondsSimulation; // Segundos para la simulación normal
-    private int timeOut; // Segundos que tiene una conexion para ser atendida
+    private int timeOut=100; // Segundos que tiene una conexion para ser atendida
     private double lambda = 1/1.7143; // llega un cliente cada 1.7143 segunos (60/35)
     private ClientAdministratorModule clientAdministrator; // Client Administrator
     private ProcessAdministratorModule processAdministrator; // Process Administrator
@@ -25,7 +25,11 @@ public class Simulation  {
     private QueryProcessorModule queryProcessor; // Query Processor
     private TransactionsModule transactions; // Transactions
     private PriorityQueue<QueryEvent> eventList; // Lista de eventos del sistema
-    public StatisticsModule statistics;
+    public StatisticsModule statistics = new StatisticsModule();
+    private int numConections=0;
+    private int numConectionServed=0;
+    private int numTimeOut=0;
+    private int numRejected=0;
 
 
     public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs){
@@ -112,6 +116,17 @@ public class Simulation  {
                 eventList.add(nextArrival);
                 //se actualiza la interfaz y las estadisticas;
             }
+            System.out.println("conexiones "+numConections);
+            System.out.println("conexiones atendidas "+numConectionServed);
+            System.out.println("time out "+numTimeOut);
+            System.out.println("rechazadas "+numRejected);
+
+            System.out.println("promedio select "+statistics.getSelectAverageTime()+" num "+statistics.getNumSelect());
+            System.out.println("promedio ddl "+statistics.getDdlAverageTime()+" num "+statistics.getNumDdl());
+            System.out.println("promedio join "+statistics.getJoinAverageTime()+" num "+statistics.getNumJoin());
+            System.out.println("promedio update "+statistics.getUpdateAverageTime()+" num "+statistics.getNumSelect());
+
+
             //se crea html con estadisticas
         }
     }
@@ -121,8 +136,8 @@ public class Simulation  {
      */
 
     public void procesEvent(){
-        boolean endConnection = false; //false = la conexion aun no termina, true terminar conexion
         QueryEvent actualEvent = this.getNextEvent();
+
         clock =  actualEvent.getEventTime();
         //se procesa segun el tipo de evento
 
@@ -130,10 +145,13 @@ public class Simulation  {
         System.out.println(actualEvent.getType());
         //prueba
 
+
         switch (actualEvent.getType()){
             case "CONNECTION_IN":
+                numConections++;
                 if(!clientAdministrator.checkMaxConnections()){ // Se revisa si el Client Administrator tiene servidores libres o no
                     clientAdministrator.rejectConnection(); // Si no tiene servidores libres se rechaza la conexión
+                    numRejected++;
                     //prueba
                     System.out.println("rechaza conexion");
                     //prueba
@@ -155,13 +173,16 @@ public class Simulation  {
                 // falta definir como se va a trabajar esta parte.
                 break;
             case "CONNECTION_OUT":
+                numConectionServed++;
+                Connection out = actualEvent.getConnection();
+                updateStatistics(out.getType().toString(), out.getArrivalTime());
                 //prueba
                 System.out.println("termina conexion");
                 //prueba
                 //statistics.setStatistics(actualEvent); //la clase statisticsModule aun no tiene metodos
                 break;
             case "TIME_OUT":
-                endConnection= true;
+                numTimeOut++;
                 //prueba
                 System.out.println("termina conexion(tiempo)");
                 //prueba
@@ -171,8 +192,8 @@ public class Simulation  {
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
-                if(actualConnection.getArrivalTime()+timeOut>= clock){
-                    QueryEvent event = new QueryEvent(clock, EventType.values()[3], actualConnection);
+                if(actualConnection.getArrivalTime()+timeOut<= clock){
+                    QueryEvent event = new QueryEvent(clock, EventType.values()[2], actualConnection);
                     eventList.add(event);
                 }
                 else{
@@ -352,6 +373,22 @@ public class Simulation  {
                 }
                 break;
             }
+    }
+
+    public void updateStatistics(String type, double arrival){
+        switch (type){
+            case "UPDATE":
+                statistics.setUpdateAverageTime(clock-arrival);
+                break;
+            case "SELECT":
+                statistics.setSelectAverageTime(clock-arrival);
+                break;
+            case "DDL":
+                statistics.setDdlAverageTime(clock-arrival);
+                break;
+            case "JOIN":
+                statistics.setJoinAverageTime(clock-arrival);
+        }
     }
 
     public void setClock(int clock) {

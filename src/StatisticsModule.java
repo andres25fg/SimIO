@@ -36,6 +36,9 @@ public class StatisticsModule {
         this.ddlAverageTime += ddlAverageTime;
         numDdl++;
     }
+    public double getNumDdl(){
+        return  numDdl;
+    }
 
     public double getSelectAverageTime() {
         return selectAverageTime/numSelect;
@@ -44,6 +47,10 @@ public class StatisticsModule {
     public void setSelectAverageTime(double selectAverageTime) {
         this.selectAverageTime += selectAverageTime;
         numSelect++;
+    }
+
+    public double getNumSelect(){
+        return  numSelect;
     }
 
     public double getJoinAverageTime() {
@@ -55,14 +62,21 @@ public class StatisticsModule {
         numJoin++;
     }
 
-    public double getUptdateAverageTime() {
+    public double getNumJoin(){
+        return  numJoin;
+    }
+
+    public double getUpdateAverageTime() {
         return uptdateAverageTime/numJoin;
 
     }
 
-    public void setUptdateAverageTime(double uptdateAverageTime) {
+    public void setUpdateAverageTime(double uptdateAverageTime) {
         this.uptdateAverageTime = uptdateAverageTime;
         numUdpate++;
+    }
+    public double getNumUdpate() {
+        return numUdpate;
     }
 
     public StatisticsModule() {
