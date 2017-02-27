@@ -85,13 +85,13 @@ public abstract class Module {
     public double generateServiceTime(int module, boolean readOnly, String type){
         double time=0;
         switch (module) {
-            case 1: // administracion de clientes
+            case 0: // administracion de clientes
                 time = random.uniform(0.01, 0.05);
                 break;
-            case 2: //administracion de procesos
+            case 1: //administracion de procesos
                 time = random.normal(1.5, 0.1);
                 break;
-            case 3: //procesamiento de consultas
+            case 2: //procesamiento de consultas
                 double rand = random.getRandom(); //validacion lexica
                 if (rand < 0.7) {
                     time += 0.1;
@@ -107,7 +107,7 @@ public abstract class Module {
                     time += 0.5;
                 }
                 break;
-            case 4: // transacciones
+            case 3: // transacciones
                 if (type == "JOIN") {
                     time += random.uniform(1, 16) + random.uniform(1, 12);
                 } else {
