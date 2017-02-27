@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.PriorityQueue;
 
@@ -17,7 +18,7 @@ public abstract class Module {
     private int maxSimConnections=5; // Número máximo de conexiones simultaneas que le módulo puede procesar
     private RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
-    private Deque<Connection> stackConnections; // Cola de conexiones del módulo
+    private Deque<Connection> stackConnections = new ArrayDeque<Connection>(); // Cola de conexiones del módulo
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
     public Module(){
