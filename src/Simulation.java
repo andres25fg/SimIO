@@ -30,6 +30,7 @@ public class Simulation  {
     private int numConectionServed=0;
     private int numTimeOut=0;
     private int numRejected=0;
+    private UserInterface userInterface;
 
     /**
      * Método constructor
@@ -44,7 +45,8 @@ public class Simulation  {
      * @param p Cantidad de procesos para la ejecución de transacciones
      * @param m Cantidad de procesos para ejecutar consultas
      */
-    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs, int timeOut, int k,int n, int p, int m){
+    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs, int timeOut, int k,int n, int p, int m, UserInterface gui){
+        userInterface = gui;
         this.setClock(0); // Inicializamos el reloj en el tiempo 0
         this.setSecondsSimulation(secsSim); // Guardamos la cantidad de segundos por simulación
         this.setNumSimulations(numSims); // Se guarda el número de simulaciones que se van a realizar
@@ -117,7 +119,7 @@ public class Simulation  {
                 procesEvent();
 
                 //prueba
-                System.out.println("relog "+clock);
+                System.out.println("reloj "+clock);
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
                 eventList.add(nextArrival);
@@ -464,7 +466,8 @@ public class Simulation  {
         int numSim =1;
         boolean slowMode=false;
         int slowModeSecs=0;
-        Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs,100,5,5,5,5);
+        UserInterface gui = null; // Esto es para poder usar pruebas por consola
+        Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs,100,5,5,5,5, gui);
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

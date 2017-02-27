@@ -10,6 +10,7 @@ public class ClientAdministratorModule extends Module {
 
     public ClientAdministratorModule(int connection) {
         this.setMaxSimConnections(connection);
+        this.setFreeServers(connection);
     }
 
     public Connection createConnection(){
