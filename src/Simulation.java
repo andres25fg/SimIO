@@ -31,25 +31,32 @@ public class Simulation  {
     private int numTimeOut=0;
     private int numRejected=0;
 
-
-    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs){
+    /**
+     * Método constructor
+     *
+     * @param numSims Número de veces que se va a realizar la simulación
+     * @param secsSim Segundos para la simulación normal
+     * @param slowMode Booleano para saber si la simulación se va a hacer en modo lento
+     * @param slowModeSecs Segundos de la simulación para el modo lento
+     * @param timeOut Segundos que tiene una conexion para ser atendida
+     * @param k Cantidad de conexiones que el sistema maneja concurrentemente
+     * @param n Cantidad de procesos que el procesador de consultas puede manejar
+     * @param p Cantidad de procesos para la ejecución de transacciones
+     * @param m Cantidad de procesos para ejecutar consultas
+     */
+    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs, int timeOut, int k,int n, int p, int m){
         this.setClock(0); // Inicializamos el reloj en el tiempo 0
+        this.setSecondsSimulation(secsSim); // Guardamos la cantidad de segundos por simulación
         this.setNumSimulations(numSims); // Se guarda el número de simulaciones que se van a realizar
         this.setSlowMode(slowMode); // Se guarda la bandera del Slow Mode
-        this.setSecondsSimulation(slowModeSecs); // Se guardan los segundos del delay para el Slow Mode
+        this.setSlowModeSeconds(slowModeSecs); // Se guardan los segundos del delay para el Slow Mode
+        this.setTimeOut(timeOut); // Se guarda el tiempo del timeOut de las conexiones
 
         Comparator<QueryEvent> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
         PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // Instanciamos la cola de prioridades con el
         setStackQueries(stack);
 
-
-        clock=0;
-
-        numSimulations = numSims;
-        secondsSimulation = secsSim;
-        this.slowMode = slowMode;
-        slowModeSeconds = slowModeSecs;
-        beginSimulation();
+        beginSimulation(k, n, p, m);
     }
 
     public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
@@ -84,16 +91,16 @@ public class Simulation  {
         return eventList.poll();
     }
 
-    public void beginSimulation(){
+    public void beginSimulation(int k,int n, int p, int m){
         for(int i=0; i<numSimulations; i++) {
             //para las llegadas agrego una conexion de tipo nulo
 
             // Creamos los objetos específicos de cada módulo con el cual se comunica Simulation
-            this.clientAdministrator = new ClientAdministratorModule();
-            this.processAdministrator = new ProcessAdministratorModule();
-            this.queryExecutions = new QueryExecutionsModule();
-            this.queryProcessor = new QueryProcessorModule();
-            this.transactions = new TransactionsModule();
+            this.clientAdministrator = new ClientAdministratorModule(k);
+            this.processAdministrator = new ProcessAdministratorModule(1);
+            this.queryExecutions = new QueryExecutionsModule(m);
+            this.queryProcessor = new QueryProcessorModule(n);
+            this.transactions = new TransactionsModule(p);
             this.statistics = new StatisticsModule();
 
             RandomGenerator random = new RandomGenerator();
@@ -438,6 +445,10 @@ public class Simulation  {
         this.secondsSimulation = secondsSimulation;
     }
 
+    public void setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -453,7 +464,7 @@ public class Simulation  {
         int numSim =1;
         boolean slowMode=false;
         int slowModeSecs=0;
-        Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs);
+        Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs,100,5,5,5,5);
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

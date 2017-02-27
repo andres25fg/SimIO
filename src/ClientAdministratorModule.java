@@ -8,8 +8,8 @@
 public class ClientAdministratorModule extends Module {
     private int rejectedConnections; // Número de conexiones rechazadas
 
-    public ClientAdministratorModule() {
-
+    public ClientAdministratorModule(int connection) {
+        this.setMaxSimConnections(connection);
     }
 
     public Connection createConnection(){

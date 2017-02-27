@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
  */
 public abstract class Module {
     private StatisticsModule statistics = new StatisticsModule(); // Objeto de la clase StatisticsModule para guardar estadísticas
-    private int freeServers=5; // Número de servidores libres dle módulo
+    private int freeServers=5; // Número de servidores libres del módulo
     private int maxSimConnections=5; // Número máximo de conexiones simultaneas que le módulo puede procesar
     private RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
@@ -22,6 +22,7 @@ public abstract class Module {
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
     public Module(){
+
     }
 
     public void setFreeServers(int freeServers) {

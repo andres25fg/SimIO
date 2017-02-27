@@ -14,7 +14,8 @@ public class TransactionsModule extends Module{
     /**
      * Constructor
      */
-    public TransactionsModule() {
+    public TransactionsModule(int servers) {
+        this.setFreeServers(servers);
         Comparator<Connection> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
         PriorityQueue<Connection> stack = new PriorityQueue<Connection>(comparator); // Instanciamos la cola de prioridades con el comparador
         super.setStackQueries(stack); //

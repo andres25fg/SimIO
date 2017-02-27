@@ -6,4 +6,7 @@
  * Andrés González Caldas
  */
 public class QueryProcessorModule extends Module{
+    public QueryProcessorModule(int servers) {
+        this.setFreeServers(servers);
+    }
 }
