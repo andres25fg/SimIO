@@ -34,14 +34,6 @@ public class Simulation  {
         this.setSlowMode(slowMode); // Se guarda la bandera del Slow Mode
         this.setSecondsSimulation(slowModeSecs); // Se guardan los segundos del delay para el Slow Mode
 
-        // Creamos los objetos específicos de cada módulo con el cual se comunica Simulation
-        this.clientAdministrator = new ClientAdministratorModule();
-        this.processAdministrator = new ProcessAdministratorModule();
-        this.queryExecutions = new QueryExecutionsModule();
-        this.queryProcessor = new QueryProcessorModule();
-        this.transactions = new TransactionsModule();
-        this.statistics = new StatisticsModule();
-
         Comparator<QueryEvent> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
         PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // Instanciamos la cola de prioridades con el
         setStackQueries(stack);
@@ -91,11 +83,25 @@ public class Simulation  {
     public void beginSimulation(){
         for(int i=0; i<numSimulations; i++) {
             //para las llegadas agrego una conexion de tipo nulo
+
+            // Creamos los objetos específicos de cada módulo con el cual se comunica Simulation
+            this.clientAdministrator = new ClientAdministratorModule();
+            this.processAdministrator = new ProcessAdministratorModule();
+            this.queryExecutions = new QueryExecutionsModule();
+            this.queryProcessor = new QueryProcessorModule();
+            this.transactions = new TransactionsModule();
+            this.statistics = new StatisticsModule();
+
             RandomGenerator random = new RandomGenerator();
             clock = 0;
             eventList.clear();
             QueryEvent firstArrival = new QueryEvent(0,EventType.values()[0],null);
             eventList.add(firstArrival);
+
+            //prueba
+            System.out.println("simulacion "+i);
+            //prueba
+
             while(secondsSimulation > clock) {
                 procesEvent();
 
@@ -349,8 +355,8 @@ public class Simulation  {
          */
 
         //prueba
-        int secSim=100;
-        int numSim =1;
+        int secSim=10;
+        int numSim =20;
         boolean slowMode=false;
         int slowModeSecs=0;
         Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs);
