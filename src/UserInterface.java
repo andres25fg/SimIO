@@ -547,6 +547,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void starSimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_starSimButtonActionPerformed
         this.starSimButton.setEnabled(false);
+        this.returnButton.setEnabled(false);
         simulation = new Simulation(numSims, secondsSimulation, slowModeFlag, slowModeSeconds, timeout, k, n, p, m, this);
     }//GEN-LAST:event_starSimButtonActionPerformed
 
@@ -554,11 +555,16 @@ public class UserInterface extends javax.swing.JFrame {
         this.simPanel.setVisible(false);
         this.paramMenu.setVisible(true);
         this.setParamPanelVisible();
+        this.simText.setText("");
     }//GEN-LAST:event_returnButtonActionPerformed
 
     public void showTextinGUI(String text) {
         this.simText.setText(simText.getText() + "\n" + text);
         simText.setCaretPosition(simText.getDocument().getLength());
+    }
+
+    public void activateReturnButton() {
+        this.returnButton.setEnabled(true);
     }
 
     public int parseInt(String text) {

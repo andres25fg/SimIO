@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.PriorityQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Clase Simualtion
@@ -62,7 +63,11 @@ public class Simulation  {
         (new Thread()
         {
             public void run(){
-                beginSimulation(k, n, p, m);
+                try {
+                    beginSimulation(k, n, p, m);
+                } catch (InterruptedException e) {
+                    //e.printStackTrace();
+                }
             }
         }).start();
 
@@ -100,7 +105,7 @@ public class Simulation  {
         return eventList.poll();
     }
 
-    public void beginSimulation(int k,int n, int p, int m){
+    public void beginSimulation(int k,int n, int p, int m) throws InterruptedException {
         for(int i=0; i<numSimulations; i++) {
             //para las llegadas agrego una conexion de tipo nulo
 
@@ -125,7 +130,13 @@ public class Simulation  {
 
             while(secondsSimulation > clock) {
                 procesEvent();
-
+                if(slowMode) {
+                    try {
+                        TimeUnit.SECONDS.sleep(slowModeSeconds);
+                    } catch (InterruptedException e) {
+                        //e.printStackTrace();
+                    }
+                }
                 //prueba
                 userInterface.showTextinGUI("Reloj: " + clock);
                 // System.out.println("reloj "+clock);
@@ -176,6 +187,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+transactions.getStatistic().getJoinAverageTime()+" num "+transactions.getStatistic().getNumJoin());
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+transactions.getStatistic().getUpdateAverageTime()+" num "+transactions.getStatistic().getNumSelect());
 
+            userInterface.activateReturnButton();
             //se crea html con estadisticas
         }
     }
