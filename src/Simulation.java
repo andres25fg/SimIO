@@ -191,7 +191,7 @@ public class Simulation  {
         //se procesa segun el tipo de evento
 
         //prueba
-        System.out.println(actualEvent.getType());
+        userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
         //prueba
 
 
