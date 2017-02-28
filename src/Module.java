@@ -140,7 +140,7 @@ public abstract class Module {
         reduceFreeServer();
         Connection next;
         if(stackConnections.isEmpty()!=true){
-            next = stackConnections.getFirst();
+            next = stackConnections.pollFirst();
         }else{
             next=null;
         }
@@ -158,6 +158,7 @@ public abstract class Module {
         if(c.getStack()){
             //si entro a la cola al tiempo de servicio se le suma el tiempo que paso en la cola y se coloca
             serviceTime += clock-c.getStackArrivalTime();
+            System.out.println("sdsdfsdfsdefsdf"+(clock-c.getStackArrivalTime()));
             c.setStack(false);
         }
         switch (c.getType().toString()){
