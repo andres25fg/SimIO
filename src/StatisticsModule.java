@@ -20,7 +20,7 @@ public class StatisticsModule {
     private double numUdpate=0;
 
     public double getStackAverageTime() {
-        return stackAverageTime/numstack;
+        return round(stackAverageTime/numstack);
     }
 
     public void setStackAverageTime(double stackAverageTime) {
@@ -29,7 +29,7 @@ public class StatisticsModule {
     }
 
     public double getDdlAverageTime() {
-        return ddlAverageTime/numDdl;
+        return round(ddlAverageTime/numDdl);
     }
 
     public void setDdlAverageTime(double ddlAverageTime) {
@@ -41,7 +41,7 @@ public class StatisticsModule {
     }
 
     public double getSelectAverageTime() {
-        return selectAverageTime/numSelect;
+        return round(selectAverageTime/numSelect);
     }
 
     public void setSelectAverageTime(double selectAverageTime) {
@@ -54,7 +54,7 @@ public class StatisticsModule {
     }
 
     public double getJoinAverageTime() {
-        return joinAverageTime/numSelect;
+        return round(joinAverageTime/numSelect);
     }
 
     public void setJoinAverageTime(double joinAverageTime) {
@@ -67,7 +67,7 @@ public class StatisticsModule {
     }
 
     public double getUpdateAverageTime() {
-        return uptdateAverageTime/numJoin;
+        return round(uptdateAverageTime/numJoin);
 
     }
 
@@ -77,6 +77,11 @@ public class StatisticsModule {
     }
     public double getNumUdpate() {
         return numUdpate;
+    }
+
+    public double round(double number){
+        number = Math.round(number*100);
+        return number/100;
     }
 
     public StatisticsModule() {
