@@ -1,4 +1,3 @@
-
 import javax.swing.JOptionPane;
 
 /**
@@ -17,10 +16,10 @@ public class UserInterface extends javax.swing.JFrame {
     private int secondsSimulation; // Segundos para la simulación normal
     private int timeout; // Segundos que tiene una conexion para ser atendida
     private int k; // Cantidad de conexiones que el sistema maneja concurrentemente
-    private int n; // Cantidad de procesos que el procesador de consultas puede manejar 
+    private int n; // Cantidad de procesos que el procesador de consultas puede manejar
     private int p; // Cantidad de procesos para la ejecución de transacciones
     private int m; // Cantidad de procesos para ejecutar consultas
-    private Simulation simulation; // Objeto Simulation para coomunicarse
+    private Simulation simulation; // Objeto Simulation para comunicarse
 
     /**
      * Método constructor
@@ -62,12 +61,15 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         simSecondsSlowMode = new javax.swing.JTextField();
         slowModeLabel = new javax.swing.JLabel();
-        startSimButton = new javax.swing.JButton();
+        nextSimButton = new javax.swing.JButton();
         numSimulations = new javax.swing.JTextField();
         timeoutSeconds = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         helpButton = new javax.swing.JButton();
         simPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        simText = new javax.swing.JTextArea();
+        starSimButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proyecto Simulación - Investigación de Operaciones");
@@ -118,7 +120,7 @@ public class UserInterface extends javax.swing.JFrame {
                                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 501, Short.MAX_VALUE)
                                                 .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(31, 31, 31))
                                         .addGroup(mainMenuLayout.createSequentialGroup()
@@ -130,7 +132,7 @@ public class UserInterface extends javax.swing.JFrame {
         mainMenuLayout.setVerticalGroup(
                 mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuLayout.createSequentialGroup()
-                                .addContainerGap(87, Short.MAX_VALUE)
+                                .addContainerGap(98, Short.MAX_VALUE)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,11 +195,11 @@ public class UserInterface extends javax.swing.JFrame {
         slowModeLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         slowModeLabel.setText("Cantidad de segundos entre eventos (Modo lento) :");
 
-        startSimButton.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        startSimButton.setText("Iniciar Simulación");
-        startSimButton.addActionListener(new java.awt.event.ActionListener() {
+        nextSimButton.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        nextSimButton.setText("Siguiente");
+        nextSimButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startSimButtonActionPerformed(evt);
+                nextSimButtonActionPerformed(evt);
             }
         });
 
@@ -227,10 +229,10 @@ public class UserInterface extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paramMenuLayout.createSequentialGroup()
                                                 .addGap(111, 111, 111)
                                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(112, 112, 112)
-                                                .addComponent(helpButton, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(startSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(nextSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(36, 36, 36))
                                         .addGroup(paramMenuLayout.createSequentialGroup()
                                                 .addGroup(paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +262,7 @@ public class UserInterface extends javax.swing.JFrame {
                                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(simSecondsSlowMode, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                .addContainerGap(254, Short.MAX_VALUE))))
         );
         paramMenuLayout.setVerticalGroup(
                 paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,7 +270,7 @@ public class UserInterface extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(startSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nextSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(46, 46, 46)
                                 .addGroup(paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -298,7 +300,7 @@ public class UserInterface extends javax.swing.JFrame {
                                 .addGroup(paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(timeoutSeconds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                                 .addGroup(paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(slowMode)
                                         .addComponent(slowModeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,15 +310,38 @@ public class UserInterface extends javax.swing.JFrame {
 
         simPanel.setBackground(new java.awt.Color(255, 255, 255));
 
+        simText.setEditable(false);
+        simText.setColumns(20);
+        simText.setRows(5);
+        jScrollPane2.setViewportView(simText);
+
+        starSimButton.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        starSimButton.setText("Iniciar");
+        starSimButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                starSimButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout simPanelLayout = new javax.swing.GroupLayout(simPanel);
         simPanel.setLayout(simPanelLayout);
         simPanelLayout.setHorizontalGroup(
                 simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 898, Short.MAX_VALUE)
+                        .addGroup(simPanelLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                                .addComponent(starSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))
         );
         simPanelLayout.setVerticalGroup(
                 simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 507, Short.MAX_VALUE)
+                        .addGroup(simPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(starSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -357,7 +382,7 @@ public class UserInterface extends javax.swing.JFrame {
         JOptionPane.showOptionDialog(null,"Digite los parámetros (valores numéricos)\nque desea utilizar en la simulación.", "Ayuda", JOptionPane.INFORMATION_MESSAGE,JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Continuar"},"default");
     }//GEN-LAST:event_helpButtonActionPerformed
 
-    private void startSimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSimButtonActionPerformed
+    private void nextSimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextSimButtonActionPerformed
         if(slowModeFlag == true) {
             this.setSlowModeSeconds(0);
         } else {
@@ -371,16 +396,9 @@ public class UserInterface extends javax.swing.JFrame {
         this.setM(this.parseInt(this.queryExecutionServers.getText()));
         this.setTimeout(this.parseInt(this.timeoutSeconds.getText()));
 
-        /*private int numSims; // Número de veces que se va a realizar la simulación
-        private int secondsSimulation; // Segundos para la simulación normal
-        private int timeOut; // Segundos que tiene una conexion para ser atendida
-        private int n; // Cantidad de procesos que el procesador de consultas puede manejar concurrentemente
-        private int p; // Cantidad de procesos para la ejecución de transacciones
-        private int m; // Cantidad de procesos para ejecutar consultas
-        private int t; // Cantidad de segundos del timeout*/
         this.paramMenu.setVisible(false);
         this.simPanel.setVisible(true);
-    }//GEN-LAST:event_startSimButtonActionPerformed
+    }//GEN-LAST:event_nextSimButtonActionPerformed
 
     private void slowModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_slowModeActionPerformed
         if(slowModeFlag == true) {
@@ -393,6 +411,15 @@ public class UserInterface extends javax.swing.JFrame {
             this.simSecondsSlowMode.setVisible(true);
         }
     }//GEN-LAST:event_slowModeActionPerformed
+
+    private void starSimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_starSimButtonActionPerformed
+        simulation = new Simulation(numSims, secondsSimulation, slowModeFlag, slowModeSeconds, timeout, k, n, p, m, this);
+    }//GEN-LAST:event_starSimButtonActionPerformed
+
+    public void showTextinGUI(String text) {
+        this.simText.setText(simText.getText() + "\n" + text);
+        simText.setCaretPosition(simText.getDocument().getLength());
+    }
 
     public int parseInt(String text) {
         int textInt = 0;
@@ -441,7 +468,7 @@ public class UserInterface extends javax.swing.JFrame {
     }
 
     public void setParamPanelVisible(){
-        this.startSimButton.setVisible(true);
+        this.nextSimButton.setVisible(true);
         this.helpButton.setVisible(true);
         this.numSimulations.setVisible(true);
         this.simSeconds.setVisible(true);
@@ -455,7 +482,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     public void setParamPanelInvisible(){
         this.helpButton.setVisible(false);
-        this.startSimButton.setVisible(false);
+        this.nextSimButton.setVisible(false);
         this.numSimulations.setVisible(false);
         this.simSeconds.setVisible(false);
         this.queryProcessorServers.setVisible(false);
@@ -481,7 +508,9 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel mainMenu;
+    private javax.swing.JButton nextSimButton;
     private javax.swing.JTextField numConnections;
     private javax.swing.JTextField numSimulations;
     private javax.swing.JPanel paramMenu;
@@ -490,10 +519,11 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JPanel simPanel;
     private javax.swing.JTextField simSeconds;
     private javax.swing.JTextField simSecondsSlowMode;
+    private javax.swing.JTextArea simText;
     private javax.swing.JCheckBox slowMode;
     private javax.swing.JLabel slowModeLabel;
+    private javax.swing.JButton starSimButton;
     private javax.swing.JButton startButton;
-    private javax.swing.JButton startSimButton;
     private javax.swing.JTextField timeoutSeconds;
     private javax.swing.JTextField transactionsServers;
     // End of variables declaration//GEN-END:variables

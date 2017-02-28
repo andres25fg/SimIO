@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.PriorityQueue;
@@ -34,8 +35,7 @@ public class Simulation  {
 
     /**
      * Método constructor
-     *
-     * @param numSims Número de veces que se va a realizar la simulación
+     *  @param numSims Número de veces que se va a realizar la simulación
      * @param secsSim Segundos para la simulación normal
      * @param slowMode Booleano para saber si la simulación se va a hacer en modo lento
      * @param slowModeSecs Segundos de la simulación para el modo lento
@@ -44,8 +44,9 @@ public class Simulation  {
      * @param n Cantidad de procesos que el procesador de consultas puede manejar
      * @param p Cantidad de procesos para la ejecución de transacciones
      * @param m Cantidad de procesos para ejecutar consultas
+     * @param gui
      */
-    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs, int timeOut, int k,int n, int p, int m, UserInterface gui){
+    public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs, int timeOut, int k, int n, int p, int m, UserInterface gui){
         userInterface = gui;
         this.setClock(0); // Inicializamos el reloj en el tiempo 0
         this.setSecondsSimulation(secsSim); // Guardamos la cantidad de segundos por simulación
@@ -58,7 +59,13 @@ public class Simulation  {
         PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // Instanciamos la cola de prioridades con el
         setStackQueries(stack);
 
-        beginSimulation(k, n, p, m);
+        (new Thread()
+        {
+            public void run(){
+                beginSimulation(k, n, p, m);
+            }
+        }).start();
+
     }
 
     public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
@@ -112,58 +119,62 @@ public class Simulation  {
             eventList.add(firstArrival);
 
             //prueba
-            System.out.println("simulacion "+i);
+            userInterface.showTextinGUI("Sumulación número: " + i);
+            //System.out.println("simulacion "+i);
             //prueba
 
             while(secondsSimulation > clock) {
                 procesEvent();
 
                 //prueba
-                System.out.println("reloj "+clock);
+                userInterface.showTextinGUI("Reloj: " + clock);
+                // System.out.println("reloj "+clock);
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
                 eventList.add(nextArrival);
                 //se actualiza la interfaz y las estadisticas;
             }
-            System.out.println("conexiones "+numConections);
-            System.out.println("conexiones atendidas "+numConectionServed);
-            System.out.println("time out "+numTimeOut);
-            System.out.println("rechazadas "+numRejected);
+            userInterface.showTextinGUI("\n---- Estádisticas globales del sistema:\n");
+            userInterface.showTextinGUI("Número de conexiones: "+ numConections);
+            userInterface.showTextinGUI("Total de conexiones atendidas:" + numConectionServed);
+            userInterface.showTextinGUI("Total de conexiones que hicieron timeout: "+ numTimeOut);
+            userInterface.showTextinGUI("Total de conexiones rechazadas: "+ numRejected);
 
-            System.out.println("promedio select "+statistics.getSelectAverageTime()+" num "+statistics.getNumSelect());
-            System.out.println("promedio ddl "+statistics.getDdlAverageTime()+" num "+statistics.getNumDdl());
-            System.out.println("promedio join "+statistics.getJoinAverageTime()+" num "+statistics.getNumJoin());
-            System.out.println("promedio update "+statistics.getUpdateAverageTime()+" num "+statistics.getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +statistics.getSelectAverageTime()+" num "+statistics.getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "    +statistics.getDdlAverageTime()+" num "+statistics.getNumDdl());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "   +statistics.getJoinAverageTime()+" num "+statistics.getNumJoin());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: " +statistics.getUpdateAverageTime()+" num "+statistics.getNumSelect());
 
-            System.out.println("clientAdministrator ");
-            System.out.println("promedio select "+clientAdministrator.getStatistic().getSelectAverageTime()+" num "+clientAdministrator.getStatistic().getNumSelect());
-            System.out.println("promedio ddl "+clientAdministrator.getStatistic().getDdlAverageTime()+" num "+clientAdministrator.getStatistic().getNumDdl());
-            System.out.println("promedio join "+clientAdministrator.getStatistic().getJoinAverageTime()+" num "+clientAdministrator.getStatistic().getNumJoin());
-            System.out.println("promedio update "+clientAdministrator.getStatistic().getUpdateAverageTime()+" num "+clientAdministrator.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("\n---- Estádisticas de cada módulo:\n");
+            userInterface.showTextinGUI("Módulo: Administración de Clientes");
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +clientAdministrator.getStatistic().getSelectAverageTime()+" num "+clientAdministrator.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +clientAdministrator.getStatistic().getDdlAverageTime()+" num "+clientAdministrator.getStatistic().getNumDdl());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+clientAdministrator.getStatistic().getJoinAverageTime()+" num "+clientAdministrator.getStatistic().getNumJoin());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+clientAdministrator.getStatistic().getUpdateAverageTime()+" num "+clientAdministrator.getStatistic().getNumSelect());
 
-            System.out.println("processAdministrator ");
-            System.out.println("promedio select "+processAdministrator.getStatistic().getSelectAverageTime()+" num "+processAdministrator.getStatistic().getNumSelect());
-            System.out.println("promedio ddl "+processAdministrator.getStatistic().getDdlAverageTime()+" num "+processAdministrator.getStatistic().getNumDdl());
-            System.out.println("promedio join "+processAdministrator.getStatistic().getJoinAverageTime()+" num "+processAdministrator.getStatistic().getNumJoin());
-            System.out.println("promedio update "+processAdministrator.getStatistic().getUpdateAverageTime()+" num "+processAdministrator.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("\nMódulo: Administrador de procesos");
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: "+processAdministrator.getStatistic().getSelectAverageTime()+" num "+processAdministrator.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+processAdministrator.getStatistic().getDdlAverageTime()+" num "+processAdministrator.getStatistic().getNumDdl());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+processAdministrator.getStatistic().getJoinAverageTime()+" num "+processAdministrator.getStatistic().getNumJoin());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+processAdministrator.getStatistic().getUpdateAverageTime()+" num "+processAdministrator.getStatistic().getNumSelect());
 
-            System.out.println("queryExecutions ");
-            System.out.println("promedio select "+queryExecutions.getStatistic().getSelectAverageTime()+" num "+queryExecutions.getStatistic().getNumSelect());
-            System.out.println("promedio ddl "+queryExecutions.getStatistic().getDdlAverageTime()+" num "+queryExecutions.getStatistic().getNumDdl());
-            System.out.println("promedio join "+queryExecutions.getStatistic().getJoinAverageTime()+" num "+queryExecutions.getStatistic().getNumJoin());
-            System.out.println("promedio update "+queryExecutions.getStatistic().getUpdateAverageTime()+" num "+queryExecutions.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("\nMódulo: Ejecutor de sentencias");
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: "+queryExecutions.getStatistic().getSelectAverageTime()+" num "+queryExecutions.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+queryExecutions.getStatistic().getDdlAverageTime()+" num "+queryExecutions.getStatistic().getNumDdl());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryExecutions.getStatistic().getJoinAverageTime()+" num "+queryExecutions.getStatistic().getNumJoin());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryExecutions.getStatistic().getUpdateAverageTime()+" num "+queryExecutions.getStatistic().getNumSelect());
 
-            System.out.println("queryProcessor ");
-            System.out.println("promedio select "+queryProcessor.getStatistic().getSelectAverageTime()+" num "+queryProcessor.getStatistic().getNumSelect());
-            System.out.println("promedio ddl "+queryProcessor.getStatistic().getDdlAverageTime()+" num "+queryProcessor.getStatistic().getNumDdl());
-            System.out.println("promedio join "+queryProcessor.getStatistic().getJoinAverageTime()+" num "+queryProcessor.getStatistic().getNumJoin());
-            System.out.println("promedio update "+queryProcessor.getStatistic().getUpdateAverageTime()+" num "+queryProcessor.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("\nMódulo: Procesador de consultas");
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: "+queryProcessor.getStatistic().getSelectAverageTime()+" num "+queryProcessor.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+queryProcessor.getStatistic().getDdlAverageTime()+" num "+queryProcessor.getStatistic().getNumDdl());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryProcessor.getStatistic().getJoinAverageTime()+" num "+queryProcessor.getStatistic().getNumJoin());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryProcessor.getStatistic().getUpdateAverageTime()+" num "+queryProcessor.getStatistic().getNumSelect());
 
-            System.out.println("transactions ");
-            System.out.println("promedio select "+transactions.getStatistic().getSelectAverageTime()+" num "+transactions.getStatistic().getNumSelect());
-            System.out.println("promedio ddl "+transactions.getStatistic().getDdlAverageTime()+" num "+transactions.getStatistic().getNumDdl());
-            System.out.println("promedio join "+transactions.getStatistic().getJoinAverageTime()+" num "+transactions.getStatistic().getNumJoin());
-            System.out.println("promedio update "+transactions.getStatistic().getUpdateAverageTime()+" num "+transactions.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("\nMódulo: Transacciones");
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: "+transactions.getStatistic().getSelectAverageTime()+" num "+transactions.getStatistic().getNumSelect());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+transactions.getStatistic().getDdlAverageTime()+" num "+transactions.getStatistic().getNumDdl());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+transactions.getStatistic().getJoinAverageTime()+" num "+transactions.getStatistic().getNumJoin());
+            userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+transactions.getStatistic().getUpdateAverageTime()+" num "+transactions.getStatistic().getNumSelect());
 
             //se crea html con estadisticas
         }
@@ -466,8 +477,8 @@ public class Simulation  {
         int numSim =1;
         boolean slowMode=false;
         int slowModeSecs=0;
-        UserInterface gui = null; // Esto es para poder usar pruebas por consola
-        Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs,100,5,5,5,5, gui);
+        //UserInterface gui = null; // Esto es para poder usar pruebas por consola
+        //Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs,100,5,5,5,5, gui);
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
