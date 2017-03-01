@@ -42,5 +42,8 @@ public class ClientAdministratorModule extends Module {
     public void endConnection( int timeout){
 
     }
+    public double generateServiceTime(){
+        return random.uniform(0.01, 0.05);
+    }
 
 }

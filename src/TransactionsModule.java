@@ -21,6 +21,24 @@ public class TransactionsModule extends Module{
         super.setStackQueries(stack); //
     }
 
+    public double loadDiskBloks(String type){
+        double blocks=0;
+        if (type == "JOIN") {
+            blocks += random.uniform(1, 16) + random.uniform(1, 12);
+        } else {
+            if (type == "SELECT") {
+                blocks += random.uniform(1, 64);
+            }
+        }
+        return blocks;
+    }
+
+    public double generateServiceTime(double blocks) {
+        double time = (getMaxSimConnections()-getFreeServers())*.03;
+        time += blocks/10;
+        return time;
+    }
+
     /**
      * Método que agrega una consulta a la cola de prioridades
      * @param query

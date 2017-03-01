@@ -213,44 +213,29 @@ public class Simulation  {
                 if(!clientAdministrator.checkMaxConnections()){ // Se revisa si el Client Administrator tiene servidores libres o no
                     clientAdministrator.rejectConnection(); // Si no tiene servidores libres se rechaza la conexión
                     numRejected++;
-                    //prueba
-                    System.out.println("rechaza conexion");
-                    //prueba
 
                 } else { // Si hay servidores libres, se crea la conexión
-
-                    //prueba
-                    System.out.println("recibe conexion");
-                    //prueba
 
                     Connection newConnection = clientAdministrator.createConnection();
                     newConnection.setCurrentModule(ModuleFlag.values()[0]);
                     clientAdministrator.arrive(newConnection, clock);
                     newConnection.setType();
-                    double serviceTime = processAdministrator.generateServiceTime(0, newConnection.getType().getReadOnly(), newConnection.getType().toString());
+                    double serviceTime = processAdministrator.generateServiceTime();
                     clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
                     QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
                 }
-                // falta definir como se va a trabajar esta parte.
                 break;
             case "CONNECTION_OUT":
                 numConectionServed++;
                 Connection out = actualEvent.getConnection();
                 updateStatistics(out.getType().toString(), out.getArrivalTime());
-                //prueba
-                System.out.println("termina conexion");
-                //prueba
-                //statistics.setStatistics(actualEvent); //la clase statisticsModule aun no tiene metodos
                 break;
             case "TIME_OUT":
                 numTimeOut++;
-                //prueba
-                System.out.println("termina conexion(tiempo)");
-                //prueba
-                //no se que hay que hacer con el time_out, hay alguna estadistica de esto?
                 break;
             case "EXIT_MODULE":
+                //la conexion sale del modulo en el que se encuentra y pasa al siguente
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
@@ -260,30 +245,28 @@ public class Simulation  {
                 }
                 else{
                     boolean processing;
+                    //se busca el modulo en el que esta la conexion
                     switch (actualModule.getModule()) {
 
                         case "CLIENT_ADMIN":
-
-                            //prueba
-                            System.out.println("sale conexion(client_Admin)");
-                            //prueba
-
+                            // se revisa si la conexion ya paso por el modulo de transacciones
                             if (!actualConnection.getTransactionModule()) {
+                                //aun no pasa por el modulo de transacciones
                                 processing = processAdministrator.arrive(actualConnection, clock); // el proceso llega el siguente modulo
-                                // si es atendido se calcula el tiempo de servicio
                                 if (processing == true) {
-                                    //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                    double serviceTime = processAdministrator.generateServiceTime(1, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
+                                    // si es atendido
+                                    //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                    // y se añade el evento a la lista de eventos
+                                    double serviceTime = processAdministrator.generateServiceTime();
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                     eventList.add(event);
-                                } else {
-                                    //estadisticas de procesos rechazados
                                 }
+                                //ya paso por el modulo de transacciones
                             }else{
                                 // se saca el proceso del modulo
-                                //la conexion termina cuando se cargan los bloques del disco
+                                //se crea un evento de tipo connection_out
                                 Connection client_a = clientAdministrator.exit();
                                 QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
                                 eventList.add(event);
@@ -292,24 +275,24 @@ public class Simulation  {
 
                         case "PROCESS_ADMIN":
 
-                            //prueba
-                            System.out.println("sale conexion(proces_Admin)");
-                            //prueba
-
+                            //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
                             Connection client_p = processAdministrator.exit();
                             if (client_p != null) {
-                                double serviceTime = processAdministrator.generateServiceTime(1, client_p.getType().getReadOnly(), client_p.getType().toString());
-                                //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
-                                //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                                //la cola no esta vacia
+                                //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                // y se añade el evento a la lista de eventos
+                                double serviceTime = processAdministrator.generateServiceTime();
                                 actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                 processAdministrator.updateStatistics(client_p, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_p);
                                 eventList.add(event);
                             }
-                            processing = queryProcessor.arrive(actualConnection, clock);
+                            processing = queryProcessor.arrive(actualConnection, clock); // el proceso llega el siguente modulo
                             if (processing == true) {
-                                //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
-                                double serviceTime = queryProcessor.generateServiceTime(2, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
+                                // si es atendido
+                                //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                // y se añade el evento a la lista de eventos
+                                double serviceTime = queryProcessor.generateServiceTime(actualConnection.getType().getReadOnly());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
                                 queryProcessor.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
@@ -318,33 +301,28 @@ public class Simulation  {
                             break;
 
                         case "QUERY_PROCESSOR":
-
-                            //prueba
-                            System.out.println("sale conexion(queryProcessor)");
-                            //prueba
-
+                            //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
                             Connection client_q_p = queryProcessor.exit();
                             if (client_q_p != null) {
-                                double serviceTime = queryProcessor.generateServiceTime(2, client_q_p.getType().getReadOnly(), client_q_p.getType().toString());
-                                //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
-                                //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
+                                //la cola no esta vacia
+                                //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                // y se añade el evento a la lista de eventos
+                                double serviceTime = queryProcessor.generateServiceTime(client_q_p.getType().getReadOnly());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
                                 queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_q_p);
                                 eventList.add(event);
                             }
 
-                            processing = transactions.arrive(actualConnection, clock);
+                            processing = transactions.arrive(actualConnection, clock);// el proceso llega el siguente modulo
                             if (processing == true) {
-                                //Cada transaccion va a tomar un tiempo p ∗ 0.03 segundos en coordinar la ejecucion de una transaccion (p es el nunero de procesos concurrentes).
-                                double serviceTime = (transactions.getMaxSimConnections()-transactions.getFreeServers())*.03;
-                                //transactions es el modulo encargado de leer los bloques del disco
-                                double diskBloks = transactions.generateServiceTime(3, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
+                                // si es atendido
+                                //se calcula el numero de bloques de disco leidos, el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                // y se añade el evento a la lista de eventos
+                                double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
                                 actualConnection.setBlocksRead(diskBloks);
-                                //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                 actualConnection.setCurrentModule(ModuleFlag.values()[3]);
-                                //cada bloque del disco ocupa 1/10 segundos para ser leido
-                                serviceTime += diskBloks/10;
+                                double serviceTime = transactions.generateServiceTime(diskBloks);
                                 transactions.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
@@ -352,43 +330,22 @@ public class Simulation  {
                             break;
 
                         case "TRANSACTION":
-                            //prueba
-                            System.out.println("sale conexion(transaction)");
-                            //prueba
 
                             Connection client_t = transactions.exit();
                             if (client_t != null) {
-                                //creo que exit deberia retornar una conexion (la que acaba de salir de la lista del modulo) o null si la lista esta vacia
-                                //si es distinta de null se crea un nuevo evento y se agrega a la lista de eventos
-                                //Cada transaccion va a tomar un tiempo p ∗ 0.03 segundos en coordinar la ejecucion de una transaccion (p es el nunero de procesos concurrentes).
-                                double serviceTime = (transactions.getMaxSimConnections()-transactions.getFreeServers())*.03;
-                                //transactions es el modulo encargado de leer los bloques del disco
-                                double diskBloks = transactions.generateServiceTime(3, actualConnection.getType().getReadOnly(), actualConnection.getType().toString());
+                                double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
                                 actualConnection.setBlocksRead(diskBloks);
-                                //arrive podria devolver un booleano (verdadero si es atendido y falso si se envia a la cola)
                                 client_t.setCurrentModule(ModuleFlag.values()[3]);
-                                //cada bloque del disco ocupa 1/10 segundos para ser leido
-                                serviceTime += diskBloks/10;
+                                double serviceTime = transactions.generateServiceTime(diskBloks);
                                 client_t.setCurrentModule(ModuleFlag.values()[3]);
                                 transactions.updateStatistics(client_t, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_t);
                                 eventList.add(event);
                             }
-
-                            // se pasa al true el booleano que indica que ya paso por el modulo de transacciones
                             actualConnection.setTransactionModuleTrue();
-                            //segunda entrada a queryProcesor (en el enunciado luego dice ejecutor de consultas asi que lo estoy enviando a queryExecutions )
                             processing = queryExecutions.arrive(actualConnection, clock);
                             if (processing == true) {
-                                double serviceTime = Math.pow(actualConnection.getBlocksRead(), 2) / 1000; // este tiempo es en milisegundos
-                                if(actualConnection.getType().toString()=="UPDATE"){
-                                    serviceTime = 1;
-                                }else{
-                                    if(actualConnection.getType().toString()=="DDL"){
-                                        serviceTime = 0.5;
-                                    }
-                                }
-
+                                double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[4]);
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
                                 queryExecutions.updateStatistics(actualConnection, serviceTime, clock);
@@ -399,21 +356,9 @@ public class Simulation  {
 
                         case "QUERY_EXE":
 
-                            //prueba
-                            System.out.println("sale conexion(query_Exe)");
-                            //prueba
-
                             Connection client_q = queryExecutions.exit();
                             if (client_q != null) {
-                                double serviceTime = Math.pow(actualConnection.getBlocksRead(), 2) / 1000; // este tiempo es en milisegundos
-                                if(actualConnection.getType().toString()=="UPDATE"){
-                                    serviceTime = 1;
-                                }else{
-                                    if(actualConnection.getType().toString()=="DDL"){
-                                        serviceTime = 0.5;
-                                    }
-                                }
-
+                                double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[4]);
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
                                 queryExecutions.updateStatistics(client_q, serviceTime, clock);

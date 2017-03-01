@@ -16,7 +16,7 @@ public abstract class Module {
     private StatisticsModule statistics = new StatisticsModule(); // Objeto de la clase StatisticsModule para guardar estadísticas
     private int freeServers; // Número de servidores libres del módulo
     private int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
-    private RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
+    public RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
     private Deque<Connection> stackConnections = new ArrayDeque<Connection>(); // Cola de conexiones del módulo
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
@@ -83,44 +83,10 @@ public abstract class Module {
      * 2 : administracion de procesos, 3: procesamiento de consultas, 4: transaccionesá)
      * @return
      */
-    public double generateServiceTime(int module, boolean readOnly, String type){
-        double time=0;
-        switch (module) {
-            case 0: // administracion de clientes
-                time = random.uniform(0.01, 0.05);
-                break;
-            case 1: //administracion de procesos
-                time = random.normal(1.5, 0.1);
-                break;
-            case 2: //procesamiento de consultas
-                double rand = random.getRandom(); //validacion lexica
-                if (rand < 0.7) {
-                    time += 0.1;
-                } else {
-                    time += 0.4;
-                }
-                time += random.uniform(0, 0.8);//validacion sintactica
-                time += random.normal(1, 0.5); // validacion  semantica
-                time += random.exponential(.7);//verificacion de permisos
-                if (readOnly) { // optimizacion de consultas
-                    time += 0.1;
-                } else {
-                    time += 0.5;
-                }
-                break;
-            case 3: // transacciones
-                if (type == "JOIN") {
-                    time += random.uniform(1, 16) + random.uniform(1, 12);
-                } else {
-                    if (type == "SELECT") {
-                        time += random.uniform(1, 64);
-                    }
-                }
-                time = time / 10;
-                break;
-        }
-        return time;
-    }
+
+
+    /*public double generateServiceTime(){
+    }*/
 
     // En este metodo no estoy my seguro e como manejar la lista de eventos
     public boolean arrive(Connection c, double clock) {
