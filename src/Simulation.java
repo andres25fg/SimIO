@@ -163,6 +163,8 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +clientAdministrator.getStatistic().getDdlAverageTime()+" para "+clientAdministrator.getStatistic().getNumDdl()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+clientAdministrator.getStatistic().getJoinAverageTime()+" para "+clientAdministrator.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+clientAdministrator.getStatistic().getUpdateAverageTime()+" para "+clientAdministrator.getStatistic().getNumUdpate()+ " consultas");
+            userInterface.showTextinGUI("Promedio de servidores libres: "+clientAdministrator.getStatistic().getAverageFreeServers());
+            userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+clientAdministrator.getStatistic().getAverageFreeTime(clientAdministrator.getMaxSimConnections()));
 
             userInterface.showTextinGUI("Lambda: " +clientAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +clientAdministrator.getStatistic().getP(clientAdministrator.getMaxSimConnections()));
@@ -179,6 +181,8 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+processAdministrator.getStatistic().getDdlAverageTime()+" para "+processAdministrator.getStatistic().getNumDdl()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+processAdministrator.getStatistic().getJoinAverageTime()+" para "+processAdministrator.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+processAdministrator.getStatistic().getUpdateAverageTime()+" para "+processAdministrator.getStatistic().getNumUdpate()+ " consultas");
+            userInterface.showTextinGUI("Promedio de servidores libres: "+processAdministrator.getStatistic().getAverageFreeServers());
+            userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+processAdministrator.getStatistic().getAverageFreeTime(processAdministrator.getMaxSimConnections()));
 
             userInterface.showTextinGUI("Lambda: " +processAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +processAdministrator.getStatistic().getP(processAdministrator.getMaxSimConnections()));
@@ -195,6 +199,8 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+queryExecutions.getStatistic().getDdlAverageTime()+" para "+queryExecutions.getStatistic().getNumDdl()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryExecutions.getStatistic().getJoinAverageTime()+" para "+queryExecutions.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryExecutions.getStatistic().getUpdateAverageTime()+" para "+queryExecutions.getStatistic().getNumUdpate()+ " consultas");
+            userInterface.showTextinGUI("Promedio de servidores libres: "+queryExecutions.getStatistic().getAverageFreeServers());
+            userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+queryExecutions.getStatistic().getAverageFreeTime(queryExecutions.getMaxSimConnections()));
 
             userInterface.showTextinGUI("Lambda: " +queryExecutions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryExecutions.getStatistic().getP(queryExecutions.getMaxSimConnections()));
@@ -211,6 +217,8 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+queryProcessor.getStatistic().getDdlAverageTime()+" para "+queryProcessor.getStatistic().getNumDdl()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryProcessor.getStatistic().getJoinAverageTime()+" para "+queryProcessor.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryProcessor.getStatistic().getUpdateAverageTime()+" para "+queryProcessor.getStatistic().getNumUdpate()+ " consultas");
+            userInterface.showTextinGUI("Promedio de servidores libres: "+queryProcessor.getStatistic().getAverageFreeServers());
+            userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+queryProcessor.getStatistic().getAverageFreeTime(queryProcessor.getMaxSimConnections()));
 
             userInterface.showTextinGUI("Lambda: " +queryProcessor.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryProcessor.getStatistic().getP(queryProcessor.getMaxSimConnections()));
@@ -227,6 +235,8 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "+transactions.getStatistic().getDdlAverageTime()+" para "+transactions.getStatistic().getNumDdl()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+transactions.getStatistic().getJoinAverageTime()+" para "+transactions.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+transactions.getStatistic().getUpdateAverageTime()+" para "+transactions.getStatistic().getNumUdpate()+ " consultas");
+            userInterface.showTextinGUI("Promedio de servidores libres: "+transactions.getStatistic().getAverageFreeServers());
+            userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+transactions.getStatistic().getAverageFreeTime(transactions.getMaxSimConnections()));
 
             userInterface.showTextinGUI("Lambda: " +transactions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +transactions.getStatistic().getP(transactions.getMaxSimConnections()));
@@ -290,10 +300,10 @@ public class Simulation  {
                 numConectionServed++;
                 Connection out = actualEvent.getConnection();
                 updateStatistics(out.getType().toString(), out.getArrivalTime());
-                clientAdministrator.exit();
+                clientAdministrator.exit(clock);
                 break;
             case "TIME_OUT":
-                clientAdministrator.exit();
+                clientAdministrator.exit(clock);
                 numTimeOut++;
                 break;
             case "EXIT_MODULE":
@@ -333,7 +343,7 @@ public class Simulation  {
 
                     case "PROCESS_ADMIN":
                         //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
-                        Connection client_p = processAdministrator.exit();
+                        Connection client_p = processAdministrator.exit(clock);
                         if (client_p != null) {
                             //la cola no esta vacia
                             //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
@@ -361,7 +371,7 @@ public class Simulation  {
 
                     case "QUERY_PROCESSOR":
                         //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
-                        Connection client_q_p = queryProcessor.exit();
+                        Connection client_q_p = queryProcessor.exit(clock);
                         if (client_q_p != null) {
                             //la cola no esta vacia
                             //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
@@ -391,7 +401,7 @@ public class Simulation  {
 
                     case "TRANSACTION":
 
-                        Connection client_t = transactions.exit();
+                        Connection client_t = transactions.exit(clock);
                         if (client_t != null) {
                             double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
                             actualConnection.setBlocksRead(diskBloks);
@@ -418,7 +428,7 @@ public class Simulation  {
 
                     case "QUERY_EXE":
 
-                        Connection client_q = queryExecutions.exit();
+                        Connection client_q = queryExecutions.exit(clock);
                         if (client_q != null) {
                             double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
                             actualConnection.setCurrentModule(ModuleFlag.values()[4]);
@@ -432,7 +442,7 @@ public class Simulation  {
                             double serviceTime = actualConnection.getBlocksRead() / 2;
                             actualConnection.setCurrentModule(ModuleFlag.values()[0]);
                             clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
-                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[1], actualConnection);
                             eventList.add(event);
                         }
                         break;

@@ -22,6 +22,25 @@ public class StatisticsModule {
     private double lambda =0;
     private double ws = 0;
 
+    private int numFreeServers = 0; //se suma los servidores libres
+    private double serversFreeTime = 0; // suma del tiempo libre de los servidores
+    private double timesFreeServers = 0; // cantidad de veces que se suman los servidores libres
+
+    //se divide la suma de los servidores libres por la cantidad de veces que se suma el numero de servidores libres
+    public double getAverageFreeServers(){
+        return  round(numFreeServers/timesFreeServers);
+    }
+    //se divide la suma del tiempo libre de servidores por la cantidad de veces que se suma el tiempo y luego por la cantidad de servidores para genera el promedio de tiempo libre por servidor
+    public double getAverageFreeTime(double numServers){
+        return  round((serversFreeTime/timesFreeServers)/numServers);
+    }
+
+    public void setFreeServersAndFreeTime(int freeServers, double freeTime){
+        numFreeServers +=freeServers;
+        serversFreeTime += (freeTime*freeServers);
+        timesFreeServers++;
+    }
+
     //se divinde la suma de los tiempos entre llegadas y se dividen entre el numero de llegadas para generar el tiempo entre arribos
     public double getLambda(){
         return  round(1/(lambda/(numDdl+numJoin+numSelect+numUdpate)));
@@ -30,6 +49,7 @@ public class StatisticsModule {
     public void setLambda (double lambda){
         this.lambda += lambda;
     }
+
 
     public double getP (double numServers){
         return round((getLambda()/(numServers*getU())));

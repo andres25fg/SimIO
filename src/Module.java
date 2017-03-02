@@ -22,6 +22,7 @@ public abstract class Module {
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
     private double timeLastArrive=0;
+    private double timeLastEvent=0;
 
     public Module(){
 
@@ -93,6 +94,8 @@ public abstract class Module {
     // En este metodo no estoy my seguro e como manejar la lista de eventos
     public boolean arrive(Connection c, double clock) {
         statistics.setLambda(clock-timeLastArrive);
+        statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        timeLastEvent = clock;
         timeLastArrive = clock;
         boolean being_served=false;
         if(getFreeServers()==0) {
@@ -106,11 +109,15 @@ public abstract class Module {
         }
         return being_served;
     }
-    public Connection exit() {
+
+    public Connection exit(double clock) {
         freeOneServer();
+        statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        timeLastEvent = clock;
         Connection next;
         if(stackConnections.isEmpty()!=true){
             next = stackConnections.pollFirst();
+            reduceFreeServer();
         }else{
             next=null;
         }
