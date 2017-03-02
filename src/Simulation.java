@@ -281,8 +281,10 @@ public class Simulation  {
                 numConectionServed++;
                 Connection out = actualEvent.getConnection();
                 updateStatistics(out.getType().toString(), out.getArrivalTime());
+                clientAdministrator.exit();
                 break;
             case "TIME_OUT":
+                clientAdministrator.exit();
                 numTimeOut++;
                 break;
             case "EXIT_MODULE":
@@ -318,7 +320,6 @@ public class Simulation  {
                             }else{
                                 // se saca el proceso del modulo
                                 //se crea un evento de tipo connection_out
-                                Connection client_a = clientAdministrator.exit();
                                 QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
                                 eventList.add(event);
                             }
