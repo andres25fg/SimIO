@@ -21,6 +21,8 @@ public abstract class Module {
     private Deque<Connection> stackConnections = new ArrayDeque<Connection>(); // Cola de conexiones del módulo
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
+    private double timeLastArrive=0;
+
     public Module(){
 
     }
@@ -90,6 +92,8 @@ public abstract class Module {
 
     // En este metodo no estoy my seguro e como manejar la lista de eventos
     public boolean arrive(Connection c, double clock) {
+        statistics.setLambda(clock-timeLastArrive);
+        timeLastArrive = clock;
         boolean being_served=false;
         if(getFreeServers()==0) {
             sendToStack(c);
@@ -120,23 +124,26 @@ public abstract class Module {
      */
     public void updateStatistics(Connection c, double serviceTime, double clock){
         // se revisa si la conexion entro a la cola del modulo
+        double stackTime =0;
         if(c.getStack()){
             //si entro a la cola al tiempo de servicio se le suma el tiempo que paso en la cola y se coloca
-            serviceTime += clock-c.getStackArrivalTime();
+            stackTime += clock-c.getStackArrivalTime();
             c.setStack(false);
+            statistics.setStackAverageTime(stackTime);
         }
+        statistics.setWs(serviceTime);
         switch (c.getType().toString()){
             case "DDL":
-                statistics.setDdlAverageTime(serviceTime);
+                statistics.setDdlAverageTime(stackTime+serviceTime);
                 break;
             case "UPDATE":
-                statistics.setUpdateAverageTime(serviceTime);
+                statistics.setUpdateAverageTime(stackTime+serviceTime);
                 break;
             case "JOIN":
-                statistics.setJoinAverageTime(serviceTime);
+                statistics.setJoinAverageTime(stackTime+serviceTime);
                 break;
             case  "SELECT":
-                statistics.setSelectAverageTime(serviceTime);
+                statistics.setSelectAverageTime(stackTime+serviceTime);
         }
     }
 

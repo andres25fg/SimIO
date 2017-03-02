@@ -8,6 +8,7 @@
 public class QueryProcessorModule extends Module{
     public QueryProcessorModule(int servers) {
         this.setFreeServers(servers);
+        this.setMaxSimConnections(servers);
     }
 
     public double generateServiceTime(boolean readOnly) {

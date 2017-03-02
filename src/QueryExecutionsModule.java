@@ -9,6 +9,7 @@ public class QueryExecutionsModule extends Module {
 
     public QueryExecutionsModule(int servers) {
         this.setFreeServers(servers);
+        this.setMaxSimConnections(servers);
     }
 
     //metodo que carga los datos de la conexion
