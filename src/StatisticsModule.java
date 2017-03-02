@@ -32,7 +32,7 @@ public class StatisticsModule {
     }
     //se divide la suma del tiempo libre de servidores por la cantidad de veces que se suma el tiempo y luego por la cantidad de servidores para genera el promedio de tiempo libre por servidor
     public double getAverageFreeTime(double numServers){
-        return  round((serversFreeTime/timesFreeServers)/numServers);
+        return  round(serversFreeTime/numServers);
     }
 
     public void setFreeServersAndFreeTime(int freeServers, double freeTime){
