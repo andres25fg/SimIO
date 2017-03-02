@@ -143,7 +143,8 @@ public class Simulation  {
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
                 eventList.add(nextArrival);
-                //se actualiza la interfaz y las estadisticas;
+                // Server data is refreshed on the GUI
+                userInterface.showServersInformation(clientAdministrator.getFreeServers(),processAdministrator.getFreeServers(),queryProcessor.getFreeServers(),queryExecutions.getFreeServers(),transactions.getFreeServers());
             }
             userInterface.showTextinGUI("\n---- Estádisticas globales del sistema:\n");
             userInterface.showTextinGUI("Número de conexiones: "+ numConections);
