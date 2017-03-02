@@ -743,6 +743,11 @@ public class UserInterface extends javax.swing.JFrame {
             this.slowModeSeconds_simPanel.setVisible(false);
             this.slowModeLabel_simPanel.setVisible(false);
         }
+        this.clientAdmServers_SimPanel.setText(k_simPanel.getText());
+        this.queryProcServers_SimPanel.setText(n_simPanel.getText());
+        this.transactionsServers_SimPanel.setText(p_simPanel.getText());
+        this.queryExecServers_SimPanel.setText(m_simPanel.getText());
+        this.processAdmServers_SimPanel.setText("1");
     }
 
     public void setParamPanelVisible(){
@@ -755,7 +760,13 @@ public class UserInterface extends javax.swing.JFrame {
         this.queryExecutionServers.setVisible(true);
         this.numConnections.setVisible(true);
         this.simSecondsSlowMode.setVisible(false);
-        this.slowModeLabel.setVisible(false);
+        if(slowModeFlag) {
+            this.slowModeLabel.setVisible(true);
+            this.simSecondsSlowMode.setVisible(true);
+        } else {
+            this.slowModeLabel.setVisible(false);
+            this.simSecondsSlowMode.setVisible(false);
+        }
     }
 
     public void setParamPanelInvisible(){
