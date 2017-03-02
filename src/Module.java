@@ -81,7 +81,7 @@ public abstract class Module {
 
     /**
      * metodo para calcular el tiempo de servicio en cada modulo
-     * @param module: permite conocer para cual modulo se calcula el tiempo de servicio (1:administracion de clientes,
+     * @param : permite conocer para cual modulo se calcula el tiempo de servicio (1:administracion de clientes,
      * 2 : administracion de procesos, 3: procesamiento de consultas, 4: transaccionesá)
      * @return
      */
@@ -107,7 +107,7 @@ public abstract class Module {
         return being_served;
     }
     public Connection exit() {
-        reduceFreeServer();
+        freeOneServer();
         Connection next;
         if(stackConnections.isEmpty()!=true){
             next = stackConnections.pollFirst();
