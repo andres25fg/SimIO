@@ -247,6 +247,16 @@ public class Simulation  {
      * procesa el primer elemento de la lista de eventos
      */
 
+    public boolean checkTimeOut(Connection c){
+        boolean time_out = false;
+        if(c.getArrivalTime()+timeOut<= clock){
+            QueryEvent event = new QueryEvent(clock, EventType.values()[2], c);
+            eventList.add(event);
+            time_out = true;
+        }
+        return time_out;
+    }
+
     public void procesEvent(){
         QueryEvent actualEvent = this.getNextEvent();
 
@@ -257,11 +267,10 @@ public class Simulation  {
         userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
         //prueba
 
-
-        switch (actualEvent.getType()){
+        switch (actualEvent.getType()) {
             case "CONNECTION_IN":
                 numConections++;
-                if(!clientAdministrator.checkMaxConnections()){ // Se revisa si el Client Administrator tiene servidores libres o no
+                if (!clientAdministrator.checkMaxConnections()) { // Se revisa si el Client Administrator tiene servidores libres o no
                     clientAdministrator.rejectConnection(); // Si no tiene servidores libres se rechaza la conexión
                     numRejected++;
 
@@ -273,7 +282,7 @@ public class Simulation  {
                     newConnection.setType();
                     double serviceTime = processAdministrator.generateServiceTime();
                     clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
-                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], newConnection);
+                    QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
                 }
                 break;
@@ -292,17 +301,13 @@ public class Simulation  {
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
-                if(actualConnection.getArrivalTime()+timeOut<= clock){
-                    QueryEvent event = new QueryEvent(clock, EventType.values()[2], actualConnection);
-                    eventList.add(event);
-                }
-                else{
-                    boolean processing;
-                    //se busca el modulo en el que esta la conexion
-                    switch (actualModule.getModule()) {
+                boolean processing;
+                //se busca el modulo en el que esta la conexion
+                switch (actualModule.getModule()) {
+                    case "CLIENT_ADMIN":
+                        // se revisa si la conexion ya paso por el modulo de transacciones
 
-                        case "CLIENT_ADMIN":
-                            // se revisa si la conexion ya paso por el modulo de transacciones
+                        if (checkTimeOut(actualConnection) == false) {
                             if (!actualConnection.getTransactionModule()) {
                                 //aun no pasa por el modulo de transacciones
                                 processing = processAdministrator.arrive(actualConnection, clock); // el proceso llega el siguente modulo
@@ -313,32 +318,33 @@ public class Simulation  {
                                     double serviceTime = processAdministrator.generateServiceTime();
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
-                                    QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
+                                    QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
                                     eventList.add(event);
                                 }
                                 //ya paso por el modulo de transacciones
-                            }else{
+                            } else {
                                 // se saca el proceso del modulo
                                 //se crea un evento de tipo connection_out
                                 QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
                                 eventList.add(event);
                             }
-                            break;
+                        }
+                        break;
 
-                        case "PROCESS_ADMIN":
-
-                            //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
-                            Connection client_p = processAdministrator.exit();
-                            if (client_p != null) {
-                                //la cola no esta vacia
-                                //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
-                                // y se añade el evento a la lista de eventos
-                                double serviceTime = processAdministrator.generateServiceTime();
-                                actualConnection.setCurrentModule(ModuleFlag.values()[1]);
-                                processAdministrator.updateStatistics(client_p, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_p);
-                                eventList.add(event);
-                            }
+                    case "PROCESS_ADMIN":
+                        //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
+                        Connection client_p = processAdministrator.exit();
+                        if (client_p != null) {
+                            //la cola no esta vacia
+                            //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                            // y se añade el evento a la lista de eventos
+                            double serviceTime = processAdministrator.generateServiceTime();
+                            actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                            processAdministrator.updateStatistics(client_p, serviceTime, clock);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_p);
+                            eventList.add(event);
+                        }
+                        if (checkTimeOut(actualConnection) == false) {
                             processing = queryProcessor.arrive(actualConnection, clock); // el proceso llega el siguente modulo
                             if (processing == true) {
                                 // si es atendido
@@ -347,25 +353,26 @@ public class Simulation  {
                                 double serviceTime = queryProcessor.generateServiceTime(actualConnection.getType().getReadOnly());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
                                 queryProcessor.updateStatistics(actualConnection, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
+                                QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
-                            break;
+                        }
+                        break;
 
-                        case "QUERY_PROCESSOR":
-                            //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
-                            Connection client_q_p = queryProcessor.exit();
-                            if (client_q_p != null) {
-                                //la cola no esta vacia
-                                //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
-                                // y se añade el evento a la lista de eventos
-                                double serviceTime = queryProcessor.generateServiceTime(client_q_p.getType().getReadOnly());
-                                actualConnection.setCurrentModule(ModuleFlag.values()[2]);
-                                queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_q_p);
-                                eventList.add(event);
-                            }
-
+                    case "QUERY_PROCESSOR":
+                        //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
+                        Connection client_q_p = queryProcessor.exit();
+                        if (client_q_p != null) {
+                            //la cola no esta vacia
+                            //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                            // y se añade el evento a la lista de eventos
+                            double serviceTime = queryProcessor.generateServiceTime(client_q_p.getType().getReadOnly());
+                            actualConnection.setCurrentModule(ModuleFlag.values()[2]);
+                            queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_q_p);
+                            eventList.add(event);
+                        }
+                        if (checkTimeOut(actualConnection) == false) {
                             processing = transactions.arrive(actualConnection, clock);// el proceso llega el siguente modulo
                             if (processing == true) {
                                 // si es atendido
@@ -376,59 +383,62 @@ public class Simulation  {
                                 actualConnection.setCurrentModule(ModuleFlag.values()[3]);
                                 double serviceTime = transactions.generateServiceTime(diskBloks);
                                 transactions.updateStatistics(actualConnection, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
+                                QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
-                            break;
+                        }
+                        break;
 
-                        case "TRANSACTION":
+                    case "TRANSACTION":
 
-                            Connection client_t = transactions.exit();
-                            if (client_t != null) {
-                                double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
-                                actualConnection.setBlocksRead(diskBloks);
-                                client_t.setCurrentModule(ModuleFlag.values()[3]);
-                                double serviceTime = transactions.generateServiceTime(diskBloks);
-                                client_t.setCurrentModule(ModuleFlag.values()[3]);
-                                transactions.updateStatistics(client_t, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], client_t);
-                                eventList.add(event);
-                            }
-                            actualConnection.setTransactionModuleTrue();
+                        Connection client_t = transactions.exit();
+                        if (client_t != null) {
+                            double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
+                            actualConnection.setBlocksRead(diskBloks);
+                            client_t.setCurrentModule(ModuleFlag.values()[3]);
+                            double serviceTime = transactions.generateServiceTime(diskBloks);
+                            client_t.setCurrentModule(ModuleFlag.values()[3]);
+                            transactions.updateStatistics(client_t, serviceTime, clock);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
+                            eventList.add(event);
+                        }
+                        actualConnection.setTransactionModuleTrue();
+                        if (checkTimeOut(actualConnection) == false) {
                             processing = queryExecutions.arrive(actualConnection, clock);
                             if (processing == true) {
                                 double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[4]);
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
                                 queryExecutions.updateStatistics(actualConnection, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
+                                QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
                                 eventList.add(event);
                             }
-                            break;
+                        }
+                        break;
 
-                        case "QUERY_EXE":
+                    case "QUERY_EXE":
 
-                            Connection client_q = queryExecutions.exit();
-                            if (client_q != null) {
-                                double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
-                                actualConnection.setCurrentModule(ModuleFlag.values()[4]);
-                                actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
-                                queryExecutions.updateStatistics(client_q, serviceTime, clock);
-                                QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
-                                eventList.add(event);
-                            }
-
+                        Connection client_q = queryExecutions.exit();
+                        if (client_q != null) {
+                            double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
+                            actualConnection.setCurrentModule(ModuleFlag.values()[4]);
+                            actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
+                            queryExecutions.updateStatistics(client_q, serviceTime, clock);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
+                            eventList.add(event);
+                        }
+                        if (checkTimeOut(actualConnection) == false) {
                             //regresa al modulo de administracion de clientes
-                            double serviceTime = actualConnection.getBlocksRead()/2;
+                            double serviceTime = actualConnection.getBlocksRead() / 2;
                             actualConnection.setCurrentModule(ModuleFlag.values()[0]);
                             clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
-                            QueryEvent event = new QueryEvent(clock+serviceTime, EventType.values()[3], actualConnection);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
                             eventList.add(event);
-                            break;
-                    }
+                        }
+                        break;
                 }
                 break;
-            }
+        }
     }
 
     public void updateStatistics(String type, double arrival){
