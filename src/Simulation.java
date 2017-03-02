@@ -163,7 +163,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+clientAdministrator.getStatistic().getJoinAverageTime()+" para "+clientAdministrator.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+clientAdministrator.getStatistic().getUpdateAverageTime()+" para "+clientAdministrator.getStatistic().getNumSelect()+ " consultas");
 
-            userInterface.showTextinGUI("Lambda: " +clientAdministrator.getStatistic().getL());
+            userInterface.showTextinGUI("Lambda: " +clientAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +clientAdministrator.getStatistic().getP(clientAdministrator.getMaxSimConnections()));
             userInterface.showTextinGUI("ws: "+clientAdministrator.getStatistic().getWs());
             userInterface.showTextinGUI("wq metodo getStackAverageTime: "+clientAdministrator.getStatistic().getStackAverageTime());
@@ -179,7 +179,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+processAdministrator.getStatistic().getJoinAverageTime()+" para "+processAdministrator.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+processAdministrator.getStatistic().getUpdateAverageTime()+" para "+processAdministrator.getStatistic().getNumSelect()+ " consultas");
 
-            userInterface.showTextinGUI("Lambda: " +processAdministrator.getStatistic().getL());
+            userInterface.showTextinGUI("Lambda: " +processAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +processAdministrator.getStatistic().getP(processAdministrator.getMaxSimConnections()));
             userInterface.showTextinGUI("ws: "+processAdministrator.getStatistic().getWs());
             userInterface.showTextinGUI("wq metodo getStackAverageTime: "+processAdministrator.getStatistic().getStackAverageTime());
@@ -195,7 +195,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryExecutions.getStatistic().getJoinAverageTime()+" para "+queryExecutions.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryExecutions.getStatistic().getUpdateAverageTime()+" para "+queryExecutions.getStatistic().getNumSelect()+ " consultas");
 
-            userInterface.showTextinGUI("Lambda: " +queryExecutions.getStatistic().getL());
+            userInterface.showTextinGUI("Lambda: " +queryExecutions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryExecutions.getStatistic().getP(queryExecutions.getMaxSimConnections()));
             userInterface.showTextinGUI("ws: "+queryExecutions.getStatistic().getWs());
             userInterface.showTextinGUI("wq metodo getStackAverageTime: "+queryExecutions.getStatistic().getStackAverageTime());
@@ -211,7 +211,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryProcessor.getStatistic().getJoinAverageTime()+" para "+queryProcessor.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryProcessor.getStatistic().getUpdateAverageTime()+" para "+queryProcessor.getStatistic().getNumSelect()+ " consultas");
 
-            userInterface.showTextinGUI("Lambda: " +queryProcessor.getStatistic().getL());
+            userInterface.showTextinGUI("Lambda: " +queryProcessor.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryProcessor.getStatistic().getP(queryProcessor.getMaxSimConnections()));
             userInterface.showTextinGUI("ws: "+queryProcessor.getStatistic().getWs());
             userInterface.showTextinGUI("wq metodo getStackAverageTime: "+queryProcessor.getStatistic().getStackAverageTime());
@@ -227,7 +227,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+transactions.getStatistic().getJoinAverageTime()+" para "+transactions.getStatistic().getNumJoin()+ " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+transactions.getStatistic().getUpdateAverageTime()+" para "+transactions.getStatistic().getNumSelect()+ " consultas");
 
-            userInterface.showTextinGUI("Lambda: " +transactions.getStatistic().getL());
+            userInterface.showTextinGUI("Lambda: " +transactions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +transactions.getStatistic().getP(transactions.getMaxSimConnections()));
             userInterface.showTextinGUI("ws: "+transactions.getStatistic().getWs());
             userInterface.showTextinGUI("wq metodo getStackAverageTime: "+transactions.getStatistic().getStackAverageTime());

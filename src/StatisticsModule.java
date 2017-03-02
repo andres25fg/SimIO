@@ -32,7 +32,7 @@ public class StatisticsModule {
     }
 
     public double getP (double numServers){
-        return round(getLambda()/(numServers*(1/ws)));
+        return round((getLambda()/(numServers*getU())));
     }
 
     public double getWs(){
