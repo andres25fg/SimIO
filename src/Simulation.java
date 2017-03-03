@@ -297,7 +297,7 @@ public class Simulation  {
                     newConnection.setArrivalTime(clock);
                     double serviceTime = processAdministrator.generateServiceTime();
                     System.out.println(clock+serviceTime);
-                    userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock));
+                    //userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock));
                     QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
                 }
@@ -316,7 +316,9 @@ public class Simulation  {
                 //la conexion sale del modulo en el que se encuentra y pasa al siguente
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
-                userInterface.showTextinGUI("modulo: " + actualModule.getModule());
+
+                userInterface.showTextinGUI("\nmodulo actual: "  + actualModule);
+                //userInterface.showTextinGUI("modulo: " + actualModule.getModule());
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
                 boolean processing;
                 //se busca el modulo en el que esta la conexion
@@ -568,7 +570,7 @@ public class Simulation  {
         public int compare(QueryEvent query1, QueryEvent query2) {
             //Hace una resta entre las prioridades de cada conexión para determinar el orden
             int priority;
-            if(query1.getEventTime() < query2.getEventTime()){
+            if(query1.getEventTime() > query2.getEventTime()){
                 priority = 1;
             }else{
                 priority = -1;
