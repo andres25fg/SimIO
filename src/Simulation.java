@@ -170,10 +170,10 @@ public class Simulation  {
 
             userInterface.showTextinGUI("Lambda: " +clientAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +clientAdministrator.getStatistic().getP(clientAdministrator.getMaxSimConnections()));
-            userInterface.showTextinGUI("ws: "+clientAdministrator.getStatistic().getWs());
-            userInterface.showTextinGUI("wq metodo getStackAverageTime: "+clientAdministrator.getStatistic().getStackAverageTime());
-            userInterface.showTextinGUI("u: " +clientAdministrator.getStatistic().getU());
-            userInterface.showTextinGUI("w: " +clientAdministrator.getStatistic().getW());
+            userInterface.showTextinGUI("Ws: "+clientAdministrator.getStatistic().getWs());
+            userInterface.showTextinGUI("Wq: "+clientAdministrator.getStatistic().getStackAverageTime());
+            userInterface.showTextinGUI("U: " +clientAdministrator.getStatistic().getU());
+            userInterface.showTextinGUI("W: " +clientAdministrator.getStatistic().getW());
             userInterface.showTextinGUI("L: "+clientAdministrator.getStatistic().getL());
             userInterface.showTextinGUI("Ls: "+clientAdministrator.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+clientAdministrator.getStatistic().getLq());
@@ -188,10 +188,10 @@ public class Simulation  {
 
             userInterface.showTextinGUI("Lambda: " +processAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +processAdministrator.getStatistic().getP(processAdministrator.getMaxSimConnections()));
-            userInterface.showTextinGUI("ws: "+processAdministrator.getStatistic().getWs());
-            userInterface.showTextinGUI("wq metodo getStackAverageTime: "+processAdministrator.getStatistic().getStackAverageTime());
-            userInterface.showTextinGUI("u: " +processAdministrator.getStatistic().getU());
-            userInterface.showTextinGUI("w: " +processAdministrator.getStatistic().getW());
+            userInterface.showTextinGUI("Ws: "+processAdministrator.getStatistic().getWs());
+            userInterface.showTextinGUI("Wq: "+processAdministrator.getStatistic().getStackAverageTime());
+            userInterface.showTextinGUI("U: " +processAdministrator.getStatistic().getU());
+            userInterface.showTextinGUI("W: " +processAdministrator.getStatistic().getW());
             userInterface.showTextinGUI("L: "+processAdministrator.getStatistic().getL());
             userInterface.showTextinGUI("Ls: "+processAdministrator.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+processAdministrator.getStatistic().getLq());
@@ -206,10 +206,10 @@ public class Simulation  {
 
             userInterface.showTextinGUI("Lambda: " +queryExecutions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryExecutions.getStatistic().getP(queryExecutions.getMaxSimConnections()));
-            userInterface.showTextinGUI("ws: "+queryExecutions.getStatistic().getWs());
-            userInterface.showTextinGUI("wq metodo getStackAverageTime: "+queryExecutions.getStatistic().getStackAverageTime());
-            userInterface.showTextinGUI("u: " +queryExecutions.getStatistic().getU());
-            userInterface.showTextinGUI("w: " +queryExecutions.getStatistic().getW());
+            userInterface.showTextinGUI("Ws: "+queryExecutions.getStatistic().getWs());
+            userInterface.showTextinGUI("Wq: "+queryExecutions.getStatistic().getStackAverageTime());
+            userInterface.showTextinGUI("U: " +queryExecutions.getStatistic().getU());
+            userInterface.showTextinGUI("W: " +queryExecutions.getStatistic().getW());
             userInterface.showTextinGUI("L: "+queryExecutions.getStatistic().getL());
             userInterface.showTextinGUI("Ls: "+queryExecutions.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+queryExecutions.getStatistic().getLq());
@@ -224,10 +224,10 @@ public class Simulation  {
 
             userInterface.showTextinGUI("Lambda: " +queryProcessor.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryProcessor.getStatistic().getP(queryProcessor.getMaxSimConnections()));
-            userInterface.showTextinGUI("ws: "+queryProcessor.getStatistic().getWs());
-            userInterface.showTextinGUI("wq metodo getStackAverageTime: "+queryProcessor.getStatistic().getStackAverageTime());
-            userInterface.showTextinGUI("u: " +queryProcessor.getStatistic().getU());
-            userInterface.showTextinGUI("w: " +queryProcessor.getStatistic().getW());
+            userInterface.showTextinGUI("Ws: "+queryProcessor.getStatistic().getWs());
+            userInterface.showTextinGUI("Wq: "+queryProcessor.getStatistic().getStackAverageTime());
+            userInterface.showTextinGUI("U: " +queryProcessor.getStatistic().getU());
+            userInterface.showTextinGUI("W: " +queryProcessor.getStatistic().getW());
             userInterface.showTextinGUI("L: "+queryProcessor.getStatistic().getL());
             userInterface.showTextinGUI("Ls: "+queryProcessor.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+queryProcessor.getStatistic().getLq());
@@ -242,10 +242,10 @@ public class Simulation  {
 
             userInterface.showTextinGUI("Lambda: " +transactions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +transactions.getStatistic().getP(transactions.getMaxSimConnections()));
-            userInterface.showTextinGUI("ws: "+transactions.getStatistic().getWs());
-            userInterface.showTextinGUI("wq metodo getStackAverageTime: "+transactions.getStatistic().getStackAverageTime());
-            userInterface.showTextinGUI("u: " +transactions.getStatistic().getU());
-            userInterface.showTextinGUI("w: " +transactions.getStatistic().getW());
+            userInterface.showTextinGUI("Ws: "+transactions.getStatistic().getWs());
+            userInterface.showTextinGUI("Wq: "+transactions.getStatistic().getStackAverageTime());
+            userInterface.showTextinGUI("U: " +transactions.getStatistic().getU());
+            userInterface.showTextinGUI("W: " +transactions.getStatistic().getW());
             userInterface.showTextinGUI("L: "+transactions.getStatistic().getL());
             userInterface.showTextinGUI("Ls: "+transactions.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+transactions.getStatistic().getLq());
