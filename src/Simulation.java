@@ -296,7 +296,6 @@ public class Simulation  {
                     newConnection.setType();
                     newConnection.setArrivalTime(clock);
                     double serviceTime = processAdministrator.generateServiceTime();
-                    System.out.println(clock+serviceTime);
                     //userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock));
                     QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
@@ -358,7 +357,7 @@ public class Simulation  {
                             //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
                             // y se añade el evento a la lista de eventos
                             double serviceTime = processAdministrator.generateServiceTime();
-                            actualConnection.setCurrentModule(ModuleFlag.values()[1]);
+                            client_p.setCurrentModule(ModuleFlag.values()[1]);
                             processAdministrator.updateStatistics(client_p, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_p);
                             addQueryEvent(event);
@@ -386,7 +385,7 @@ public class Simulation  {
                             //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
                             // y se añade el evento a la lista de eventos
                             double serviceTime = queryProcessor.generateServiceTime(client_q_p.getType().getReadOnly());
-                            actualConnection.setCurrentModule(ModuleFlag.values()[2]);
+                            client_q_p.setCurrentModule(ModuleFlag.values()[2]);
                             queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_q_p);
                             addQueryEvent(event);
@@ -413,8 +412,7 @@ public class Simulation  {
                             Connection client_t = transactions.exit(clock);
                             if (client_t != null) {
                                 double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
-                                actualConnection.setBlocksRead(diskBloks);
-                                client_t.setCurrentModule(ModuleFlag.values()[3]);
+                                client_t.setBlocksRead(diskBloks);
                                 double serviceTime = transactions.generateServiceTime(diskBloks);
                                 client_t.setCurrentModule(ModuleFlag.values()[3]);
                                 transactions.updateStatistics(client_t, serviceTime, clock);
@@ -440,11 +438,11 @@ public class Simulation  {
 
                         Connection client_q = queryExecutions.exit(clock);
                         if (client_q != null) {
-                            double serviceTime = queryExecutions.generateServiceTime(actualConnection.getBlocksRead(), actualConnection.getType().toString());
-                            actualConnection.setCurrentModule(ModuleFlag.values()[4]);
-                            actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
+                            double serviceTime = queryExecutions.generateServiceTime(client_q.getBlocksRead(), client_q.getType().toString());
+                            client_q.setCurrentModule(ModuleFlag.values()[4]);
+                            client_q.setBlocksRead(actualConnection.getDisckBlocks() / 3);
                             queryExecutions.updateStatistics(client_q, serviceTime, clock);
-                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
+                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_q);
                             addQueryEvent(event);
                         }
                         if (checkTimeOut(actualConnection) == false) {
