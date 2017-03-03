@@ -143,9 +143,11 @@ public class Simulation  {
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
                 addQueryEvent(nextArrival);
-                // Server data is refreshed on the GUI
+                // Server data is refreshed on the GUI: Servers status, queue information, clients served.
                 userInterface.showServersInformation(clientAdministrator.getFreeServers(),processAdministrator.getFreeServers(),queryProcessor.getFreeServers(),queryExecutions.getFreeServers(),transactions.getFreeServers());
                 userInterface.showLqInformation(processAdministrator.getQueueSize(), queryProcessor.getQueueSize(), queryExecutions.getQueueSize(), transactions.getPriorityQueueSize());
+                userInterface.showServedConnectionsInformation(clientAdministrator.getNumClientsServed(), processAdministrator.getNumClientsServed(),queryProcessor.getNumClientsServed(),queryExecutions.getNumClientsServed(),transactions.getNumClientsServed());
+                userInterface.showConnectionsInformation(this.getNumConectionServed(), this.getNumRejected());
             }
             // Every statistic is displayed at the end of the simulations inside the JTextArea
             userInterface.showTextinGUI("\n---- Estádisticas globales del sistema:\n");
@@ -495,6 +497,14 @@ public class Simulation  {
 
     public void setTimeOut(int timeOut) {
         this.timeOut = timeOut;
+    }
+
+    public int getNumConectionServed() {
+        return numConectionServed;
+    }
+
+    public int getNumRejected() {
+        return numRejected;
     }
 
     public double round(double number){

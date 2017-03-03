@@ -40,6 +40,10 @@ public abstract class Module {
         this.numClientsServed = numClientsServed;
     }
 
+    public int getNumClientsServed() {
+        return numClientsServed;
+    }
+
     public int getFreeServers() {
         return freeServers;
     }
