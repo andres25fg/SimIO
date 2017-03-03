@@ -145,7 +145,9 @@ public class Simulation  {
                 addQueryEvent(nextArrival);
                 // Server data is refreshed on the GUI
                 userInterface.showServersInformation(clientAdministrator.getFreeServers(),processAdministrator.getFreeServers(),queryProcessor.getFreeServers(),queryExecutions.getFreeServers(),transactions.getFreeServers());
+                userInterface.showLqInformation(processAdministrator.getQueueSize(), queryProcessor.getQueueSize(), queryExecutions.getQueueSize(), transactions.getPriorityQueueSize());
             }
+            // Every statistic is displayed at the end of the simulations inside the JTextArea
             userInterface.showTextinGUI("\n---- Estádisticas globales del sistema:\n");
             userInterface.showTextinGUI("Número de conexiones: "+ numConections);
             userInterface.showTextinGUI("Total de conexiones atendidas:" + numConectionServed);
@@ -157,7 +159,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "   +statistics.getJoinAverageTime()+" num "+statistics.getNumJoin());
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: " +statistics.getUpdateAverageTime()+" num "+statistics.getNumUdpate());
 
-            userInterface.showTextinGUI("\n---- Estádisticas de cada módulo:\n"); // double roundOff = Math.round(a * 100.0) / 100.0;
+            userInterface.showTextinGUI("\n---- Estádisticas de cada módulo:\n");
             userInterface.showTextinGUI("Módulo: Administración de Clientes");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +clientAdministrator.getStatistic().getSelectAverageTime()+" para "+clientAdministrator.getStatistic().getNumSelect() + " consultas");
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +clientAdministrator.getStatistic().getDdlAverageTime()+" para "+clientAdministrator.getStatistic().getNumDdl()+ " consultas");

@@ -100,6 +100,16 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         queryExecServers_SimPanel = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel29 = new javax.swing.JLabel();
+        processAdmServers_lq = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        queryProcServers_lq = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        transactionsServers_lq = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        queryExecServers_lq = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proyecto Simulación - Investigación de Operaciones");
@@ -142,18 +152,13 @@ public class UserInterface extends javax.swing.JFrame {
                         .addGroup(mainMenuLayout.createSequentialGroup()
                                 .addGap(149, 149, 149)
                                 .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(mainMenuLayout.createSequentialGroup()
-                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(100, 100, 100))
-                                        .addGroup(mainMenuLayout.createSequentialGroup()
-                                                .addGroup(mainMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(100, 100, 100))
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(749, Short.MAX_VALUE))
+                                .addContainerGap(769, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainMenuLayout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +181,7 @@ public class UserInterface extends javax.swing.JFrame {
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(80, Short.MAX_VALUE))
+                                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         paramMenu.setBackground(new java.awt.Color(255, 255, 255));
@@ -300,7 +305,7 @@ public class UserInterface extends javax.swing.JFrame {
                                                                         .addGroup(paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                                                 .addComponent(transactionsServers)
                                                                                 .addComponent(queryProcessorServers, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                                .addContainerGap(113, Short.MAX_VALUE))))
+                                                .addContainerGap(133, Short.MAX_VALUE))))
         );
         paramMenuLayout.setVerticalGroup(
                 paramMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +350,7 @@ public class UserInterface extends javax.swing.JFrame {
                                         .addComponent(slowMode, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(slowModeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(simSecondsSlowMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(183, Short.MAX_VALUE))
+                                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         simPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -375,7 +380,7 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Cantidad de máxima de segundos por simulación:");
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel16.setText("Parámetros de la simulación");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -415,7 +420,7 @@ public class UserInterface extends javax.swing.JFrame {
 
         slowModeSeconds_simPanel.setEditable(false);
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel20.setText("Estado de los servidores");
 
         clientAdmServers_SimPanel.setEditable(false);
@@ -443,6 +448,33 @@ public class UserInterface extends javax.swing.JFrame {
         jLabel28.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel28.setText("Módulo Ejecutador de Consultas");
 
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel29.setText("Estado de las colas");
+
+        processAdmServers_lq.setEditable(false);
+        processAdmServers_lq.setText("0");
+
+        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel31.setText("Módulo Administrador de Procesos");
+
+        queryProcServers_lq.setEditable(false);
+        queryProcServers_lq.setText("0");
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel32.setText("Módulo Procesamiento de Consultas");
+
+        transactionsServers_lq.setEditable(false);
+        transactionsServers_lq.setText("0");
+
+        jLabel33.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel33.setText("Módulo Transacciones");
+
+        queryExecServers_lq.setEditable(false);
+        queryExecServers_lq.setText("0");
+
+        jLabel34.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel34.setText("Módulo Ejecutador de Consultas");
+
         javax.swing.GroupLayout simPanelLayout = new javax.swing.GroupLayout(simPanel);
         simPanel.setLayout(simPanelLayout);
         simPanelLayout.setHorizontalGroup(
@@ -455,69 +487,94 @@ public class UserInterface extends javax.swing.JFrame {
                                                 .addGap(26, 26, 26)
                                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(simPanelLayout.createSequentialGroup()
-                                                                .addComponent(jLabel16)
-                                                                .addContainerGap())
+                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(processAdmServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(transactionsServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
+                                                                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(queryProcServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(queryExecServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addGap(47, 47, 47))
                                                         .addGroup(simPanelLayout.createSequentialGroup()
                                                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(jLabel15)
-                                                                        .addComponent(jLabel17)
-                                                                        .addComponent(jLabel19)
-                                                                        .addComponent(jLabel22)
-                                                                        .addComponent(jLabel18)
-                                                                        .addComponent(jLabel21)
-                                                                        .addComponent(jLabel23)
-                                                                        .addComponent(slowModeLabel_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addGroup(simPanelLayout.createSequentialGroup()
-                                                                                .addGap(1, 1, 1)
-                                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addGroup(simPanelLayout.createSequentialGroup()
-                                                                                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addGap(18, 18, 18)
-                                                                                                .addComponent(clientAdmServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                        .addGroup(simPanelLayout.createSequentialGroup()
-                                                                                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addGap(18, 18, 18)
-                                                                                                .addComponent(processAdmServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                        .addGroup(simPanelLayout.createSequentialGroup()
-                                                                                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addGap(18, 18, 18)
-                                                                                                .addComponent(transactionsServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(clientAdmServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(18, 18, 18)
+                                                                                .addComponent(processAdmServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
-                                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                .addComponent(secsSim_simPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addComponent(k_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addComponent(n_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                .addComponent(sims_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                        .addComponent(p_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addComponent(t_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addComponent(m_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addComponent(slowModeSeconds_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                                .addGap(258, 258, 258))
-                                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
                                                                                 .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addGap(18, 18, 18)
-                                                                                .addComponent(queryProcServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addGap(52, 52, 52))
+                                                                                .addComponent(queryProcServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                         .addGroup(simPanelLayout.createSequentialGroup()
                                                                                 .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addGap(18, 18, 18)
-                                                                                .addComponent(queryExecServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                .addContainerGap())))))
+                                                                                .addComponent(queryExecServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addGap(47, 47, 47))
+                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                        .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGap(18, 18, 18)
+                                                                                                .addComponent(transactionsServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                        .addComponent(jLabel16))
+                                                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                                                .addContainerGap())
+                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addComponent(jLabel15)
+                                                                                        .addComponent(jLabel17)
+                                                                                        .addComponent(jLabel19)
+                                                                                        .addComponent(jLabel18)
+                                                                                        .addComponent(jLabel21)
+                                                                                        .addComponent(jLabel23)
+                                                                                        .addComponent(slowModeLabel_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                .addGap(24, 24, 24)
+                                                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addComponent(slowModeSeconds_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                        .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                .addComponent(secsSim_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addComponent(n_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addComponent(p_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addComponent(m_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addComponent(t_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addComponent(k_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                                                .addComponent(jLabel22)
+                                                                                .addGap(225, 225, 225)
+                                                                                .addComponent(sims_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                         .addGroup(simPanelLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
-                                                                .addComponent(starSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(97, 97, 97)
-                                                                .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(73, 73, 73))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
-                                                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 742, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addContainerGap())))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(starSimButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(97, 97, 97)
+                                                .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(73, 73, 73))))
         );
         simPanelLayout.setVerticalGroup(
                 simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,11 +585,11 @@ public class UserInterface extends javax.swing.JFrame {
                                         .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(sims_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(2, 2, 2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(secsSim_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -560,9 +617,9 @@ public class UserInterface extends javax.swing.JFrame {
                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(slowModeLabel_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(slowModeSeconds_simPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(13, 13, 13)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(3, 3, 3)
                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -580,10 +637,32 @@ public class UserInterface extends javax.swing.JFrame {
                                 .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(transactionsServers_SimPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(queryProcServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(queryExecServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(simPanelLayout.createSequentialGroup()
+                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(processAdmServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(9, 9, 9)
+                                                .addGroup(simPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(transactionsServers_lq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap(49, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simPanelLayout.createSequentialGroup()
-                                .addContainerGap(37, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(81, 81, 81))
         );
 
@@ -673,6 +752,13 @@ public class UserInterface extends javax.swing.JFrame {
         this.queryProcServers_SimPanel.setText(Integer.toString(queryProcessorServers));
         this.queryExecServers_SimPanel.setText(Integer.toString(queryExecServers));
         this.transactionsServers_SimPanel.setText(Integer.toString(transactionsServers));
+    }
+
+    public void showLqInformation(int processAdmnServersLq, int queryProcessorServersLq, int queryExecServersLq, int transactionsServersLq) {
+        this.processAdmServers_lq.setText(Integer.toString(processAdmnServersLq));
+        this.queryExecServers_lq.setText(Integer.toString(queryProcessorServersLq));
+        this.queryExecServers_lq.setText(Integer.toString(queryExecServersLq));
+        this.transactionsServers_lq.setText(Integer.toString(transactionsServersLq));
     }
 
     public void activateReturnButton() {
@@ -805,7 +891,12 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -814,6 +905,7 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField k_simPanel;
     private javax.swing.JTextField m_simPanel;
     private javax.swing.JPanel mainMenu;
@@ -824,9 +916,12 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField p_simPanel;
     private javax.swing.JPanel paramMenu;
     private javax.swing.JTextField processAdmServers_SimPanel;
+    private javax.swing.JTextField processAdmServers_lq;
     private javax.swing.JTextField queryExecServers_SimPanel;
+    private javax.swing.JTextField queryExecServers_lq;
     private javax.swing.JTextField queryExecutionServers;
     private javax.swing.JTextField queryProcServers_SimPanel;
+    private javax.swing.JTextField queryProcServers_lq;
     private javax.swing.JTextField queryProcessorServers;
     private javax.swing.JButton returnButton;
     private javax.swing.JTextField secsSim_simPanel;
@@ -845,5 +940,6 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JTextField timeoutSeconds;
     private javax.swing.JTextField transactionsServers;
     private javax.swing.JTextField transactionsServers_SimPanel;
+    private javax.swing.JTextField transactionsServers_lq;
     // End of variables declaration//GEN-END:variables
 }

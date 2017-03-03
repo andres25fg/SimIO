@@ -65,6 +65,14 @@ public abstract class Module {
     }
 
     /**
+     * Method that returns the Queue's number of conecctions waiting
+     * @return returns the Queue's size,
+     */
+    public int getQueueSize() {
+        return stackConnections.size();
+    }
+
+    /**
      * Método que agrega una conexión a la cola
      * @param c: Conexión que se va agregar a la cola
      */
