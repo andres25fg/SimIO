@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Estadisticas para la $name</h1>
+
+    </header>
+
+    <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+
+      title:{
+        text: "Tiempo promedio por tipo de sentencia"
+      },
+      animationEnabled: true,
+      axisY: {
+
+        title: "Segundos(s)"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+
+      {
+        type: "column",
+        showInLegend: true,
+        legendMarkerColor: "grey",
+        legendText: "s = one second",
+        dataPoints: [
+        {y: $ddl, label: "DDL"},
+        {y: $update,  label: "UPDATE" },
+        {y: $join,  label: "JOIN"},
+        {y: $select,  label: "SELECT"},
+       ]
+      }
+      ]
+    });
+
+    var chart2 = new CanvasJS.Chart("chartContainer2",
+	{
+		title:{
+			text: "Solicitudes recibidas"
+		},
+                animationEnabled: true,
+		legend:{
+			verticalAlign: "center",
+			horizontalAlign: "left",
+			fontSize: 20,
+			fontFamily: "Helvetica"
+		},
+		theme: "theme2",
+		data: [
+		{
+			type: "pie",
+			indexLabelFontFamily: "Garamond",
+			indexLabelFontSize: 20,
+			indexLabel: "{label} {y}",
+			startAngle:-20,
+			showInLegend: true,
+			toolTipContent:"{legendText} {y}",
+			dataPoints: [
+                {  y: $rejected, legendText:"Rechazadas" , label: "Rechazadas"},
+				{  y: $served, legendText:"Procesadas" , label: "Procesadas"},
+				{  y: $timeout, legendText:"Timeout" , label: "Timeout"}
+			]
+		}
+		]
+	});
+
+	var chart3 = new CanvasJS.Chart("chartContainer3",
+		{
+			theme: "theme3",
+                        animationEnabled: true,
+			title:{
+				text: "Tiempo ocioso por modulo",
+				fontSize: 30
+			},
+			toolTip: {
+				shared: true
+			},
+			axisY: {
+				title: "Seconds(s)"
+			},
+
+			data: [
+
+			{
+				type: "column",
+
+				legendText: "Ocioso",
+				showInLegend: true,
+				dataPoints:[
+				{label: "Administrador de clientes", y: $lazy1},
+				{label: "Administrador de Procesos", y: $lazy2},
+				{label: "Ejecutor de sentencias", y: $lazy3},
+				{label: "Procesador de consultas", y: $lazy4},
+				{label: "Transacciones", y: $lazy5},
+
+
+				]
+			}
+
+			],
+          legend:{
+            cursor:"pointer",
+            itemclick: function(e){
+              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              	e.dataSeries.visible = false;
+              }
+              else {
+                e.dataSeries.visible = true;
+              }
+            	chart3.render();
+            }
+          },
+        });
+
+    chart3.render();
+
+	chart2.render();
+
+    chart.render();
+  }
+  </script>
+    <script type="text/javascript" src="canvasjs.min.js"></script>
+    </head>
+    <br>
+
+
+    <article>
+        <h1>Parametros de la simulacion</h1>
+        <ul style="list-style-type:square">
+            <li>Tiempo total en segundos para correr cada vez la simulacion (Maximo de tiempo): $simtime</li>
+            <li>numero k de conexiones concurrentes que puede manejar el sistema: $k</li>
+            <li>numero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
+                el sistema: $n</li>
+            <li>El numero p de procesos disponibles para la ejecucion de transacciones: $p</li>
+            <li>El numero m procesos disponibles para ejecutar consultas: $m</li>
+            <li>La cantidad t de segundos de timeout de las conexiones: $t</li>
+            <li>Segundos modo lento: $slowmode</li>
+        </ul>
+    </article>
+
+    <article>
+        <h1>Estadisticas</h1>
+        <ul style="list-style-type:square">
+
+            <li>Numero de conexiones: $connections</li>
+            <li>Conexiones atendidas: $served</li>
+            <li>Conexiones que hicieron timeout: $timeout</li>
+            <li>Numero de conexiones descartadas por el servidor: $rejected</li>
+
+            <li>Tamano promedio de la cola en Administrador de clientes: $lqc</li>
+            <li>Tamano promedio de la cola en Administrador de procesos: $lqp</li>
+            <li>Tamano promedio de la cola en Ejecutor de sentencias: $lqqe</li>
+            <li>Tamano promedio de la cola en Procesador de consultas: $lqqp</li>
+            <li>Tamano promedio de la cola en Transacciones: $lqt</li>
+
+            <li>Tiempo promedio de vida de una conexion: $w</li>
+
+    </article>
+
+
+    <div id="chartContainer" style="height: 300px; width: 70%; margin: 0 auto;">
+    </div>
+    <br> </br>
+    <div id="chartContainer2" style="height: 300px; width: 70%; margin: 0 auto;">
+    </div>
+    <br> </br>
+    <div id="chartContainer3" style="height: 300px; width: 70%; margin: 0 auto;">
+    </div>
+    <br> </br>
+    <h1 align="center">Tabla de estadisticas Adminisistrador cientes </h1>
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Valor</th>
+        </tr>
+
+        <tr>
+            <td>Estabilidad (&lambda;/&mu;)</td>
+            <td>$rho1</td>
+        </tr>
+        <tr>
+            <td>&lambda;</td>
+            <td>$lambda1</td>
+        </tr>
+        <tr>
+            <td>&mu;</td>
+            <td>$mu1</td>
+        </tr>
+        <tr>
+            <td>&rho;</td>
+            <td>$rho1</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>$L1</td>
+        </tr>
+        <tr>
+            <td>L<sub>s</sub></td>
+            <td>$Ls1</td>
+        </tr>
+        <tr>
+            <td>L<sub>q</sub></td>
+            <td>$Lq1</td>
+        </tr>
+        <tr>
+            <td>W</td>
+            <td>$W1</td>
+        </tr>
+        <tr>
+            <td>W<sub>q</sub></td>
+            <td>$Wq1</td>
+        </tr>
+
+        <tr>
+            <td>W<sub>s</sub></td>
+            <td>$Ws1</td>
+        </tr>
+    </table>
+
+
+    <br> </br>
+    <h1 align="center">Tabla de estadisticas Adminisistrador de Procesos </h1>
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Valor</th>
+        </tr>
+
+        <tr>
+            <td>Estabilidad (&lambda;/&mu;)</td>
+            <td>$rho2</td>
+        </tr>
+        <tr>
+            <td>&lambda;</td>
+            <td>$lambda2</td>
+        </tr>
+        <tr>
+            <td>&mu;</td>
+            <td>$mu2</td>
+        </tr>
+        <tr>
+            <td>&rho;</td>
+            <td>$rho2</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>$L2</td>
+        </tr>
+        <tr>
+            <td>L<sub>s</sub></td>
+            <td>$Ls2</td>
+        </tr>
+        <tr>
+            <td>L<sub>q</sub></td>
+            <td>$Lq2</td>
+        </tr>
+        <tr>
+            <td>W</td>
+            <td>$W2</td>
+        </tr>
+        <tr>
+            <td>W<sub>q</sub></td>
+            <td>$Wq2</td>
+        </tr>
+
+        <tr>
+            <td>W<sub>s</sub></td>
+            <td>$Ws2</td>
+        </tr>
+    </table>
+
+    <br> </br>
+    <h1 align="center">Tabla de estadisticas ejecutor de sentencias </h1>
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Valor</th>
+        </tr>
+
+        <tr>
+            <td>Estabilidad (&lambda;/&mu;)</td>
+            <td>$rho3</td>
+        </tr>
+        <tr>
+            <td>&lambda;</td>
+            <td>$lambda3</td>
+        </tr>
+        <tr>
+            <td>&mu;</td>
+            <td>$mu3</td>
+        </tr>
+        <tr>
+            <td>&rho;</td>
+            <td>$rho3</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>$L3</td>
+        </tr>
+        <tr>
+            <td>L<sub>s</sub></td>
+            <td>$Ls3</td>
+        </tr>
+        <tr>
+            <td>L<sub>q</sub></td>
+            <td>$Lq3</td>
+        </tr>
+        <tr>
+            <td>W</td>
+            <td>$W3</td>
+        </tr>
+        <tr>
+            <td>W<sub>q</sub></td>
+            <td>$Wq3</td>
+        </tr>
+
+        <tr>
+            <td>W<sub>s</sub></td>
+            <td>$Ws3</td>
+        </tr>
+    </table>
+
+    <br> </br>
+    <h1 align="center">Tabla de estadisticas procesador de cconsultas </h1>
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Valor</th>
+        </tr>
+
+        <tr>
+            <td>Estabilidad (&lambda;/&mu;)</td>
+            <td>$rho4</td>
+        </tr>
+        <tr>
+            <td>&lambda;</td>
+            <td>$lambda4</td>
+        </tr>
+        <tr>
+            <td>&mu;</td>
+            <td>$mu4</td>
+        </tr>
+        <tr>
+            <td>&rho;</td>
+            <td>$rho4</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>$L4</td>
+        </tr>
+        <tr>
+            <td>L<sub>s</sub></td>
+            <td>$Ls4</td>
+        </tr>
+        <tr>
+            <td>L<sub>q</sub></td>
+            <td>$Lq4</td>
+        </tr>
+        <tr>
+            <td>W</td>
+            <td>$W4</td>
+        </tr>
+        <tr>
+            <td>W<sub>q</sub></td>
+            <td>$Wq4</td>
+        </tr>
+
+        <tr>
+            <td>W<sub>s</sub></td>
+            <td>$Ws4</td>
+        </tr>
+    </table>
+
+    <br> </br>
+    <h1 align="center">Tabla de estadisticas modulo de transacciones </h1>
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Valor</th>
+        </tr>
+
+        <tr>
+            <td>Estabilidad (&lambda;/&mu;)</td>
+            <td>$rho5</td>
+        </tr>
+        <tr>
+            <td>&lambda;</td>
+            <td>$lambda5</td>
+        </tr>
+        <tr>
+            <td>&mu;</td>
+            <td>$mu5</td>
+        </tr>
+        <tr>
+            <td>&rho;</td>
+            <td>$rho5</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>$L5</td>
+        </tr>
+        <tr>
+            <td>L<sub>s</sub></td>
+            <td>$Ls5</td>
+        </tr>
+        <tr>
+            <td>L<sub>q</sub></td>
+            <td>$Lq5</td>
+        </tr>
+        <tr>
+            <td>W</td>
+            <td>$W5</td>
+        </tr>
+        <tr>
+            <td>W<sub>q</sub></td>
+            <td>$Wq5</td>
+        </tr>
+
+        <tr>
+            <td>W<sub>s</sub></td>
+            <td>$Ws5</td>
+        </tr>
+    </table>
+
+</div>
+
+<footer>
+    <p>Kevin Mora, Felipe Rosabal, Andres Gonzalez</p>
+    <p>Copyright &copy;UCR 2017</p>
+
+</footer>
+</body>
+</html>

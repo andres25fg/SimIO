@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<body>
+
+<div class="container2">
+
+	<header>
+		<h1>Proyecto de Simulacion Ci-1443</h1>
+
+
+        <div class="dropdown">
+            <button class="dropbtn" align="left">Simulaciones</button>
+            <div class="dropdown-content" size="6">
+                #set($html = ".html")
+
+
+                #foreach( $Sim in $List )
+                    #set($dir = "$Sim$html")
+                    <a href=$dir>$Sim</a>
+                  #end
+            </div>
+        </div>
+
+
+    </header>
+
+
+
+	<article>
+		<h1>Parametros de la simulacion</h1>
+		<ul style="list-style-type:square">
+			<li>Numero de veces que se va a correr la simulacion.</li>
+			<li>Tiempo total en segundos para correr cada vez la simulacion (Maximo de tiempo).</li>
+			<li>Slow mode delay.</li>
+			<li>numero k de conexiones concurrentes que puede manejar el sistema.</li>
+			<li>numero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
+			el sistema.</li>
+			<li>El numero p de procesos disponibles para la ejecucion de transacciones.</li>
+			<li>El numero m procesos disponibles para ejecutar consultas.</li>
+			<li>La cantidad t de segundos de timeout de las conexiones.</li>
+			<li>Si se elige correr la simulacion en modo lento, el numero de segundos entre cada evento.</li>
+		</ul>
+	</article>
+
+	<article>
+		<h1>Estadisticas globales</h1>
+		<ul style="list-style-type:square">
+
+			<li>Numero de conexiones</li>
+			<li>Conexiones atendidas</li>
+			<li>Coenxiones que hicieron timeout</li>
+			<li>Numero de conexiones descartadas por el servidor.</li>
+			<li>Tiempo promedio pasado para DDL </li>
+			<li>Tiempo promedio pasado para JOIN </li>
+			<li>Tiempo promedio pasado para UPDATE </li>
+			<li>Tiempo promedio pasado para SELECT </li>
+
+			<li>Tamano promedio de la cola en Administrador de clientes</li>
+			<li>Tamano promedio de la cola en Administrador de procesos</li>
+			<li>Tamano promedio de la cola en Ejecutor de sentencias</li>
+			<li>Tamano promedio de la cola en Procesador de consultas</li>
+			<li>Tamano promedio de la cola en Transacciones</li>
+            <li>Tiempo promedio de vida de una conexion.</li>
+			<li>Cantidad de tiempo que cada modulo pasa ocioso.</li>
+	</article>
+
+	<footer>
+		<p>Kevin Mora, Felipe Rosabal, Andres Gonzalez</p>
+		<p>Copyright &copy;UCR 2017</p>
+
+	</footer>
+
+</div>
+
+</body>
+</html>
