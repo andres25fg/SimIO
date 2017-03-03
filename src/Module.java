@@ -124,6 +124,7 @@ public abstract class Module {
 
     public Connection exit(double clock) {
         freeOneServer();
+        numClientsServed++;
         statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
         timeLastEvent = clock;
         Connection next;
