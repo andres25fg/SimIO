@@ -37,7 +37,7 @@ public class TransactionsModule extends Module{
             numDDL++;
         }
         if(getFreeServers()==0 || numDDL>0) {
-            sendToStack(c);
+            sendToQuery(c);
             c.setStack(true);
             c.setStackArrivalTime(clock);
         }else{
@@ -46,6 +46,10 @@ public class TransactionsModule extends Module{
             being_served=true;
         }
         return being_served;
+    }
+
+    public void sendToQuery(Connection c){
+        stackQueries.add(c);
     }
 
     public int getNumDDl(){
