@@ -78,7 +78,7 @@ public class Simulation  {
     }
 
     public PriorityQueue<QueryEvent> getStackQueries() {
-        return eventList;
+        return this.eventList;
     }
 
     /**
@@ -86,7 +86,7 @@ public class Simulation  {
      * @param newEvent
      */
     private void addQueryEvent(QueryEvent newEvent) {
-        eventList.add(newEvent);
+        this.eventList.add(newEvent);
     }
 
     /**
@@ -121,7 +121,7 @@ public class Simulation  {
             clock = 0;
             eventList.clear();
             QueryEvent firstArrival = new QueryEvent(0,EventType.values()[0],null);
-            eventList.add(firstArrival);
+            addQueryEvent(firstArrival);
 
             //prueba
             userInterface.showTextinGUI("Sumulación número: " + i);
@@ -142,7 +142,7 @@ public class Simulation  {
                 // System.out.println("reloj "+clock);
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
-                eventList.add(nextArrival);
+                addQueryEvent(nextArrival);
                 // Server data is refreshed on the GUI
                 userInterface.showServersInformation(clientAdministrator.getFreeServers(),processAdministrator.getFreeServers(),queryProcessor.getFreeServers(),queryExecutions.getFreeServers(),transactions.getFreeServers());
             }
@@ -261,7 +261,7 @@ public class Simulation  {
         boolean time_out = false;
         if(c.getArrivalTime()+timeOut<= clock){
             QueryEvent event = new QueryEvent(clock, EventType.values()[2], c);
-            eventList.add(event);
+            addQueryEvent(event);
             time_out = true;
         }
         return time_out;
@@ -290,6 +290,7 @@ public class Simulation  {
                     newConnection.setCurrentModule(ModuleFlag.values()[0]);
                     clientAdministrator.arrive(newConnection, clock);
                     newConnection.setType();
+                    newConnection.setArrivalTime(clock);
                     double serviceTime = processAdministrator.generateServiceTime();
                     System.out.println(clock+serviceTime);
                     userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock));
@@ -331,14 +332,14 @@ public class Simulation  {
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     QueryEvent event = new QueryEvent((clock + serviceTime), EventType.values()[3], actualConnection);
-                                    eventList.add(event);
+                                    addQueryEvent(event);
                                 }
                                 //ya paso por el modulo de transacciones
                             } else {
                                 // se saca el proceso del modulo
                                 //se crea un evento de tipo connection_out
                                 QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
-                                eventList.add(event);
+                                addQueryEvent(event);
                             }
                         }
                         break;
@@ -354,7 +355,7 @@ public class Simulation  {
                             actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                             processAdministrator.updateStatistics(client_p, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_p);
-                            eventList.add(event);
+                            addQueryEvent(event);
                         }
                         if (checkTimeOut(actualConnection) == false) {
                             processing = queryProcessor.arrive(actualConnection, clock); // el proceso llega el siguente modulo
@@ -366,7 +367,7 @@ public class Simulation  {
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
                                 queryProcessor.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
-                                eventList.add(event);
+                                addQueryEvent(event);
                             }
                         }
                         break;
@@ -382,7 +383,7 @@ public class Simulation  {
                             actualConnection.setCurrentModule(ModuleFlag.values()[2]);
                             queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_q_p);
-                            eventList.add(event);
+                            addQueryEvent(event);
                         }
                         if (checkTimeOut(actualConnection) == false) {
                             processing = transactions.arrive(actualConnection, clock);// el proceso llega el siguente modulo
@@ -396,7 +397,7 @@ public class Simulation  {
                                 double serviceTime = transactions.generateServiceTime(diskBloks);
                                 transactions.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
-                                eventList.add(event);
+                                addQueryEvent(event);
                             }
                         }
                         break;
@@ -412,7 +413,7 @@ public class Simulation  {
                                 client_t.setCurrentModule(ModuleFlag.values()[3]);
                                 transactions.updateStatistics(client_t, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
-                                eventList.add(event);
+                                addQueryEvent(event);
                             }
                         }while (transactions.getFreeServers()>0 && transactions.getNumDDl()==0 && transactions.getNumConectionsStack()>0);
                         actualConnection.setTransactionModuleTrue();
@@ -424,7 +425,7 @@ public class Simulation  {
                                 actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
                                 queryExecutions.updateStatistics(actualConnection, serviceTime, clock);
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
-                                eventList.add(event);
+                                addQueryEvent(event);
                             }
                         }
                         break;
@@ -438,7 +439,7 @@ public class Simulation  {
                             actualConnection.setBlocksRead(actualConnection.getDisckBlocks() / 3);
                             queryExecutions.updateStatistics(client_q, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
-                            eventList.add(event);
+                            addQueryEvent(event);
                         }
                         if (checkTimeOut(actualConnection) == false) {
                             //regresa al modulo de administracion de clientes
@@ -446,7 +447,7 @@ public class Simulation  {
                             actualConnection.setCurrentModule(ModuleFlag.values()[0]);
                             clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                             QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[1], actualConnection);
-                            eventList.add(event);
+                            addQueryEvent(event);
                         }
                         break;
                 }
@@ -555,8 +556,8 @@ public class Simulation  {
         public int compare(QueryEvent query1, QueryEvent query2) {
             //Hace una resta entre las prioridades de cada conexión para determinar el orden
             int priority;
-            if(query1.getEventTime() - query2.getEventTime()>0){
-                priority=1;
+            if(query1.getEventTime() < query2.getEventTime()){
+                priority = 1;
             }else{
                 priority = -1;
             }

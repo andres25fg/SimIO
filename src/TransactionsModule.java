@@ -14,15 +14,14 @@ public class TransactionsModule extends Module{
     /**
      * Constructor
      */
-    private PriorityQueue<Connection> stack;
     private boolean isDDL=false;
     private int numDDL=0;
     public TransactionsModule(int servers) {
         this.setFreeServers(servers);
         this.setMaxSimConnections(servers);
         Comparator<Connection> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
-        stack = new PriorityQueue<Connection>(comparator); // Instanciamos la cola de prioridades con el comparador
-        setStackQueries(stack); //
+        PriorityQueue<Connection> stack = new PriorityQueue<Connection>(comparator); // Instanciamos la cola de prioridades con el comparador
+        super.setStackQueries(stack); //
     }
 
     public boolean arrive(Connection c, double clock) {
@@ -53,7 +52,7 @@ public class TransactionsModule extends Module{
         return numDDL;
     }
     public int getNumConectionsStack(){
-        return stack.size();
+        return stackQueries.size();
     }
 
     public Connection exit(double clock) {
@@ -63,12 +62,12 @@ public class TransactionsModule extends Module{
         Connection next = null;
         if(numDDL>0 && freeServers==maxSimConnections){
             numDDL--;
-            next = stack.poll();
+            next = stackQueries.poll();
             reduceFreeServer();
         }
         else {
-            if (stack.isEmpty() != true) {
-                next = stack.poll();
+            if (stackQueries.isEmpty() != true) {
+                next = stackQueries.poll();
                 reduceFreeServer();
             }
         }

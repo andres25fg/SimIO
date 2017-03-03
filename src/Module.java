@@ -19,7 +19,7 @@ public abstract class Module {
     public RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
     private Deque<Connection> stackConnections = new ArrayDeque<Connection>(); // Cola de conexiones del módulo
-    private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
+    public PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
     public double timeLastArrive=0;
     public double timeLastEvent=0;

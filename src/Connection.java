@@ -14,7 +14,7 @@ public class Connection {
     private ModuleFlag currentModule;/// Modulo actual en el q se encuentra la conexion
     private int disckBlocks;//tamaño del bloque de disco
     private int result;//Resultado de la consulta
-    private int arrivalTime;//Tiempo de llegada al sistema
+    private double arrivalTime;//Tiempo de llegada al sistema
 
     private double stackArrivalTime=0; //hora a la que entro a la cola (del modulo actual)
     private boolean stack = false; //permite saber si entro a la cola del modulo.
@@ -31,11 +31,11 @@ public class Connection {
         this.arrivalTime = arrivalTime;
     }
 
-    public int getArrivalTime() {
+    public double getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(int arrivalTime) {
+    public void setArrivalTime(double arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
