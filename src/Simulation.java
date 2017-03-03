@@ -316,7 +316,7 @@ public class Simulation  {
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
 
-                userInterface.showTextinGUI("\nmodulo actual: "  + actualModule);
+                userInterface.showTextinGUI("\nMódulo actual: "  + actualModule);
                 //userInterface.showTextinGUI("modulo: " + actualModule.getModule());
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
                 boolean processing;
