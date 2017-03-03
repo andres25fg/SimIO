@@ -1,9 +1,15 @@
 import javax.swing.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.StringWriter;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.PriorityQueue;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
-
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 /**
  * Clase Simualtion
  *
@@ -67,6 +73,8 @@ public class Simulation  {
                     beginSimulation(k, n, p, m);
                 } catch (InterruptedException e) {
                     //e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -105,7 +113,8 @@ public class Simulation  {
         return eventList.poll();
     }
 
-    public void beginSimulation(int k,int n, int p, int m) throws InterruptedException {
+    public void beginSimulation(int k,int n, int p, int m) throws Exception {
+        generateHTMLindex(getNumSimulations());
         for(int i=0; i<numSimulations; i++) {
             //para las llegadas agrego una conexion de tipo nulo
 
@@ -254,6 +263,7 @@ public class Simulation  {
 
             userInterface.activateReturnButton();
             //se crea html con estadisticas
+            generateHTML(i+1);
         }
     }
 
@@ -499,17 +509,185 @@ public class Simulation  {
         this.timeOut = timeOut;
     }
 
+    public double round(double number){
+        number = Math.round(number*1000);
+        return number/1000;
+    }
+
+
+    public int getNumSimulations() {
+        return numSimulations;
+    }
+
+    public void generateHTMLindex(int simulations) throws Exception {
+
+        File dir = new File("Statistics");
+        dir.mkdir();
+
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+
+        Template t = ve.getTemplate("/src/Index.vm");
+        Vector<String> v=new Vector<String>();
+
+        for(int i=1; i<=getNumSimulations(); i++) {
+            v.add("Simulacion" + Integer.toString(i));
+        }
+
+        VelocityContext vc = new VelocityContext();
+        vc.put("List", v);
+
+
+        StringWriter sw = new StringWriter();
+        t.merge(vc, sw);
+
+//        System.out.println(sw);
+        File file = new File("Statistics/Index.html");
+        FileWriter fw = new FileWriter(file);
+        fw.write(sw.toString());
+        fw.close();
+    }
+
+    public void generateHTML(int currentSim) throws Exception {
+
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+
+        Template t = ve.getTemplate("/src/simulation.vm");
+        //Vector<String> v=new Vector<String>();
+
+        VelocityContext vc = new VelocityContext();
+
+        vc.put("name", "Simulacion"+Integer.toString(currentSim));
+        vc.put("simtime", getSecondsSimulation());
+        vc.put("slowmode", getSlowModeSeconds());
+        vc.put("k", clientAdministrator.getMaxSimConnections());
+        vc.put("n", queryProcessor.getMaxSimConnections());
+        vc.put("p", transactions.getMaxSimConnections());
+        vc.put("m", queryExecutions.getMaxSimConnections());
+        vc.put("t", getTimeOut());
+        vc.put("connections", getNumConections());
+        vc.put("served", getNumConectionServed());
+        vc.put("timeout", getNumTimeOut());
+        vc.put("rejected", getNumRejected());
+        vc.put("w", statistics.getW());
+        vc.put("lqc", clientAdministrator.getStatistic().getLq());
+        vc.put("lqqp", queryProcessor.getStatistic().getLq());
+        vc.put("lqt", transactions.getStatistic().getLq());
+        vc.put("lqqe", queryExecutions.getStatistic().getLq());
+        vc.put("lqp", processAdministrator.getStatistic().getLq());
+
+        vc.put("lambda1", clientAdministrator.getStatistic().getLambda());
+        vc.put("lambda2", processAdministrator.getStatistic().getLambda());
+        vc.put("lambda3", queryExecutions.getStatistic().getLambda());
+        vc.put("lambda4", queryProcessor.getStatistic().getLambda());
+        vc.put("lambda5", transactions.getStatistic().getLambda());
+
+        vc.put("mu1", clientAdministrator.getStatistic().getU());
+        vc.put("mu2", processAdministrator.getStatistic().getU());
+        vc.put("mu3", queryExecutions.getStatistic().getU());
+        vc.put("mu4", queryProcessor.getStatistic().getU());
+        vc.put("mu5", transactions.getStatistic().getU());
+
+        vc.put("rho1", clientAdministrator.getStatistic().getP(clientAdministrator.getMaxSimConnections()));
+        vc.put("rho2", processAdministrator.getStatistic().getP(processAdministrator.getMaxSimConnections()));
+        vc.put("rho3", queryExecutions.getStatistic().getP(queryExecutions.getMaxSimConnections()));
+        vc.put("rho4", queryProcessor.getStatistic().getP(queryProcessor.getMaxSimConnections()));
+        vc.put("rho5", transactions.getStatistic().getP(transactions.getMaxSimConnections()));
+
+
+        vc.put("L1", clientAdministrator.getStatistic().getL());
+        vc.put("L2", processAdministrator.getStatistic().getL());
+        vc.put("L3", queryExecutions.getStatistic().getL());
+        vc.put("L4", queryProcessor.getStatistic().getL());
+        vc.put("L5", transactions.getStatistic().getL());
+
+        vc.put("Ls1", clientAdministrator.getStatistic().getLs());
+        vc.put("Ls2", processAdministrator.getStatistic().getLs());
+        vc.put("Ls3", queryExecutions.getStatistic().getLs());
+        vc.put("Ls4", queryProcessor.getStatistic().getLs());
+        vc.put("Ls5", transactions.getStatistic().getLs());
+
+        vc.put("Lq1", clientAdministrator.getStatistic().getLq());
+        vc.put("Lq2", processAdministrator.getStatistic().getLq());
+        vc.put("Lq3", queryExecutions.getStatistic().getLq());
+        vc.put("Lq4", queryProcessor.getStatistic().getLq());
+        vc.put("Lq5", transactions.getStatistic().getLq());
+
+        vc.put("W", statistics.getW());
+
+        vc.put("W1", clientAdministrator.getStatistic().getW());
+        vc.put("W2", processAdministrator.getStatistic().getW());
+        vc.put("W3", queryExecutions.getStatistic().getW());
+        vc.put("W4", queryProcessor.getStatistic().getW());
+        vc.put("W5", transactions.getStatistic().getW());
+
+        vc.put("Wq1", clientAdministrator.getStatistic().getStackAverageTime());
+        vc.put("Wq2", processAdministrator.getStatistic().getStackAverageTime());
+        vc.put("Wq3", queryExecutions.getStatistic().getStackAverageTime());
+        vc.put("Wq4", queryProcessor.getStatistic().getStackAverageTime());
+        vc.put("Wq5", transactions.getStatistic().getStackAverageTime());
+
+        vc.put("Ws1", clientAdministrator.getStatistic().getWs());
+        vc.put("Whs2", processAdministrator.getStatistic().getWs());
+        vc.put("Ws3", queryExecutions.getStatistic().getWs());
+        vc.put("Ws4", queryProcessor.getStatistic().getWs());
+        vc.put("Ws5", transactions.getStatistic().getWs());
+
+        vc.put("lazy1", clientAdministrator.getStatistic().getAverageFreeTime(clientAdministrator.getMaxSimConnections()));
+        vc.put("lazy2", processAdministrator.getStatistic().getAverageFreeTime(processAdministrator.getMaxSimConnections()));
+        vc.put("lazy3", queryExecutions.getStatistic().getAverageFreeTime(queryExecutions.getMaxSimConnections()));
+        vc.put("lazy4", queryProcessor.getStatistic().getAverageFreeTime(queryProcessor.getMaxSimConnections()));
+        vc.put("lazy5", transactions.getStatistic().getAverageFreeTime(transactions.getMaxSimConnections()));
+
+        //  vc.put("active1", 1-clientAdministrator.getStatistic().getAverageFreeTime(clientAdministrator.getMaxSimConnections()));
+        // vc.put("active2", 1-processAdministrator.getStatistic().getAverageFreeTime(processAdministrator.getMaxSimConnections()));
+        // vc.put("active3", 1-queryExecutions.getStatistic().getAverageFreeTime(queryExecutions.getMaxSimConnections()));
+        /// vc.put("active4", 1-queryProcessor.getStatistic().getAverageFreeTime(queryProcessor.getMaxSimConnections()));
+        /// vc.put("active5", 1-transactions.getStatistic().getAverageFreeTime(transactions.getMaxSimConnections()));
+
+
+        vc.put("ddl", statistics.getDdlAverageTime());
+        vc.put("join", statistics.getJoinAverageTime());
+        vc.put("select", statistics.getSelectAverageTime());
+        vc.put("update", statistics.getUpdateAverageTime());
+
+        StringWriter sw = new StringWriter();
+        t.merge(vc, sw);
+
+        //      System.out.println(sw);
+        File file = new File("Statistics/Simulacion"+Integer.toString(currentSim)+".html");
+        FileWriter fw = new FileWriter(file);
+        fw.write(sw.toString());
+        fw.close();
+    }
+
+    public int getNumConections() {
+        return numConections;
+    }
+
     public int getNumConectionServed() {
         return numConectionServed;
+    }
+
+    public int getNumTimeOut() {
+        return numTimeOut;
     }
 
     public int getNumRejected() {
         return numRejected;
     }
 
-    public double round(double number){
-        number = Math.round(number*1000);
-        return number/1000;
+    public int getTimeOut() {
+        return timeOut;
+    }
+
+    public int getSecondsSimulation() {
+        return secondsSimulation;
+    }
+
+    public int getSlowModeSeconds() {
+        return slowModeSeconds;
     }
 
     /**
