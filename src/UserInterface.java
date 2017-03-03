@@ -497,11 +497,6 @@ public class UserInterface extends javax.swing.JFrame {
 
         rejectecConnections.setEditable(false);
         rejectecConnections.setText("0");
-        rejectecConnections.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rejectecConnectionsActionPerformed(evt);
-            }
-        });
 
         jLabel35.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel35.setText("Conexiones rechazadas:");
@@ -511,11 +506,6 @@ public class UserInterface extends javax.swing.JFrame {
 
         servedConnections.setEditable(false);
         servedConnections.setText("0");
-        servedConnections.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                servedConnectionsActionPerformed(evt);
-            }
-        });
 
         jLabel36.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel36.setText("Conexiones atendidas:");
@@ -898,14 +888,6 @@ public class UserInterface extends javax.swing.JFrame {
         this.setParamPanelVisible();
         this.simText.setText("");
     }//GEN-LAST:event_returnButtonActionPerformed
-
-    private void rejectecConnectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rejectecConnectionsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rejectecConnectionsActionPerformed
-
-    private void servedConnectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servedConnectionsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_servedConnectionsActionPerformed
 
     public void showTextinGUI(String text) {
         this.simText.setText(simText.getText() + "\n" + text);
