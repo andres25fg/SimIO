@@ -14,15 +14,15 @@ import java.util.PriorityQueue;
  */
 public abstract class Module {
     private StatisticsModule statistics = new StatisticsModule(); // Objeto de la clase StatisticsModule para guardar estadísticas
-    private int freeServers; // Número de servidores libres del módulo
-    private int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
+    public int freeServers; // Número de servidores libres del módulo
+    public int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
     public RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
     private int numClientsServed; // Número total de clientes servidos por el módulo
     private Deque<Connection> stackConnections = new ArrayDeque<Connection>(); // Cola de conexiones del módulo
     private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
-    private double timeLastArrive=0;
-    private double timeLastEvent=0;
+    public double timeLastArrive=0;
+    public double timeLastEvent=0;
 
     public Module(){
 

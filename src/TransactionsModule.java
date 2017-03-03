@@ -14,12 +14,65 @@ public class TransactionsModule extends Module{
     /**
      * Constructor
      */
+    private PriorityQueue<Connection> stack;
+    private boolean isDDL=false;
+    private int numDDL=0;
     public TransactionsModule(int servers) {
         this.setFreeServers(servers);
         this.setMaxSimConnections(servers);
         Comparator<Connection> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
-        PriorityQueue<Connection> stack = new PriorityQueue<Connection>(comparator); // Instanciamos la cola de prioridades con el comparador
-        super.setStackQueries(stack); //
+        stack = new PriorityQueue<Connection>(comparator); // Instanciamos la cola de prioridades con el comparador
+        setStackQueries(stack); //
+    }
+
+    public boolean arrive(Connection c, double clock) {
+        getStatistic().setLambda(clock-timeLastArrive);
+        getStatistic().setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        timeLastEvent = clock;
+        timeLastArrive = clock;
+        boolean being_served=false;
+
+        //se revisa si la conexion es de tipo ddl
+        if(c.getType().toString() == "DDL"){
+            //si es de tipo ddl se incrementa el contador de ddl
+            numDDL++;
+        }
+        if(getFreeServers()==0 || numDDL>0) {
+            sendToStack(c);
+            c.setStack(true);
+            c.setStackArrivalTime(clock);
+        }else{
+            //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
+            reduceFreeServer();
+            being_served=true;
+        }
+        return being_served;
+    }
+
+    public int getNumDDl(){
+        return numDDL;
+    }
+    public int getNumConectionsStack(){
+        return stack.size();
+    }
+
+    public Connection exit(double clock) {
+        freeOneServer();
+        getStatistic().setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        timeLastEvent = clock;
+        Connection next = null;
+        if(numDDL>0 && freeServers==maxSimConnections){
+            numDDL--;
+            next = stack.poll();
+            reduceFreeServer();
+        }
+        else {
+            if (stack.isEmpty() != true) {
+                next = stack.poll();
+                reduceFreeServer();
+            }
+        }
+        return next;
     }
 
     public double loadDiskBloks(String type){

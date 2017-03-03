@@ -291,7 +291,8 @@ public class Simulation  {
                     clientAdministrator.arrive(newConnection, clock);
                     newConnection.setType();
                     double serviceTime = processAdministrator.generateServiceTime();
-                    clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
+                    System.out.println(clock+serviceTime);
+                    userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock));
                     QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
                 }
@@ -329,7 +330,7 @@ public class Simulation  {
                                     double serviceTime = processAdministrator.generateServiceTime();
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
-                                    QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], actualConnection);
+                                    QueryEvent event = new QueryEvent((clock + serviceTime), EventType.values()[3], actualConnection);
                                     eventList.add(event);
                                 }
                                 //ya paso por el modulo de transacciones
@@ -401,18 +402,19 @@ public class Simulation  {
                         break;
 
                     case "TRANSACTION":
-
-                        Connection client_t = transactions.exit(clock);
-                        if (client_t != null) {
-                            double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
-                            actualConnection.setBlocksRead(diskBloks);
-                            client_t.setCurrentModule(ModuleFlag.values()[3]);
-                            double serviceTime = transactions.generateServiceTime(diskBloks);
-                            client_t.setCurrentModule(ModuleFlag.values()[3]);
-                            transactions.updateStatistics(client_t, serviceTime, clock);
-                            QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
-                            eventList.add(event);
-                        }
+                        do {
+                            Connection client_t = transactions.exit(clock);
+                            if (client_t != null) {
+                                double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
+                                actualConnection.setBlocksRead(diskBloks);
+                                client_t.setCurrentModule(ModuleFlag.values()[3]);
+                                double serviceTime = transactions.generateServiceTime(diskBloks);
+                                client_t.setCurrentModule(ModuleFlag.values()[3]);
+                                transactions.updateStatistics(client_t, serviceTime, clock);
+                                QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
+                                eventList.add(event);
+                            }
+                        }while (transactions.getFreeServers()>0 && transactions.getNumDDl()==0 && transactions.getNumConectionsStack()>0);
                         actualConnection.setTransactionModuleTrue();
                         if (checkTimeOut(actualConnection) == false) {
                             processing = queryExecutions.arrive(actualConnection, clock);
