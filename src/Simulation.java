@@ -582,7 +582,7 @@ public class Simulation  {
         Vector<String> v=new Vector<String>();
 
         for(int i=1; i<=getNumSimulations(); i++) {
-            v.add("Simulacion" + Integer.toString(i));
+            v.add("Simulaci&oacuten" + Integer.toString(i));
         }
 
         VelocityContext vc = new VelocityContext();
@@ -599,11 +599,13 @@ public class Simulation  {
         fw.close();
     }
 
+
     /**
      * Generates the HTML with the statistics
      * @param currentSim: number of the simulation that just ended
      * @throws Exception
      */
+
     public void generateHTML(int currentSim) throws Exception {
 
         VelocityEngine ve = new VelocityEngine();
@@ -614,7 +616,7 @@ public class Simulation  {
 
         VelocityContext vc = new VelocityContext();
 
-        vc.put("name", "Simulacion"+Integer.toString(currentSim));
+        vc.put("name", "Simulaci&oacuten"+Integer.toString(currentSim));
         vc.put("simtime", getSecondsSimulation());
         vc.put("slowmode", getSlowModeSeconds());
         vc.put("k", clientAdministrator.getMaxSimConnections());
@@ -685,7 +687,7 @@ public class Simulation  {
         vc.put("Wq5", transactions.getStatistic().getStackAverageTime());
 
         vc.put("Ws1", clientAdministrator.getStatistic().getWs());
-        vc.put("Whs2", processAdministrator.getStatistic().getWs());
+        vc.put("Ws2", processAdministrator.getStatistic().getWs());
         vc.put("Ws3", queryExecutions.getStatistic().getWs());
         vc.put("Ws4", queryProcessor.getStatistic().getWs());
         vc.put("Ws5", transactions.getStatistic().getWs());
@@ -712,7 +714,7 @@ public class Simulation  {
         t.merge(vc, sw);
 
         //      System.out.println(sw);
-        File file = new File("Statistics/Simulacion"+Integer.toString(currentSim)+".html");
+        File file = new File("Statistics/Simulaci&oacuten"+Integer.toString(currentSim)+".html");
         FileWriter fw = new FileWriter(file);
         fw.write(sw.toString());
         fw.close();

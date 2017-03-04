@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
 
 <body>
 
 <div class="container">
 
     <header>
-        <h1>Estadisticas para la Simulacion1</h1>
+        <h1>Estad&iacutesticas para la Simulaci&oacuten1</h1>
 
     </header>
 
@@ -37,10 +37,10 @@
         legendMarkerColor: "grey",
         legendText: "s = one second",
         dataPoints: [
-        {y: 13.198, label: "DDL"},
-        {y: 12.969,  label: "UPDATE" },
-        {y: 12.046,  label: "JOIN"},
-        {y: 14.591,  label: "SELECT"},
+        {y: 12.395, label: "DDL"},
+        {y: 10.191,  label: "UPDATE" },
+        {y: 10.471,  label: "JOIN"},
+        {y: 12.505,  label: "SELECT"},
        ]
       }
       ]
@@ -69,9 +69,9 @@
 			showInLegend: true,
 			toolTipContent:"{legendText} {y}",
 			dataPoints: [
-                {  y: 13, legendText:"Rechazadas" , label: "Rechazadas"},
-				{  y: 337, legendText:"Procesadas" , label: "Procesadas"},
-				{  y: 267, legendText:"Timeout" , label: "Timeout"}
+                {  y: 6, legendText:"Rechazadas" , label: "Rechazadas"},
+				{  y: 455, legendText:"Procesadas" , label: "Procesadas"},
+				{  y: 108, legendText:"Timeout" , label: "Timeout"}
 			]
 		}
 		]
@@ -82,7 +82,7 @@
 			theme: "theme3",
                         animationEnabled: true,
 			title:{
-				text: "Tiempo ocioso por modulo",
+				text: "Tiempo ocioso por m&oacutedulo",
 				fontSize: 30
 			},
 			toolTip: {
@@ -100,11 +100,11 @@
 				legendText: "Ocioso",
 				showInLegend: true,
 				dataPoints:[
-				{label: "Administrador de clientes", y: 496.534},
-				{label: "Administrador de Procesos", y: 712.719},
-				{label: "Ejecutor de sentencias", y: 936.782},
-				{label: "Procesador de consultas", y: 498.524},
-				{label: "Transacciones", y: 751.586},
+				{label: "Administrador de clientes", y: 613.517},
+				{label: "Administrador de Procesos", y: 729.473},
+				{label: "Ejecutor de sentencias", y: 927.485},
+				{label: "Procesador de consultas", y: 539.24},
+				{label: "Transacciones", y: 744.59},
 
 
 				]
@@ -138,36 +138,36 @@
 
 
     <article>
-        <h1>Parametros de la simulacion</h1>
+        <h1>Par&aacutemetros de la simulaci&oacuten</h1>
         <ul style="list-style-type:square">
-            <li>Tiempo total en segundos para correr cada vez la simulacion (Maximo de tiempo): 1000</li>
-            <li>numero k de conexiones concurrentes que puede manejar el sistema: 15</li>
-            <li>numero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
+            <li>Tiempo total en segundos para correr cada vez la simulaci&oacuten (M&aacuteximo de tiempo): 1000</li>
+            <li>n&uacutemero k de conexiones concurrentes que puede manejar el sistema: 15</li>
+            <li>n&uacutemero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
                 el sistema: 3</li>
-            <li>El numero p de procesos disponibles para la ejecucion de transacciones: 2</li>
-            <li>El numero m procesos disponibles para ejecutar consultas: 1</li>
+            <li>El n&uacutemero p de procesos disponibles para la ejecuci&oacuten de transacciones: 2</li>
+            <li>El n&uacutemero m procesos disponibles para ejecutar consultas: 1</li>
             <li>La cantidad t de segundos de timeout de las conexiones: 15</li>
             <li>Segundos modo lento: 0</li>
         </ul>
     </article>
 
     <article>
-        <h1>Estadisticas</h1>
+        <h1>Estad&iacutesticas</h1>
         <ul style="list-style-type:square">
 
-            <li>Numero de conexiones: 622</li>
-            <li>Conexiones atendidas: 337</li>
-            <li>Conexiones que hicieron timeout: 267</li>
-            <li>Numero de conexiones descartadas por el servidor: 13</li>
+            <li>N&uacutemero de conexiones: 577</li>
+            <li>Conexiones atendidas: 455</li>
+            <li>Conexiones que hicieron timeout: 108</li>
+            <li>N&uacutemero de conexiones descartadas por el servidor: 6</li>
 
-            <li>Tamano promedio de la cola en Administrador de clientes: 0.0</li>
-            <li>Tamano promedio de la cola en Administrador de procesos: 4.128</li>
-            <li>Tamano promedio de la cola en Ejecutor de sentencias: 0.445</li>
-            <li>Tamano promedio de la cola en Procesador de consultas: 0.465</li>
-            <li>Tamano promedio de la cola en Transacciones: 0.633</li>
+            <li>Tama&nacuteo promedio de la cola en Administrador de clientes: 0.0</li>
+            <li>Tama&nacuteo promedio de la cola en Administrador de procesos: 2.303</li>
+            <li>Tama&nacuteo promedio de la cola en Ejecutor de sentencias: 0.522</li>
+            <li>Tama&nacuteo promedio de la cola en Procesador de consultas: 0.315</li>
+            <li>Tama&nacuteo promedio de la cola en Transacciones: 1.119</li>
 
-            <li>Tiempo promedio de vida de una conexion: 0.0</li>
-
+            <li>Tiempo promedio de vida de una conexi&oacuten: 0.0</li>
+        </ul>>
     </article>
 
 
@@ -180,7 +180,8 @@
     <div id="chartContainer3" style="height: 300px; width: 70%; margin: 0 auto;">
     </div>
     <br> </br>
-    <h1 align="center">Tabla de estadisticas Adminisistrador cientes </h1>
+
+    <h1 align="center">Tabla de estad&iacutesticas Adminisistrador cientes </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -193,7 +194,7 @@
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.611</td>
+            <td>0.571</td>
         </tr>
         <tr>
             <td>&mu;</td>
@@ -205,11 +206,11 @@
         </tr>
         <tr>
             <td>L</td>
-            <td>0.018</td>
+            <td>0.017</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.018</td>
+            <td>0.017</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
@@ -232,7 +233,7 @@
 
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas Adminisistrador de Procesos </h1>
+    <h1 align="center">Tabla de estad&iacutesticas Adminisistrador de Procesos </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -241,49 +242,49 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.913</td>
+            <td>0.852</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.611</td>
+            <td>0.569</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>0.669</td>
+            <td>0.668</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.913</td>
+            <td>0.852</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>5.041</td>
+            <td>3.155</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.913</td>
+            <td>0.851</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>4.128</td>
+            <td>2.303</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>8.251</td>
+            <td>5.544</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>6.756</td>
+            <td>4.048</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>$Ws2</td>
+            <td>1.496</td>
         </tr>
     </table>
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas ejecutor de sentencias </h1>
+    <h1 align="center">Tabla de estad&iacutesticas ejecutor de sentencias </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -292,49 +293,49 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.275</td>
+            <td>0.346</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.378</td>
+            <td>0.492</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>1.377</td>
+            <td>1.42</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.275</td>
+            <td>0.346</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>0.719</td>
+            <td>0.868</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.274</td>
+            <td>0.346</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>0.445</td>
+            <td>0.522</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>1.903</td>
+            <td>1.765</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>1.177</td>
+            <td>1.061</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>0.726</td>
+            <td>0.704</td>
         </tr>
     </table>
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas procesador de cconsultas </h1>
+    <h1 align="center">Tabla de estad&iacutesticas procesador de cconsultas </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -343,7 +344,7 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.633</td>
+            <td>0.604</td>
         </tr>
         <tr>
             <td>&lambda;</td>
@@ -351,41 +352,41 @@
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>0.296</td>
+            <td>0.31</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.633</td>
+            <td>0.604</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>2.363</td>
+            <td>2.127</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>1.898</td>
+            <td>1.812</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>0.465</td>
+            <td>0.315</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>4.205</td>
+            <td>3.785</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>0.828</td>
+            <td>0.561</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>3.377</td>
+            <td>3.224</td>
         </tr>
     </table>
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas modulo de transacciones </h1>
+    <h1 align="center">Tabla de estad&iacutesticas modulo de transacciones </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -394,51 +395,51 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.406</td>
+            <td>0.44</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.456</td>
+            <td>0.542</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>0.561</td>
+            <td>0.616</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.406</td>
+            <td>0.44</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>1.446</td>
+            <td>1.998</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.814</td>
+            <td>0.88</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>0.633</td>
+            <td>1.119</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>3.172</td>
+            <td>3.687</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>1.388</td>
+            <td>2.064</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>1.784</td>
+            <td>1.623</td>
         </tr>
     </table>
 
 </div>
 
 <footer>
-    <p>Kevin Mora, Felipe Rosabal, Andres Gonzalez</p>
+    <p>Kevin Mora, Felipe Rosabal, Andres Gonz%aacutelez</p>
     <p>Copyright &copy;UCR 2017</p>
 
 </footer>

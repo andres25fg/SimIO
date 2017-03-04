@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
 
 <body>
 
 <div class="container">
 
     <header>
-        <h1>Estadisticas para la $name</h1>
+        <h1>Estad&iacutesticas para la $name</h1>
 
     </header>
 
@@ -82,7 +82,7 @@
 			theme: "theme3",
                         animationEnabled: true,
 			title:{
-				text: "Tiempo ocioso por modulo",
+				text: "Tiempo ocioso por m&oacutedulo",
 				fontSize: 30
 			},
 			toolTip: {
@@ -138,35 +138,35 @@
 
 
     <article>
-        <h1>Parametros de la simulacion</h1>
+        <h1>Par&aacutemetros de la simulaci&oacuten</h1>
         <ul style="list-style-type:square">
-            <li>Tiempo total en segundos para correr cada vez la simulacion (Maximo de tiempo): $simtime</li>
-            <li>numero k de conexiones concurrentes que puede manejar el sistema: $k</li>
-            <li>numero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
+            <li>Tiempo total en segundos para correr cada vez la simulaci&oacuten (M&aacuteximo de tiempo): $simtime</li>
+            <li>n&uacutemero k de conexiones concurrentes que puede manejar el sistema: $k</li>
+            <li>n&uacutemero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
                 el sistema: $n</li>
-            <li>El numero p de procesos disponibles para la ejecucion de transacciones: $p</li>
-            <li>El numero m procesos disponibles para ejecutar consultas: $m</li>
+            <li>El n&uacutemero p de procesos disponibles para la ejecuci&oacuten de transacciones: $p</li>
+            <li>El n&uacutemero m procesos disponibles para ejecutar consultas: $m</li>
             <li>La cantidad t de segundos de timeout de las conexiones: $t</li>
             <li>Segundos modo lento: $slowmode</li>
         </ul>
     </article>
 
     <article>
-        <h1>Estadisticas</h1>
+        <h1>Estad&iacutesticas</h1>
         <ul style="list-style-type:square">
 
-            <li>Numero de conexiones: $connections</li>
+            <li>N&uacutemero de conexiones: $connections</li>
             <li>Conexiones atendidas: $served</li>
             <li>Conexiones que hicieron timeout: $timeout</li>
-            <li>Numero de conexiones descartadas por el servidor: $rejected</li>
+            <li>N&uacutemero de conexiones descartadas por el servidor: $rejected</li>
 
-            <li>Tamano promedio de la cola en Administrador de clientes: $lqc</li>
-            <li>Tamano promedio de la cola en Administrador de procesos: $lqp</li>
-            <li>Tamano promedio de la cola en Ejecutor de sentencias: $lqqe</li>
-            <li>Tamano promedio de la cola en Procesador de consultas: $lqqp</li>
-            <li>Tamano promedio de la cola en Transacciones: $lqt</li>
+            <li>Tama&ntildeo promedio de la cola en Administrador de clientes: $lqc</li>
+            <li>Tama&ntildeo promedio de la cola en Administrador de procesos: $lqp</li>
+            <li>Tama&ntildeo promedio de la cola en Ejecutor de sentencias: $lqqe</li>
+            <li>Tama&ntildeo promedio de la cola en Procesador de consultas: $lqqp</li>
+            <li>Tama&ntildeo promedio de la cola en Transacciones: $lqt</li>
 
-            <li>Tiempo promedio de vida de una conexion: $w</li>
+            <li>Tiempo promedio de vida de una conexi&oacuten: $w</li>
 
     </article>
 
@@ -180,7 +180,8 @@
     <div id="chartContainer3" style="height: 300px; width: 70%; margin: 0 auto;">
     </div>
     <br> </br>
-    <h1 align="center">Tabla de estadisticas Adminisistrador cientes </h1>
+
+    <h1 align="center">Tabla de estad&iacutesticas Adminisistrador cientes </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -232,7 +233,7 @@
 
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas Adminisistrador de Procesos </h1>
+    <h1 align="center">Tabla de estad&iacutesticas Adminisistrador de Procesos </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -283,7 +284,7 @@
     </table>
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas ejecutor de sentencias </h1>
+    <h1 align="center">Tabla de estad&iacutesticas ejecutor de sentencias </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -334,7 +335,7 @@
     </table>
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas procesador de cconsultas </h1>
+    <h1 align="center">Tabla de estad&iacutesticas procesador de consultas </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -385,7 +386,7 @@
     </table>
 
     <br> </br>
-    <h1 align="center">Tabla de estadisticas modulo de transacciones </h1>
+    <h1 align="center">Tabla de estad&iacutesticas modulo de transacciones </h1>
     <table>
         <tr>
             <th>Atributo</th>
@@ -438,7 +439,7 @@
 </div>
 
 <footer>
-    <p>Kevin Mora, Felipe Rosabal, Andres Gonzalez</p>
+    <p>Kevin Mora, Felipe Rosabal, Andr&eacutes Gonz&aacutelez</p>
     <p>Copyright &copy;UCR 2017</p>
 
 </footer>
