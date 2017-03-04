@@ -167,7 +167,7 @@ public class StatisticsModule {
     // The boolean transactionsModule is used to determined if a connection is passing through the Client Administrator for the second time.
     // For the other modules, a false is always send as a parameter
     public void setUpdateAverageTime(double uptdateAverageTime, boolean transactionModule) {
-        this.uptdateAverageTime = uptdateAverageTime;
+        this.uptdateAverageTime += uptdateAverageTime;
         if(transactionModule == false) {
             numUdpate++;
         }

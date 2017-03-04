@@ -37,10 +37,10 @@
         legendMarkerColor: "grey",
         legendText: "s = one second",
         dataPoints: [
-        {y: 14.209, label: "DDL"},
-        {y: 0.061,  label: "UPDATE" },
-        {y: 12.288,  label: "JOIN"},
-        {y: 13.738,  label: "SELECT"},
+        {y: 12.55, label: "DDL"},
+        {y: 11.412,  label: "UPDATE" },
+        {y: 11.832,  label: "JOIN"},
+        {y: 13.542,  label: "SELECT"},
        ]
       }
       ]
@@ -69,9 +69,9 @@
 			showInLegend: true,
 			toolTipContent:"{legendText} {y}",
 			dataPoints: [
-                {  y: 2, legendText:"Rechazadas" , label: "Rechazadas"},
-				{  y: 376, legendText:"Procesadas" , label: "Procesadas"},
-				{  y: 198, legendText:"Timeout" , label: "Timeout"}
+                {  y: 9, legendText:"Rechazadas" , label: "Rechazadas"},
+				{  y: 358, legendText:"Procesadas" , label: "Procesadas"},
+				{  y: 220, legendText:"Timeout" , label: "Timeout"}
 			]
 		}
 		]
@@ -100,11 +100,11 @@
 				legendText: "Ocioso",
 				showInLegend: true,
 				dataPoints:[
-				{label: "Administrador de clientes", y: 540.206},
-				{label: "Administrador de Procesos", y: 714.615},
-				{label: "Ejecutor de sentencias", y: 931.229},
-				{label: "Procesador de consultas", y: 512.826},
-				{label: "Transacciones", y: 728.05},
+				{label: "Administrador de clientes", y: 554.352},
+				{label: "Administrador de Procesos", y: 720.461},
+				{label: "Ejecutor de sentencias", y: 919.37},
+				{label: "Procesador de consultas", y: 602.473},
+				{label: "Transacciones", y: 772.824},
 
 
 				]
@@ -155,16 +155,16 @@
         <h1>Estadisticas</h1>
         <ul style="list-style-type:square">
 
-            <li>Numero de conexiones: 582</li>
-            <li>Conexiones atendidas: 376</li>
-            <li>Conexiones que hicieron timeout: 198</li>
-            <li>Numero de conexiones descartadas por el servidor: 2</li>
+            <li>Numero de conexiones: 600</li>
+            <li>Conexiones atendidas: 358</li>
+            <li>Conexiones que hicieron timeout: 220</li>
+            <li>Numero de conexiones descartadas por el servidor: 9</li>
 
             <li>Tamano promedio de la cola en Administrador de clientes: 0.0</li>
-            <li>Tamano promedio de la cola en Administrador de procesos: 2.608</li>
-            <li>Tamano promedio de la cola en Ejecutor de sentencias: 0.357</li>
-            <li>Tamano promedio de la cola en Procesador de consultas: 0.336</li>
-            <li>Tamano promedio de la cola en Transacciones: 0.922</li>
+            <li>Tamano promedio de la cola en Administrador de procesos: 3.868</li>
+            <li>Tamano promedio de la cola en Ejecutor de sentencias: 0.39</li>
+            <li>Tamano promedio de la cola en Procesador de consultas: 0.308</li>
+            <li>Tamano promedio de la cola en Transacciones: 0.686</li>
 
             <li>Tiempo promedio de vida de una conexion: 0.0</li>
 
@@ -189,27 +189,27 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.058</td>
+            <td>0.001</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.58</td>
+            <td>0.591</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>0.667</td>
+            <td>32.258</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.058</td>
+            <td>0.001</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>0.869</td>
+            <td>0.018</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.869</td>
+            <td>0.018</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
@@ -217,7 +217,7 @@
         </tr>
         <tr>
             <td>W</td>
-            <td>1.499</td>
+            <td>0.031</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
@@ -226,7 +226,7 @@
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>1.499</td>
+            <td>0.031</td>
         </tr>
     </table>
 
@@ -241,11 +241,11 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.873</td>
+            <td>0.874</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.582</td>
+            <td>0.583</td>
         </tr>
         <tr>
             <td>&mu;</td>
@@ -253,27 +253,27 @@
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.873</td>
+            <td>0.874</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>3.481</td>
+            <td>4.742</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.873</td>
+            <td>0.874</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>2.608</td>
+            <td>3.868</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>5.981</td>
+            <td>8.134</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>4.481</td>
+            <td>6.635</td>
         </tr>
 
         <tr>
@@ -292,44 +292,44 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.285</td>
+            <td>0.293</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.425</td>
+            <td>0.392</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>1.493</td>
+            <td>1.339</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.285</td>
+            <td>0.293</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>0.642</td>
+            <td>0.682</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.285</td>
+            <td>0.293</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>0.357</td>
+            <td>0.39</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>1.51</td>
+            <td>1.741</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>0.84</td>
+            <td>0.994</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>0.67</td>
+            <td>0.747</td>
         </tr>
     </table>
 
@@ -343,44 +343,44 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.621</td>
+            <td>0.526</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.566</td>
+            <td>0.494</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>0.304</td>
+            <td>0.313</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.621</td>
+            <td>0.526</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>2.197</td>
+            <td>1.887</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>1.861</td>
+            <td>1.579</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>0.336</td>
+            <td>0.308</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>3.882</td>
+            <td>3.82</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>0.594</td>
+            <td>0.623</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>3.288</td>
+            <td>3.197</td>
         </tr>
     </table>
 
@@ -394,44 +394,44 @@
 
         <tr>
             <td>Estabilidad (&lambda;/&mu;)</td>
-            <td>0.445</td>
+            <td>0.375</td>
         </tr>
         <tr>
             <td>&lambda;</td>
-            <td>0.507</td>
+            <td>0.438</td>
         </tr>
         <tr>
             <td>&mu;</td>
-            <td>0.57</td>
+            <td>0.584</td>
         </tr>
         <tr>
             <td>&rho;</td>
-            <td>0.445</td>
+            <td>0.375</td>
         </tr>
         <tr>
             <td>L</td>
-            <td>1.811</td>
+            <td>1.436</td>
         </tr>
         <tr>
             <td>L<sub>s</sub></td>
-            <td>0.889</td>
+            <td>0.75</td>
         </tr>
         <tr>
             <td>L<sub>q</sub></td>
-            <td>0.922</td>
+            <td>0.686</td>
         </tr>
         <tr>
             <td>W</td>
-            <td>3.572</td>
+            <td>3.279</td>
         </tr>
         <tr>
             <td>W<sub>q</sub></td>
-            <td>1.818</td>
+            <td>1.566</td>
         </tr>
 
         <tr>
             <td>W<sub>s</sub></td>
-            <td>1.754</td>
+            <td>1.713</td>
         </tr>
     </table>
 
