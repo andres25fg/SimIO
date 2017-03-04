@@ -13,6 +13,6 @@ public class ProcessAdministratorModule extends Module {
     }
 
     public double generateServiceTime(){
-        return random.normal(1.5, 0.1);
+        return getRandom().normal(1.5, 0.1);
     }
 }

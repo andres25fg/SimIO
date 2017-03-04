@@ -36,10 +36,10 @@ public class TransactionsModule extends Module{
     }
 
     public boolean arrive(Connection c, double clock) {
-        getStatistic().setLambda(clock-timeLastArrive);
-        getStatistic().setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
-        timeLastEvent = clock;
-        timeLastArrive = clock;
+        getStatistic().setLambda(clock-getTimeLastArrive());
+        getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
+        setTimeLastEvent(clock);
+        setTimeLastArrive(clock);
         boolean being_served=false;
 
         //se revisa si la conexion es de tipo ddl
@@ -64,32 +64,25 @@ public class TransactionsModule extends Module{
         return being_served;
     }
 
-    public void sendToQuery(Connection c){
-        stackQueries.add(c);
-    }
-
     public int getNumDDl(){
         return numDDL;
-    }
-    public int getNumConectionsStack(){
-        return stackQueries.size();
     }
 
     public Connection exit(double clock) {
         freeOneServer();
-        getStatistic().setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
-        timeLastEvent = clock;
+        getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
+        setTimeLastEvent(clock);
         Connection next = null;
         exitDDL();
-        if(numDDL>0 && freeServers==maxSimConnections){
+        if(numDDL>0 && getFreeServers()==getMaxSimConnections()){
             numDDL--;
-            next = stackQueries.poll();
+            next = getFirstPriorityQueue();
             reduceFreeServer();
             isDDL();
         }
         else {
-            if (stackQueries.isEmpty() != true && numDDL == 0) {
-                next = stackQueries.poll();
+            if (getPriorityQueueSize() > 0 && numDDL == 0) {
+                next = getFirstPriorityQueue();
                 reduceFreeServer();
             }
         }
@@ -99,10 +92,10 @@ public class TransactionsModule extends Module{
     public double loadDiskBloks(String type){
         double blocks=0;
         if (type == "JOIN") {
-            blocks += random.uniform(1, 16) + random.uniform(1, 12);
+            blocks += getRandom().uniform(1, 16) + getRandom().uniform(1, 12);
         } else {
             if (type == "SELECT") {
-                blocks += random.uniform(1, 64);
+                blocks += getRandom().uniform(1, 64);
             }
         }
         return blocks;

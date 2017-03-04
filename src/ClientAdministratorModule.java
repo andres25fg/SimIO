@@ -33,10 +33,10 @@ public class ClientAdministratorModule extends Module {
     }
 
     public boolean arrive(Connection c, double clock) {
-        statistics.setLambda(clock-timeLastArrive);
-        statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
-        timeLastEvent = clock;
-        timeLastArrive = clock;
+        getStatistic().setLambda(clock-getTimeLastArrive());
+        getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
+        setTimeLastEvent(clock);
+        setTimeLastArrive (clock);
         boolean being_served=false;
         if(getFreeServers()==0) {
             rejectConnection();
@@ -50,9 +50,9 @@ public class ClientAdministratorModule extends Module {
 
     public Connection exit(double clock) {
         freeOneServer();
-        numClientsServed++;
-        statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
-        timeLastEvent = clock;
+        incrementNumClientsServed();
+        getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
+        setTimeLastEvent(clock);
         return null;
 
     }
@@ -68,7 +68,7 @@ public class ClientAdministratorModule extends Module {
 
     }
     public double generateServiceTime(){
-        return random.uniform(0.01, 0.05);
+        return getRandom().uniform(0.01, 0.05);
     }
 
 }
