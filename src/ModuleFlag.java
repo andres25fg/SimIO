@@ -1,7 +1,8 @@
 /**
  * Enumeration ModuleFlag
  *
- * Enumeration que define los tipos de módulos. De manera que se pueda utilizar como banderas para revisar en donde se encuentra la conexión
+ * Enumeration that defines all possible module types.
+ * This allows to know where the connection is in. Serves as a flag so the Simulation can know in which module the connection is at the moment
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
@@ -13,8 +14,6 @@ public enum ModuleFlag {
     QUERY_PROCESSOR("QUERY_PROCESSOR"),
     TRANSACTION("TRANSACTION"),
     QUERY_EXE("QUERY_EXE");
-
-
 
     private String msj;
     ModuleFlag(String s) {

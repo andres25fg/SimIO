@@ -1,5 +1,5 @@
 /**
- * Clase QueryExecutionsModule
+ * Class QueryExecutionsModule
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
@@ -7,6 +7,10 @@
  */
 public class QueryExecutionsModule extends Module {
 
+    /**
+     * Constructor
+     * @param servers: number of server available to process queries
+     */
     public QueryExecutionsModule(int servers) {
         this.setFreeServers(servers);
         this.setMaxSimConnections(servers);
@@ -16,6 +20,13 @@ public class QueryExecutionsModule extends Module {
     public void load(Connection c){
 
     }
+
+    /**
+     * Generates the service time of this module.
+     * @param diskblocks
+     * @param type
+     * @return
+     */
     public double generateServiceTime(double diskblocks, String type){
        double time = Math.pow(diskblocks, 2) / 1000;
         if(type=="UPDATE"){

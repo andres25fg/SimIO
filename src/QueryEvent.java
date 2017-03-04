@@ -1,7 +1,7 @@
 /**
  * Enumeration EventType
  *
- * Enumeration que define los diferentes tipos de eventos que se procesan en la simulación
+ * Enumeration that defines all possible types ov event that can be process in the simulation
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
@@ -25,15 +25,21 @@
 }
 
 /**
- * Clase QueryEvent
+ * Class QueryEvent
  *
- * Clase que define el objeto evento
+ * This class defines the QueryEvent object. Which is associated to a connection and has the information of the type of event, by using the enum
  */
 public class QueryEvent {
      private  double eventTime=0;
      private  EventType type;
      private Connection connection;
 
+    /**
+     * Constructor
+     * @param time: time of the event
+     * @param type: type of event
+     * @param connection: associated connection to the event
+     */
     QueryEvent(double time, EventType type, Connection connection){
         this.eventTime= time;
         this.type = type;

@@ -1,7 +1,7 @@
 /**
  * Enumeration QueryType
  *
- * Define los tipos de consultas que pueden procesarse en el sistema
+ * Defines the type of queries the system can process
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
