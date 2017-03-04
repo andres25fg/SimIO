@@ -2,24 +2,38 @@ import java.util.Random;
 import java.lang.Math;
 
 /**
- * Clase RandomGenerator
+ * Class RandomGenerator
  *
- * Define el generador de variables aleatorios que el sistema utiliza.
+ * Defines the generator of random variables
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
  * Andrés González Caldas
  */
 public class RandomGenerator {
-    Random r = new Random();
+    Random r = new Random(); // Uaes the Random class from the API
     private double t=0;
+
     public double getRandom(){
         return r.nextDouble();
     }
+
+    /**
+     * Generates an uniform random variable
+     * @param a
+     * @param b
+     * @return
+     */
     public double uniform(double a, double b){
         return a+(b-a)*r.nextDouble();
     }
 
+    /**
+     * Generates a normal random variable using the direct method
+     * @param u
+     * @param o
+     * @return
+     */
     public double normal(double u, double o){
         double r1 = r.nextDouble();
         double r2 = r.nextDouble();
@@ -35,10 +49,20 @@ public class RandomGenerator {
         return z;
     }
 
+    /**
+     * Generates an exponential random variable
+     * @param l
+     * @return
+     */
     public double exponential(double l){
         return -1/l*Math.log(r.nextDouble());
     }
 
+    /**
+     * Generates an exponential random variable
+     * @param l
+     * @return
+     */
     public double poisson (double l){
         t=t-Math.log(r.nextDouble())/l;
 
