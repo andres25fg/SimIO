@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  * Andrés González Caldas
  */
 public class UserInterface extends javax.swing.JFrame {
-    private boolean slowModeFlag; // Flag to know it the simulation will use a Slow Mode
+    private boolean slowModeFlag; // Flag to know if the simulation will use the Slow Mode
     private int slowModeSeconds; // Number of seconds to use in Slow Mode
     private int numSims; // Number of simulations
     private int secondsSimulation; // Number of seconds of the simulation

@@ -12,66 +12,66 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 /**
- * Clase Simualtion
+ * Class Simualation
  *
- * Esta clase contiene la definición de la clase principal de la simulación que se encarga de comunicarse con las demás clases del sistema
+ * This class contains the definitions of the main Class in the system. This class handles the communication between all modules and the GUI
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
  * Andrés González Caldas
  */
 public class Simulation  {
-    private double clock; // Reloj del sistema
-    private boolean slowMode; // Booleano para saber si la simulación se va a hacer en modo lento
-    private int slowModeSeconds; // Segundos de la simulación para el modo lento
-    private int numSimulations; // Número de veces que se va a realizar la simulación
-    private int secondsSimulation; // Segundos para la simulación normal
-    private int timeOut=100; // Segundos que tiene una conexion para ser atendida
-    private double lambda = 1/1.7143; // llega un cliente cada 1.7143 segunos (60/35)
+    private double clock; // System's clock
+    private boolean slowMode; // Flag to know if the simulation will use the Slow Mode
+    private int slowModeSeconds; // Number of seconds to use in Slow Mode between events
+    private int numSimulations; // Number of simulations
+    private int secondsSimulation; // Number of seconds of the simulation
+    private int timeOut=100; // Number of seconds that determines a connection's timeout
+    private double lambda = 1/1.7143; // Arrival of clients: every 1.7143 seconds a new client arrives to the system (60/35)
     private ClientAdministratorModule clientAdministrator; // Client Administrator
     private ProcessAdministratorModule processAdministrator; // Process Administrator
     private QueryExecutionsModule queryExecutions; // Query Exections
     private QueryProcessorModule queryProcessor; // Query Processor
     private TransactionsModule transactions; // Transactions
-    private PriorityQueue<QueryEvent> eventList; // Lista de eventos del sistema
-    private StatisticsModule statistics = new StatisticsModule();
-    private int numConections=0;
-    private int numConectionServed=0;
-    private int numTimeOut=0;
-    private int numRejected=0;
-    private UserInterface userInterface;
+    private PriorityQueue<QueryEvent> eventList; // Event's list of the system
+    private StatisticsModule statistics = new StatisticsModule(); // Statistics
+    private int numConections=0; // Number of connections in the system
+    private int numConectionServed=0; // Number of connections served by the system
+    private int numTimeOut=0; // Number of connections that end because of the timeout
+    private int numRejected=0; // Number of connections rejected by the system
+    private UserInterface userInterface; // GUI objet for communication
 
     /**
-     * Método constructor
-     *  @param numSims Número de veces que se va a realizar la simulación
-     * @param secsSim Segundos para la simulación normal
-     * @param slowMode Booleano para saber si la simulación se va a hacer en modo lento
-     * @param slowModeSecs Segundos de la simulación para el modo lento
-     * @param timeOut Segundos que tiene una conexion para ser atendida
-     * @param k Cantidad de conexiones que el sistema maneja concurrentemente
-     * @param n Cantidad de procesos que el procesador de consultas puede manejar
-     * @param p Cantidad de procesos para la ejecución de transacciones
-     * @param m Cantidad de procesos para ejecutar consultas
+     * Constructor
+     *  @param numSims Number of simulations
+     * @param secsSim Number of seconds of the simulation
+     * @param slowMode Flag to know if the simulation will use the Slow Mode
+     * @param slowModeSecs Number of seconds to use in Slow Mode between events
+     * @param timeOut Number of seconds that determines a connection's timeout
+     * @param k Number of simultaneous connections the system can process
+     * @param n Number of processes the Query Processor can handle
+     * @param p Number of processes available for the execution of transactions
+     * @param m Number of processes to execute queries
      * @param gui
      */
     public Simulation(int numSims, int secsSim, boolean slowMode, int slowModeSecs, int timeOut, int k, int n, int p, int m, UserInterface gui){
-        userInterface = gui;
-        this.setClock(0); // Inicializamos el reloj en el tiempo 0
-        this.setSecondsSimulation(secsSim); // Guardamos la cantidad de segundos por simulación
-        this.setNumSimulations(numSims); // Se guarda el número de simulaciones que se van a realizar
-        this.setSlowMode(slowMode); // Se guarda la bandera del Slow Mode
-        this.setSlowModeSeconds(slowModeSecs); // Se guardan los segundos del delay para el Slow Mode
-        this.setTimeOut(timeOut); // Se guarda el tiempo del timeOut de las conexiones
+        userInterface = gui; // The GUI sends itself so the Simulation can have its reference for communication
+        this.setClock(0); // We initialize the clock on 0
+        this.setSecondsSimulation(secsSim); // We set the number of seconds per simulation
+        this.setNumSimulations(numSims); // We set the total number of simulations
+        this.setSlowMode(slowMode); // Slow Mode's flag is set
+        this.setSlowModeSeconds(slowModeSecs); // Slo Mode's seconds are set
+        this.setTimeOut(timeOut); // We set the timeout
 
-        Comparator<QueryEvent> comparator = new QueryComparator(); // Creamos el comparador que utiliza la cola de prioridades
-        PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // Instanciamos la cola de prioridades con el
+        Comparator<QueryEvent> comparator = new QueryComparator(); // The comparator that uses the priority queue is created
+        PriorityQueue<QueryEvent> stack = new PriorityQueue<QueryEvent>(comparator); // The Priority Queue is initialized
         setStackQueries(stack);
 
         (new Thread()
         {
-            public void run(){
+            public void run(){ // The main process is started on a different thread from the GUI, so we can do the simulation and refresh data on the GUI
                 try {
-                    beginSimulation(k, n, p, m);
+                    beginSimulation(k, n, p, m); // The main method that processes the simulation is called
                 } catch (InterruptedException e) {
                     //e.printStackTrace();
                 } catch (Exception e) {
@@ -79,7 +79,6 @@ public class Simulation  {
                 }
             }
         }).start();
-
     }
 
     public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
@@ -91,15 +90,15 @@ public class Simulation  {
     }
 
     /**
-     * Método que agrega un QueryEvent a la cola de eventos
-     * @param newEvent
+     * Adds an event to the Event List (Priority Queue)
+     * @param newEvent: event to be added in the event list
      */
     private void addQueryEvent(QueryEvent newEvent) {
         this.eventList.add(newEvent);
     }
 
     /**
-     * Método que retorna el número de conexiones que hay dentro de la cola de prioridades
+     * Returns the Event List's size
      * @return
      */
     public int getPriorityQueueSize() {
@@ -107,19 +106,27 @@ public class Simulation  {
     }
 
     /**
-     * Método que saca el siguiente evento de la cola y lo elimina de la cola
-     * @return QueryEvent evento que se encuentra en la cabeza de la cola de eventos.
+     * Gets the next event int the and takes it out of the queue
+     * @return QueryEvent: event at the head of the queue.
      */
     private QueryEvent getNextEvent() {
         return eventList.poll();
     }
 
+    /**
+     * Method that runs the simulation process
+     * @param k: Number of simultaneous connections the system can process
+     * @param n: Number of processes the Query Processor can handle
+     * @param p: Number of processes available for the execution of transactions
+     * @param m: Number of processes to execute queries
+     * @throws Exception
+     */
     public void beginSimulation(int k,int n, int p, int m) throws Exception {
         generateHTMLindex(getNumSimulations());
-        for(int i=0; i<numSimulations; i++) {
-            //para las llegadas agrego una conexion de tipo nulo
+        for(int i=0; i<numSimulations; i++) { // Cycle that run all the simulations specified by the parameters
+            // For the arrivals, a null connection is added because it hasn't been created yet
 
-            // Creamos los objetos específicos de cada módulo con el cual se comunica Simulation
+            // All the modules needed by the Simulations are created with the servers specified in the parameters
             this.clientAdministrator = new ClientAdministratorModule(k);
             this.processAdministrator = new ProcessAdministratorModule(1);
             this.queryExecutions = new QueryExecutionsModule(m);
@@ -127,37 +134,33 @@ public class Simulation  {
             this.transactions = new TransactionsModule(p);
             this.statistics = new StatisticsModule();
 
-            RandomGenerator random = new RandomGenerator();
-            clock = 0;
-            eventList.clear();
-            QueryEvent firstArrival = new QueryEvent(0,EventType.values()[0],null);
-            addQueryEvent(firstArrival);
+            RandomGenerator random = new RandomGenerator(); // Random generator
+            clock = 0; // The clock starts at 0
+            eventList.clear(); // We clear the event list
+            QueryEvent firstArrival = new QueryEvent(0,EventType.values()[0],null); // The first arrival is generated
+            addQueryEvent(firstArrival); // We add the first arrival to the event list
 
-            //prueba
-            userInterface.showTextinGUI("Sumulación número: " + (i+1));
+            userInterface.showTextinGUI("Sumulación número: " + (i+1)); // GUI is refreshed
             userInterface.showSimulationNumber(i+1);
-            //System.out.println("simulacion "+i);
-            //prueba
 
-            while(secondsSimulation > clock) {
-                procesEvent();
-                if(slowMode) {
+            while(secondsSimulation > clock) { // While the clack is below the time limit per Simulation, the simulations processes new events
+                procesEvent(); // An event is processed
+                if(slowMode) { // Checks if the Slow Mode flag is activated
                     try {
-                        TimeUnit.SECONDS.sleep(slowModeSeconds);
+                        TimeUnit.SECONDS.sleep(slowModeSeconds); // The thread is put to sleep by the seconds defined by the user for Slow Mode
                     } catch (InterruptedException e) {
                         //e.printStackTrace();
                     }
                 }
-                //prueba
-                if(slowMode) {
+
+                if(slowMode) { // The GUI refreshes the Clock data
                     userInterface.showTextinGUI("Reloj: " + round(clock));
                 }
                 userInterface.showClock(round(clock));
-                // System.out.println("reloj "+clock);
-                //prueba
-                QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
+
+                QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null); // We generate the next arrival with the poisson distribution
                 addQueryEvent(nextArrival);
-                // Server data is refreshed on the GUI: Servers status, queue information, clients served.
+                // Server data is refreshed on the GUI: Servers status, queue information, clients served, connection information.
                 userInterface.showServersInformation(clientAdministrator.getFreeServers(),processAdministrator.getFreeServers(),queryProcessor.getFreeServers(),queryExecutions.getFreeServers(),transactions.getFreeServers());
                 userInterface.showLqInformation(processAdministrator.getQueueSize(), queryProcessor.getQueueSize(), queryExecutions.getQueueSize(), transactions.getPriorityQueueSize());
                 userInterface.showServedConnectionsInformation(clientAdministrator.getNumClientsServed(), processAdministrator.getNumClientsServed(),queryProcessor.getNumClientsServed(),queryExecutions.getNumClientsServed(),transactions.getNumClientsServed());
@@ -267,22 +270,21 @@ public class Simulation  {
             userInterface.showTextinGUI("Lq: "+transactions.getStatistic().getLq());
 
 
-            //se crea html con estadisticas
+            // The HTML with the statistics is created
             generateHTML(i+1);
-            if((i+1) != numSimulations) {
+            if((i+1) != numSimulations) { // If the current simulation isn't the last one, the GUI resets some of the values
                 userInterface.resetAfterSimulation();
             }
 
         }
-        userInterface.activateReturnButton();
+        userInterface.activateReturnButton(); // The return button is activated again, so when the simulations are over, the user can return and change back parameters
         //File htmlFile = new File("/statistics/");
         //Desktop.getDesktop().browse(htmlFile.toURI());
     }
 
     /**
-     * procesa el primer elemento de la lista de eventos
+     * Checks if a Connection has reached the timeout
      */
-
     public boolean checkTimeOut(Connection c){
         boolean time_out = false;
         if(c.getArrivalTime()+timeOut<= clock){
@@ -293,27 +295,29 @@ public class Simulation  {
         return time_out;
     }
 
+    /**
+     * Processes and event
+     */
     public void procesEvent(){
-        QueryEvent actualEvent = this.getNextEvent();
+        QueryEvent actualEvent = this.getNextEvent(); // The next event from the queue is taken out
 
-        clock =  actualEvent.getEventTime();
+        clock =  actualEvent.getEventTime(); // The clock is changed to the event's start time
         //se procesa segun el tipo de evento
 
-        if(slowMode) {
+        if(slowMode) { // Event data in the GUI is refreshed
             userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
         }
         userInterface.showActualEvent(actualEvent.getType());
 
-        switch (actualEvent.getType()) {
+        switch (actualEvent.getType()) { // We get the type of event to know which case should be done
             case "CONNECTION_IN":
-                numConections++;
-                if (!clientAdministrator.checkMaxConnections()) { // Se revisa si el Client Administrator tiene servidores libres o no
-                    clientAdministrator.rejectConnection(); // Si no tiene servidores libres se rechaza la conexión
-                    numRejected++;
+                numConections++; // The number of connections in the system is increased
+                if (!clientAdministrator.checkMaxConnections()) { // We check if the Client Administrator has free servers or not
+                    clientAdministrator.rejectConnection(); // If not, the connections is rejected
+                    numRejected++; // number of rejected connections is increased
 
-                } else { // Si hay servidores libres, se crea la conexión
-
-                    Connection newConnection = clientAdministrator.createConnection();
+                } else { // If there are free servers, the connections is created then
+                    Connection newConnection = clientAdministrator.createConnection(); // The Client Administrator creates a new connection
                     newConnection.setCurrentModule(ModuleFlag.values()[0]);
                     clientAdministrator.arrive(newConnection, clock);
                     newConnection.setType();
