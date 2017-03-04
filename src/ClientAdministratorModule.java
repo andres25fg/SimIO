@@ -100,28 +100,20 @@ public class ClientAdministratorModule extends Module {
     }
 
     public void updateStatistics(Connection c, double serviceTime, double clock){
-        // se revisa si la conexion entro a la cola del modulo
-        double stackTime =0;
-        if(c.getStack()){
-            //si entro a la cola al tiempo de servicio se le suma el tiempo que paso en la cola y se coloca
-            stackTime += clock-c.getStackArrivalTime();
-            c.setStack(false);
-            getStatistic().setStackAverageTime(stackTime);
-        }
         getStatistic().setWs(serviceTime);
         //el booleano se envia para saber si ya se paso por Transaction (las conexiones entran 2 veces a clientAdministrator) y asi no contar 2 veces cada conexion
         switch (c.getType().toString()){
             case "DDL":
-                getStatistic().setDdlAverageTime(stackTime+serviceTime, c.getTransactionModule());
+                getStatistic().setDdlAverageTime(serviceTime, c.getTransactionModule());
                 break;
             case "UPDATE":
-                getStatistic().setUpdateAverageTime(stackTime+serviceTime, c.getTransactionModule());
+                getStatistic().setUpdateAverageTime(serviceTime, c.getTransactionModule());
                 break;
             case "JOIN":
-                getStatistic().setJoinAverageTime(stackTime+serviceTime, c.getTransactionModule());
+                getStatistic().setJoinAverageTime(serviceTime, c.getTransactionModule());
                 break;
             case  "SELECT":
-                getStatistic().setSelectAverageTime(stackTime+serviceTime, c.getTransactionModule());
+                getStatistic().setSelectAverageTime(serviceTime, c.getTransactionModule());
         }
     }
 

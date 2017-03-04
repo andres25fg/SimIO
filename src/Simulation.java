@@ -333,7 +333,7 @@ public class Simulation  {
                     clientAdministrator.arrive(newConnection, clock); // The connection arrives to the Client Administrator module
                     newConnection.setType(); // Chooses randomly the type of query
                     newConnection.setArrivalTime(clock); // Sets the arrival time of the connection
-                    double serviceTime = processAdministrator.generateServiceTime();
+                    double serviceTime = clientAdministrator.generateServiceTime();
                     clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
                     //userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock)); // The Process Administrator generates a service time
                     QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
