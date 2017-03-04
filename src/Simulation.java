@@ -344,6 +344,8 @@ public class Simulation  {
                 break;
             case "TIME_OUT":
                 clientAdministrator.exit(clock);
+                Connection time_out = actualEvent.getConnection();
+                updateStatistics(time_out.getType().toString(), time_out.getArrivalTime());
                 numTimeOut++;
                 break;
             case "EXIT_MODULE":
@@ -372,6 +374,7 @@ public class Simulation  {
                                     //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
                                     // y se añade el evento a la lista de eventos
                                     double serviceTime = processAdministrator.generateServiceTime();
+                                    clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     QueryEvent event = new QueryEvent((clock + serviceTime), EventType.values()[3], actualConnection);
@@ -501,16 +504,16 @@ public class Simulation  {
     public void updateStatistics(String type, double arrival){
         switch (type){
             case "UPDATE":
-                statistics.setUpdateAverageTime(clock-arrival);
+                statistics.setUpdateAverageTime(clock-arrival, false);
                 break;
             case "SELECT":
-                statistics.setSelectAverageTime(clock-arrival);
+                statistics.setSelectAverageTime(clock-arrival, false);
                 break;
             case "DDL":
-                statistics.setDdlAverageTime(clock-arrival);
+                statistics.setDdlAverageTime(clock-arrival, false);
                 break;
             case "JOIN":
-                statistics.setJoinAverageTime(clock-arrival);
+                statistics.setJoinAverageTime(clock-arrival, false);
         }
     }
 

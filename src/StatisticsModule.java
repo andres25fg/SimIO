@@ -100,9 +100,12 @@ public class StatisticsModule {
         return round(ddlAverageTime/numDdl);
     }
 
-    public void setDdlAverageTime(double ddlAverageTime) {
+    public void setDdlAverageTime(double ddlAverageTime, boolean transactionModule) {
         this.ddlAverageTime += ddlAverageTime;
-        numDdl++;
+        if(transactionModule == false){
+            numDdl++;
+        }
+
     }
     public double getNumDdl(){
         return  numDdl;
@@ -112,9 +115,11 @@ public class StatisticsModule {
         return round(selectAverageTime/numSelect);
     }
 
-    public void setSelectAverageTime(double selectAverageTime) {
+    public void setSelectAverageTime(double selectAverageTime, boolean transactionModule) {
         this.selectAverageTime += selectAverageTime;
-        numSelect++;
+        if(transactionModule == false) {
+            numSelect++;
+        }
     }
 
     public double getNumSelect(){
@@ -125,9 +130,11 @@ public class StatisticsModule {
         return round(joinAverageTime/numJoin);
     }
 
-    public void setJoinAverageTime(double joinAverageTime) {
+    public void setJoinAverageTime(double joinAverageTime, boolean transactionModule) {
         this.joinAverageTime += joinAverageTime;
-        numJoin++;
+        if(transactionModule == false) {
+            numJoin++;
+        }
     }
 
     public double getNumJoin(){
@@ -138,10 +145,12 @@ public class StatisticsModule {
         return round(uptdateAverageTime/numUdpate);
 
     }
-
-    public void setUpdateAverageTime(double uptdateAverageTime) {
+    //el booleano se utiliza para saber si una conexion esta pasando por segunda vez por clientAdmin (los demas modulos siempre envian false)
+    public void setUpdateAverageTime(double uptdateAverageTime, boolean transactionModule) {
         this.uptdateAverageTime = uptdateAverageTime;
-        numUdpate++;
+        if(transactionModule == false) {
+            numUdpate++;
+        }
     }
     public double getNumUdpate() {
         return numUdpate;
