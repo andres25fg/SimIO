@@ -32,6 +32,31 @@ public class ClientAdministratorModule extends Module {
        return check;
     }
 
+    public boolean arrive(Connection c, double clock) {
+        statistics.setLambda(clock-timeLastArrive);
+        statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        timeLastEvent = clock;
+        timeLastArrive = clock;
+        boolean being_served=false;
+        if(getFreeServers()==0) {
+            rejectConnection();
+        }else{
+            //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
+            reduceFreeServer();
+            being_served=true;
+        }
+        return being_served;
+    }
+
+    public Connection exit(double clock) {
+        freeOneServer();
+        numClientsServed++;
+        statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        timeLastEvent = clock;
+        return null;
+
+    }
+
     /**
      * Aumenta la cantidad de conexiones rechazadas
      */

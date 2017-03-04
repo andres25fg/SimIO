@@ -24,6 +24,17 @@ public class TransactionsModule extends Module{
         super.setStackQueries(stack); //
     }
 
+    public void isDDL(){
+        isDDL=true;
+    }
+
+    public void exitDDL(){
+        isDDL = false;
+    }
+    public boolean getIsDDL(){
+        return isDDL;
+    }
+
     public boolean arrive(Connection c, double clock) {
         getStatistic().setLambda(clock-timeLastArrive);
         getStatistic().setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
@@ -32,18 +43,23 @@ public class TransactionsModule extends Module{
         boolean being_served=false;
 
         //se revisa si la conexion es de tipo ddl
-        if(c.getType().toString() == "DDL"){
-            //si es de tipo ddl se incrementa el contador de ddl
-            numDDL++;
-        }
-        if(getFreeServers()==0 || numDDL>0) {
+        if((getFreeServers()>0 && numDDL ==0) || (getFreeServers() == getMaxSimConnections() && isDDL == false ) ) {
+            reduceFreeServer();
+            being_served=true;
+            if(c.getType().toString() == "DDL"){
+                //si es de tipo ddl se incrementa el contador de ddl
+                isDDL();
+            }
+
+        }else{
+            //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
             sendToQuery(c);
             c.setStack(true);
             c.setStackArrivalTime(clock);
-        }else{
-            //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
-            reduceFreeServer();
-            being_served=true;
+            if(c.getType().toString() == "DDL"){
+                //si es de tipo ddl se incrementa el contador de ddl
+                numDDL++;
+            }
         }
         return being_served;
     }
@@ -64,13 +80,15 @@ public class TransactionsModule extends Module{
         getStatistic().setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
         timeLastEvent = clock;
         Connection next = null;
+        exitDDL();
         if(numDDL>0 && freeServers==maxSimConnections){
             numDDL--;
             next = stackQueries.poll();
             reduceFreeServer();
+            isDDL();
         }
         else {
-            if (stackQueries.isEmpty() != true) {
+            if (stackQueries.isEmpty() != true && numDDL == 0) {
                 next = stackQueries.poll();
                 reduceFreeServer();
             }
