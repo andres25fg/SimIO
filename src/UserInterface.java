@@ -1,22 +1,22 @@
 import javax.swing.JOptionPane;
 
 /**
- * Clase UserInterface
+ * Class UserInterface
  *
- * Esta clase contiene la definición de la interfaz de usuario y sus métodos correspondientes
+ * Contains the definition of the GUI used in the app
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
  * Andrés González Caldas
  */
 public class UserInterface extends javax.swing.JFrame {
-    private boolean slowModeFlag; // Booleano para saber si la simulación se va a hacer en modo lento
-    private int slowModeSeconds; // Segundos de la simulación para el modo lento
-    private int numSims; // Número de veces que se va a realizar la simulación
-    private int secondsSimulation; // Segundos para la simulación normal
-    private int timeout; // Segundos que tiene una conexion para ser atendida
-    private int k; // Cantidad de conexiones que el sistema maneja concurrentemente
-    private int n; // Cantidad de procesos que el procesador de consultas puede manejar
+    private boolean slowModeFlag; // Flag to know it the simulation will use a Slow Mode
+    private int slowModeSeconds; // Number of seconds to use in Slow Mode
+    private int numSims; // Number of simulations
+    private int secondsSimulation; // Number of seconds of the simulation
+    private int timeout; // Number of seconds that determines a connection's timeout
+    private int k; // Number of simultaneous connections the system can process
+    private int n; // Number of Cantidad de procesos que el procesador de consultas puede manejar
     private int p; // Cantidad de procesos para la ejecución de transacciones
     private int m; // Cantidad de procesos para ejecutar consultas
     private Simulation simulation; // Objeto Simulation para comunicarse

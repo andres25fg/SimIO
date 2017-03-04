@@ -17,7 +17,7 @@ public class Connection {
     private double arrivalTime;// Arrival time to the system
     private double stackArrivalTime=0; //Time when the connection got pushed in the Queue of the current module
     private boolean stack = false; // Flag that shows if the connection got into the Queue.
-    boolean transactionModule=false; // Falg to know if a connections has already passed through the transactions module
+    boolean transactionModule=false; // Flag to know if a connections has already passed through the transactions module
     double blocksRead;
 
     /**
