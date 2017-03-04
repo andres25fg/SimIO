@@ -430,7 +430,7 @@ public class Simulation  {
                         break;
 
                     case "TRANSACTION":
-                        do {
+                        //do {
                             Connection client_t = transactions.exit(clock);
                             if (client_t != null) {
                                 double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
@@ -441,7 +441,7 @@ public class Simulation  {
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
                                 addQueryEvent(event);
                             }
-                        }while (transactions.getFreeServers()<2 && transactions.getFreeServers()>0 && transactions.getServingDDL()==false && transactions.getPriorityQueueSize()>0 );
+                       // }while (transactions.getFreeServers()<2 && transactions.getFreeServers()>0 && transactions.getServingDDL()==false && transactions.getPriorityQueueSize()>0 );
 
                         actualConnection.setTransactionModuleTrue();
                         if (checkTimeOut(actualConnection) == false) {
