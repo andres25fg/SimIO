@@ -1,31 +1,32 @@
 /**
- * Clase StatisticsModule
+ * Class StatisticsModule
  *
- * Clase que define el objeto de StatisticsModule que se utiliza para guardar las estadísticas de cada módulo
+ * This class defines the object that contains all the statistics required for a module. All modules use this class
+ * to save each of their statistics
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
  * Andrés González Caldas
  */
 public class StatisticsModule {
-    private double stackAverageTime=0;// Variable para guardar el tiempo promedio en cola Wq
+    private double stackAverageTime=0;// Variable for saving the average time in the queue -> Wq
     private double numstack=0;
-    private double ddlAverageTime=0; // Tempo promedio de las consultas DDL
-    private double numDdl=0;
-    private double selectAverageTime=0; // Tempo promedio de las consultas Join
-    private double numSelect=0;
-    private double joinAverageTime=0; // Tempo promedio de las consultas Select
-    private double numJoin=0;
-    private double uptdateAverageTime=0; // Tempo promedio de las consultas Update
-    private double numUdpate=0;
-    private double moduleFreeTime =0;
+    private double ddlAverageTime=0; // Average time of DDL queries
+    private double numDdl=0; // Number of DDL queries
+    private double selectAverageTime=0; // Average time of SELECT queries
+    private double numSelect=0; // Number of SELECT queries
+    private double joinAverageTime=0; // Average time of JOIN queries
+    private double numJoin=0; // Number of JOIN queries
+    private double uptdateAverageTime=0; // Average time of UPDATE queries
+    private double numUdpate=0; // Number of UPDATE queries
+    private double moduleFreeTime =0; // Free time the module spends
 
     private double lambda =0;
     private double ws = 0;
 
-    private int numFreeServers = 0; //se suma los servidores libres
-    private double serversFreeTime = 0; // suma del tiempo libre de los servidores
-    private double timesFreeServers = 0; // cantidad de veces que se suman los servidores libres
+    private int numFreeServers = 0; // Free servers are added
+    private double serversFreeTime = 0; // Sum of the free time of the servers
+    private double timesFreeServers = 0; // Number of times free servers are added
 
     public double getMododuleFreeTime(){
         return round(moduleFreeTime);
@@ -38,11 +39,20 @@ public class StatisticsModule {
         return serversFreeTime;
     }
 
-    //se divide la suma de los servidores libres por la cantidad de veces que se suma el numero de servidores libres
+
+    /**
+     * Division of the free servers by the number of times the free servers are added
+     * @return
+     */
     public double getAverageFreeServers(){
         return  round(numFreeServers/timesFreeServers);
     }
-    //se divide la suma del tiempo libre de servidores por la cantidad de veces que se suma el tiempo y luego por la cantidad de servidores para genera el promedio de tiempo libre por servidor
+
+    /**
+     * Divides the sum of the servers free time by the number of servers to get the average free time per server
+     * @param numServers
+     * @return
+     */
     public double getAverageFreeTime(double numServers){
         return  round(serversFreeTime/numServers);
     }
@@ -53,11 +63,11 @@ public class StatisticsModule {
         timesFreeServers++;
     }
 
-    //se divinde la suma de los tiempos entre llegadas y se dividen entre el numero de llegadas para generar el tiempo entre arribos
+    // time between arrivals is divided by the number of arrivals of all type of queries to generate the time between arrivals
     public double getLambda(){
         return  round(1/(lambda/(numDdl+numJoin+numSelect+numUdpate)));
     }
-    //se suman los tiempos entre llegadas
+    //Time between arrivals are added
     public void setLambda (double lambda){
         this.lambda += lambda;
     }
@@ -153,7 +163,9 @@ public class StatisticsModule {
         return round(uptdateAverageTime/numUdpate);
 
     }
-    //el booleano se utiliza para saber si una conexion esta pasando por segunda vez por clientAdmin (los demas modulos siempre envian false)
+
+    // The boolean transactionsModule is used to determined if a connection is passing through the Client Administrator for the second time.
+    // For the other modules, a false is always send as a parameter
     public void setUpdateAverageTime(double uptdateAverageTime, boolean transactionModule) {
         this.uptdateAverageTime = uptdateAverageTime;
         if(transactionModule == false) {
@@ -164,6 +176,11 @@ public class StatisticsModule {
         return numUdpate;
     }
 
+    /**
+     * Rounds the number to three decimals
+     * @param number
+     * @return
+     */
     public double round(double number){
         number = Math.round(number*1000);
         return number/1000;
