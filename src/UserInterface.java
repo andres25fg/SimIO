@@ -1005,6 +1005,10 @@ public class UserInterface extends javax.swing.JFrame {
         this.simNumber.setText(Integer.toString(simNumber));
     }
 
+    public void showDialog(String message, String title) {
+        JOptionPane.showOptionDialog(null,message, title, JOptionPane.INFORMATION_MESSAGE,JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Continuar"},"default");
+    }
+
     public void resetAfterSimulation() {
         this.clientAdmServers_SimPanel.setText(k_simPanel.getText());
         this.queryProcServers_SimPanel.setText(n_simPanel.getText());

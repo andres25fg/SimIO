@@ -289,8 +289,9 @@ public class Simulation  {
 
         }
         userInterface.activateReturnButton(); // The return button is activated again, so when the simulations are over, the user can return and change back parameters
-        //File htmlFile = new File("/statistics/");
-        //Desktop.getDesktop().browse(htmlFile.toURI());
+        userInterface.showDialog("Las estadísticas se desplegarán en su buscador predeterminado automáticamente. \nTambién, el archivo con las estadísticas se encuentra dentro de la carpeta \"Statistics\"\nubicada en la misma carpeta de la aplicación.", "Simulación terminada");
+        File htmlFile = new File("Statistics/index.html");
+        Desktop.getDesktop().browse(htmlFile.toURI()); // The index file is open automatically on the default browser
     }
 
     /**
