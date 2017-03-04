@@ -1005,6 +1005,29 @@ public class UserInterface extends javax.swing.JFrame {
         this.simNumber.setText(Integer.toString(simNumber));
     }
 
+    public void resetAfterSimulation() {
+        this.clientAdmServers_SimPanel.setText(k_simPanel.getText());
+        this.queryProcServers_SimPanel.setText(n_simPanel.getText());
+        this.transactionsServers_SimPanel.setText(p_simPanel.getText());
+        this.queryExecServers_SimPanel.setText(m_simPanel.getText());
+        this.processAdmServers_SimPanel.setText("1");
+        this.clientAdmConnectionsServed.setText("0");
+        this.processAdmConnectionsServed.setText("0");
+        this.queryProcConnectionsServed.setText("0");
+        this.queryExecConnectionsServed.setText("0");
+        this.transactionsConnectionsServed.setText("0");
+        this.servedConnections.setText("0");
+        this.rejectecConnections.setText("0");
+        this.processAdmServers_lq.setText("0");
+        this.queryExecServers_lq.setText("0");
+        this.queryExecServers_lq.setText("0");
+        this.transactionsServers_lq.setText("0");
+        this.clock.setText("0");
+        this.actualModule.setText("");
+        this.actualEvent.setText("");
+        this.simNumber.setText("0");
+    }
+
     public void activateReturnButton() {
         this.returnButton.setEnabled(true);
     }

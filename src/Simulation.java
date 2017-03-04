@@ -266,11 +266,15 @@ public class Simulation  {
             userInterface.showTextinGUI("Ls: "+transactions.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+transactions.getStatistic().getLq());
 
-            userInterface.activateReturnButton();
+
             //se crea html con estadisticas
             generateHTML(i+1);
+            if((i+1) != numSimulations) {
+                userInterface.resetAfterSimulation();
+            }
 
         }
+        userInterface.activateReturnButton();
         //File htmlFile = new File("/statistics/");
         //Desktop.getDesktop().browse(htmlFile.toURI());
     }
