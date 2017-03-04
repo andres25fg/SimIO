@@ -146,9 +146,7 @@ public class Simulation  {
             numConectionServed=0;
             numTimeOut=0;
             numRejected=0;
-
-            //prueba
-            userInterface.showTextinGUI("Sumulación número: " + (i+1));
+            
             userInterface.showSimulationNumber(i+1);
 
             while(secondsSimulation > clock) { // While the clack is below the time limit per Simulation, the simulations processes new events
@@ -327,7 +325,7 @@ public class Simulation  {
                 } else { // If there are free servers, the connections is created then
                     Connection newConnection = clientAdministrator.createConnection(); // The Client Administrator creates a new connection
                     newConnection.setCurrentModule(ModuleFlag.values()[0]);
-                    clientAdministrator.arrive(newConnection, clock); / The connection arrives to the Client Administrator module
+                    clientAdministrator.arrive(newConnection, clock); // The connection arrives to the Client Administrator module
                     newConnection.setType(); // Chooses randomly the type of query
                     newConnection.setArrivalTime(clock); // Sets the arrival time of the connection
                     double serviceTime = processAdministrator.generateServiceTime();
@@ -504,16 +502,16 @@ public class Simulation  {
     public void updateStatistics(String type, double arrival){
         switch (type){
             case "UPDATE":
-                statistics.setUpdateAverageTime(clock-arrival);
+                statistics.setUpdateAverageTime(clock-arrival, false);
                 break;
             case "SELECT":
-                statistics.setSelectAverageTime(clock-arrival);
+                statistics.setSelectAverageTime(clock-arrival, false);
                 break;
             case "DDL":
-                statistics.setDdlAverageTime(clock-arrival);
+                statistics.setDdlAverageTime(clock-arrival, false);
                 break;
             case "JOIN":
-                statistics.setJoinAverageTime(clock-arrival);
+                statistics.setJoinAverageTime(clock-arrival, false);
         }
     }
 
