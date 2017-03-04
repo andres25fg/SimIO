@@ -1,31 +1,36 @@
 import java.util.Random;
 
 /**
- * Clase Connection
+ * Class Connection
  *
- * Esta clase contiene la definición del objeto conexión
+ * Contains the definition of the connections used in the system
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
  * Andrés González Caldas
  */
 public class Connection {
-    private QueryType type; /// Tipo de consulta DDL, JOIN ETC
-    private ModuleFlag currentModule;/// Modulo actual en el q se encuentra la conexion
-    private int disckBlocks;//tamaño del bloque de disco
-    private int result;//Resultado de la consulta
-    private double arrivalTime;//Tiempo de llegada al sistema
-
-    private double stackArrivalTime=0; //hora a la que entro a la cola (del modulo actual)
-    private boolean stack = false; //permite saber si entro a la cola del modulo.
-
-    boolean transactionModule=false; // permite conocer si la conexion ya paso por el modulo de transacciones, despues
+    private QueryType type; /// Type of query of the connection. DDL, UPDATE, JOIN, SELECT.
+    private ModuleFlag currentModule;/// Connection's current module. Saves where whe connection is at the current moment
+    private int disckBlocks;// Disk block's size
+    private int result;// Result of the query
+    private double arrivalTime;// Arrival time to the system
+    private double stackArrivalTime=0; //Time when the connection got pushed in the Queue of the current module
+    private boolean stack = false; // Flag that shows if the connection got into the Queue.
+    boolean transactionModule=false; // Falg to know if a connections has already passed through the transactions module
     double blocksRead;
-    // es atendido por algunos modulos por segunda vez
 
+    /**
+     * Constructor
+     */
     public Connection() {
     }
 
+    /**
+     * Constructor
+     * @param type: type of Query
+     * @param arrivalTime: arrival time to the system
+     */
     public Connection(QueryType type, int arrivalTime) {
         this.type = type;
         this.arrivalTime = arrivalTime;
@@ -43,6 +48,9 @@ public class Connection {
         return type;
     }
 
+    /**
+     * Sets the type of query the Connection will have. Uses a random generated number to determined the type of query
+     */
     public void setType() {
         double r =new Random().nextDouble();
         if(r>=0.00&&r<0.32){
