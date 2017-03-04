@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
@@ -264,7 +265,10 @@ public class Simulation  {
             userInterface.activateReturnButton();
             //se crea html con estadisticas
             generateHTML(i+1);
+
         }
+        File htmlFile = new File("/statistics/");
+        Desktop.getDesktop().browse(htmlFile.toURI());
     }
 
     /**
