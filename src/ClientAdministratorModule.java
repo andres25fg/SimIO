@@ -1,18 +1,28 @@
 /**
- * Clase ClientAdministratorModule
+ * Class ClientAdministratorModule
+ *
+ * Extends from the abstract class: Module
  *
  * Felipe Rosabal
  * Kevin Mora Alfaro
  * Andrés González Caldas
  */
 public class ClientAdministratorModule extends Module {
-    private int rejectedConnections; // Número de conexiones rechazadas
+    private int rejectedConnections; // Number of rejected connections
 
+    /**
+     * Constructor
+     * @param connection: receives the maximum number of connections, and sets the number of servers available
+     */
     public ClientAdministratorModule(int connection) {
         this.setMaxSimConnections(connection);
         this.setFreeServers(connection);
     }
 
+    /**
+     * Creates a new connection in the system
+     * @return
+     */
     public Connection createConnection(){
         Connection c;
         c = new Connection();
@@ -20,8 +30,8 @@ public class ClientAdministratorModule extends Module {
     }
 
     /**
-     * Método que revisa si el número de conexiones máximas simultaneas ha sido alcanzado
-     * @return devuelve true en caso de tener servidores libres, y falso en el caso contrario
+     * Checks if the maximum number of simultaneous connections has been reached
+     * @return boolean: returns true if there are servers available, or false if there are none
      */
     public boolean checkMaxConnections() {
        int servers = super.getFreeServers();
@@ -32,33 +42,43 @@ public class ClientAdministratorModule extends Module {
        return check;
     }
 
+    /**
+     * Receives a connection and the module checks if the connection can use an available server. If not, it goes
+     * @param c
+     * @param clock
+     * @return
+     */
     public boolean arrive(Connection c, double clock) {
         getStatistic().setLambda(clock-getTimeLastArrive());
         getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
         setTimeLastEvent(clock);
         setTimeLastArrive (clock);
         boolean being_served=false;
-        if(getFreeServers()==0) {
-            rejectConnection();
+        if(getFreeServers()==0) { // Checks if all servers are being used
+            rejectConnection(); // If so, it rejects the new connection
         }else{
-            //el cliente pasa a servicio entonces el servidor pasa a estar ocupado
-            reduceFreeServer();
+            // If there are servers available, the client starts using a server
+            reduceFreeServer(); // the numbers of free servers is reduced because of the new client being attended
             being_served=true;
         }
         return being_served;
     }
 
+    /**
+     * Exits a connections frm the module
+     * @param clock
+     * @return
+     */
     public Connection exit(double clock) {
-        freeOneServer();
-        incrementNumClientsServed();
+        freeOneServer(); // the module frees one server because the connection is exiting the module
+        incrementNumClientsServed(); // as the connection exits the module, the number of clients served is increased
         getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
         setTimeLastEvent(clock);
         return null;
-
     }
 
     /**
-     * Aumenta la cantidad de conexiones rechazadas
+     * Increments the number of rejected connections
      */
     public void rejectConnection() {
         rejectedConnections++;
@@ -67,6 +87,11 @@ public class ClientAdministratorModule extends Module {
     public void endConnection( int timeout){
 
     }
+
+    /**
+     * Generates the service time for this module. This module uses a uniform distribution
+     * @return double: returns the generated service time
+     */
     public double generateServiceTime(){
         return getRandom().uniform(0.01, 0.05);
     }
