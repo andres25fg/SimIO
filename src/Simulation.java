@@ -577,7 +577,7 @@ public class Simulation  {
         VelocityEngine ve = new VelocityEngine();
         ve.init();
 
-        Template t = ve.getTemplate("/src/Index.vm");
+        Template t = ve.getTemplate("Index.vm");
         Vector<String> v=new Vector<String>();
 
         for(int i=1; i<=getNumSimulations(); i++) {
@@ -608,7 +608,7 @@ public class Simulation  {
         VelocityEngine ve = new VelocityEngine();
         ve.init();
 
-        Template t = ve.getTemplate("/src/simulation.vm");
+        Template t = ve.getTemplate("simulation.vm");
         //Vector<String> v=new Vector<String>();
 
         VelocityContext vc = new VelocityContext();
