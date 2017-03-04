@@ -148,11 +148,7 @@ public class Simulation  {
                     }
                 }
                 //prueba
-                if(slowMode) {
-                    userInterface.showTextinGUI("Reloj: " + round(clock));
-                }
-                userInterface.showClock(round(clock));
-
+                //userInterface.showTextinGUI("Reloj: " + round(clock));
                 // System.out.println("reloj "+clock);
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
@@ -271,8 +267,8 @@ public class Simulation  {
             generateHTML(i+1);
 
         }
-        //File htmlFile = new File("/statistics/");
-        //Desktop.getDesktop().browse(htmlFile.toURI());
+        File htmlFile = new File("/statistics/");
+        Desktop.getDesktop().browse(htmlFile.toURI());
     }
 
     /**
@@ -296,10 +292,7 @@ public class Simulation  {
         //se procesa segun el tipo de evento
 
         //prueba
-        if(slowMode) {
-            userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
-        }
-        userInterface.showActualEvent(actualEvent.getType());
+        //userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
         //prueba
 
         switch (actualEvent.getType()) {
@@ -337,10 +330,7 @@ public class Simulation  {
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
 
-                if(slowMode) {
-                    userInterface.showTextinGUI("\nMódulo actual: "  + actualModule);
-                }
-                userInterface.showActualModule("" + actualModule);
+                //userInterface.showTextinGUI("\nMódulo actual: "  + actualModule);
                 //userInterface.showTextinGUI("modulo: " + actualModule.getModule());
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
                 boolean processing;
@@ -443,7 +433,8 @@ public class Simulation  {
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
                                 addQueryEvent(event);
                             }
-                        }while (transactions.getFreeServers()>0 && transactions.getIsDDL()==false && transactions.getPriorityQueueSize()>0);
+                        }while (transactions.getFreeServers()<2 && transactions.getFreeServers()>0 && transactions.getServingDDL()==false && transactions.getPriorityQueueSize()>0 );
+
                         actualConnection.setTransactionModuleTrue();
                         if (checkTimeOut(actualConnection) == false) {
                             processing = queryExecutions.arrive(actualConnection, clock);
