@@ -10,15 +10,15 @@
  */
 public class StatisticsModule {
     private double stackAverageTime=0;// Variable for saving the average time in the queue -> Wq
-    private double numstack=0;
+    private int numstack=0;
     private double ddlAverageTime=0; // Average time of DDL queries
-    private double numDdl=0; // Number of DDL queries
+    private int numDdl=0; // Number of DDL queries
     private double selectAverageTime=0; // Average time of SELECT queries
-    private double numSelect=0; // Number of SELECT queries
+    private int numSelect=0; // Number of SELECT queries
     private double joinAverageTime=0; // Average time of JOIN queries
-    private double numJoin=0; // Number of JOIN queries
+    private int numJoin=0; // Number of JOIN queries
     private double uptdateAverageTime=0; // Average time of UPDATE queries
-    private double numUdpate=0; // Number of UPDATE queries
+    private int numUdpate=0; // Number of UPDATE queries
     private double moduleFreeTime =0; // Free time the module spends
 
     private double lambda =0;
@@ -125,7 +125,7 @@ public class StatisticsModule {
         }
 
     }
-    public double getNumDdl(){
+    public int getNumDdl(){
         return  numDdl;
     }
 
@@ -140,7 +140,7 @@ public class StatisticsModule {
         }
     }
 
-    public double getNumSelect(){
+    public int getNumSelect(){
         return  numSelect;
     }
 
@@ -155,7 +155,7 @@ public class StatisticsModule {
         }
     }
 
-    public double getNumJoin(){
+    public int getNumJoin(){
         return  numJoin;
     }
 
@@ -172,7 +172,7 @@ public class StatisticsModule {
             numUdpate++;
         }
     }
-    public double getNumUdpate() {
+    public int getNumUdpate() {
         return numUdpate;
     }
 
