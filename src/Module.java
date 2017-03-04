@@ -186,18 +186,19 @@ public abstract class Module {
             statistics.setStackAverageTime(stackTime);
         }
         statistics.setWs(serviceTime);
+        //el booleano se utiliza para saber si una conexion esta pasando por segunda vez por clientAdmin (los demas modulos siempre envian false)
         switch (c.getType().toString()){
             case "DDL":
-                statistics.setDdlAverageTime(stackTime+serviceTime);
+                statistics.setDdlAverageTime(stackTime+serviceTime, false);
                 break;
             case "UPDATE":
-                statistics.setUpdateAverageTime(stackTime+serviceTime);
+                statistics.setUpdateAverageTime(stackTime+serviceTime, false);
                 break;
             case "JOIN":
-                statistics.setJoinAverageTime(stackTime+serviceTime);
+                statistics.setJoinAverageTime(stackTime+serviceTime, false);
                 break;
             case  "SELECT":
-                statistics.setSelectAverageTime(stackTime+serviceTime);
+                statistics.setSelectAverageTime(stackTime+serviceTime, false);
         }
     }
 

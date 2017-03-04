@@ -310,7 +310,7 @@ public class Simulation  {
         QueryEvent actualEvent = this.getNextEvent(); // The next event from the queue is taken out
 
         clock =  actualEvent.getEventTime(); // The clock is changed to the event's start time
-        //The method processes the event differently depending of the event's type
+        //se procesa segun el tipo de evento
 
         if(slowMode) { // Event data in the GUI is refreshed
             userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
@@ -327,59 +327,63 @@ public class Simulation  {
                 } else { // If there are free servers, the connections is created then
                     Connection newConnection = clientAdministrator.createConnection(); // The Client Administrator creates a new connection
                     newConnection.setCurrentModule(ModuleFlag.values()[0]);
-                    clientAdministrator.arrive(newConnection, clock); // The connection arrives to the Client Administrator module
+                    clientAdministrator.arrive(newConnection, clock); / The connection arrives to the Client Administrator module
                     newConnection.setType(); // Chooses randomly the type of query
                     newConnection.setArrivalTime(clock); // Sets the arrival time of the connection
-                    double serviceTime = processAdministrator.generateServiceTime(); // The Process Administrator generates a service time
+                    double serviceTime = processAdministrator.generateServiceTime();
+                    clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
+                    //userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock)); // The Process Administrator generates a service time
                     QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
                 }
                 break;
             case "CONNECTION_OUT":
-                numConectionServed++; // When a connection goes out of the system we increased the number of served connections
+                numConectionServed++;
                 Connection out = actualEvent.getConnection();
-                updateStatistics(out.getType().toString(), out.getArrivalTime()); // We update the statistics when the connection is getting out
+                updateStatistics(out.getType().toString(), out.getArrivalTime());
                 clientAdministrator.exit(clock);
                 break;
             case "TIME_OUT":
-                clientAdministrator.exit(clock); // If the connections does a timeout, it exits from the Client Administrator
+                clientAdministrator.exit(clock);
+                Connection time_out = actualEvent.getConnection(); // If the connections does a timeout, it exits from the Client Administrator
+                updateStatistics(time_out.getType().toString(), time_out.getArrivalTime());
                 numTimeOut++; // We increased the number of timout connections
                 break;
             case "EXIT_MODULE":
-                // The connection exits a module and passes to the next one
+                //la conexion sale del modulo en el que se encuentra y pasa al siguente
                 Connection actualConnection = actualEvent.getConnection();
-                ModuleFlag actualModule = actualConnection.getCurrentModule(); // We find the actual module the connection is currently in
+                ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
 
-                if(slowMode) { // Actual module data is refreshed on the GUI
+                if(slowMode) {
                     userInterface.showTextinGUI("\nMódulo actual: "  + actualModule);
                 }
                 userInterface.showActualModule("" + actualModule);
-
-                // If the service time has passed, we create a timeout event
+                //userInterface.showTextinGUI("modulo: " + actualModule.getModule());
+                // si ya paso el tiempo de servicio se crea un evento de tipo time out
                 boolean processing;
-                // We locate the module the connection is in right now
+                //se busca el modulo en el que esta la conexion
                 switch (actualModule.getModule()) {
                     case "CLIENT_ADMIN":
-                        // We check if the connection has already passed through the transactions module
+                        // se revisa si la conexion ya paso por el modulo de transacciones
 
                         if (checkTimeOut(actualConnection) == false) {
                             //if (!actualConnection.getTransactionModule()) {
-                                // The connections has not passed through the transactions module
-                                processing = processAdministrator.arrive(actualConnection, clock); // The connection arrives to the next module
+                                //aun no pasa por el modulo de transacciones
+                                processing = processAdministrator.arrive(actualConnection, clock); // el proceso llega el siguente modulo
                                 if (processing == true) {
-                                    // If attended
-                                    // The service time is calculated, we update the current module flag of the connection and the statistics are updated
-                                    // Finally, the event is added to the event list
+                                    // si es atendido
+                                    //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                    // y se añade el evento a la lista de eventos
                                     double serviceTime = processAdministrator.generateServiceTime();
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     QueryEvent event = new QueryEvent((clock + serviceTime), EventType.values()[3], actualConnection);
                                     addQueryEvent(event);
                                 }
-                                // Else if the connections has already passed through the transactions module
+                                //ya paso por el modulo de transacciones
                             //} else {
-                                // We exit the connection from the module
-                                // Create a CONNECTION_OUT type event
+                                // se saca el proceso del modulo
+                                //se crea un evento de tipo connection_out
                                 //QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
                                 //addQueryEvent(event);
                            // }
@@ -387,12 +391,12 @@ public class Simulation  {
                         break;
 
                     case "PROCESS_ADMIN":
-                        // Because the connection is getting out the module. Exit is executed, which retunr a connection if the queue is not empty
+                        //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
                         Connection client_p = processAdministrator.exit(clock);
                         if (client_p != null) {
-                            // The queue is not empty
-                            // The service time is calculated, we update the current module flag of the connection and the statistics are updated
-                            // Finally, the event is added to the event list
+                            //la cola no esta vacia
+                            //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                            // y se añade el evento a la lista de eventos
                             double serviceTime = processAdministrator.generateServiceTime();
                             client_p.setCurrentModule(ModuleFlag.values()[1]);
                             processAdministrator.updateStatistics(client_p, serviceTime, clock);
@@ -400,11 +404,11 @@ public class Simulation  {
                             addQueryEvent(event);
                         }
                         if (checkTimeOut(actualConnection) == false) {
-                            processing = queryProcessor.arrive(actualConnection, clock); // The connection arrives to the next module
+                            processing = queryProcessor.arrive(actualConnection, clock); // el proceso llega el siguente modulo
                             if (processing == true) {
-                                // If attended
-                                // The service time is calculated, we update the current module flag of the connection and the statistics are updated
-                                // Finally, the event is added to the event list
+                                // si es atendido
+                                //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                // y se añade el evento a la lista de eventos
                                 double serviceTime = queryProcessor.generateServiceTime(actualConnection.getType().getReadOnly());
                                 actualConnection.setCurrentModule(ModuleFlag.values()[2]);
                                 queryProcessor.updateStatistics(actualConnection, serviceTime, clock);
@@ -415,12 +419,12 @@ public class Simulation  {
                         break;
 
                     case "QUERY_PROCESSOR":
-                        // Because the connection is getting out the module. Exit is executed, which retunr a connection if the queue is not empty
+                        //como el proceso esta saliendo se ejecuta el metodo exit el cual devuelve una conexion si la cola del modulo no esta vacia
                         Connection client_q_p = queryProcessor.exit(clock);
                         if (client_q_p != null) {
-                            // The queue is not empty
-                            // The service time is calculated, we update the current module flag of the connection and the statistics are updated
-                            // Finally, the event is added to the event list
+                            //la cola no esta vacia
+                            //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                            // y se añade el evento a la lista de eventos
                             double serviceTime = queryProcessor.generateServiceTime(client_q_p.getType().getReadOnly());
                             client_q_p.setCurrentModule(ModuleFlag.values()[2]);
                             queryProcessor.updateStatistics(client_q_p, serviceTime, clock);
@@ -430,9 +434,9 @@ public class Simulation  {
                         if (checkTimeOut(actualConnection) == false) {
                             processing = transactions.arrive(actualConnection, clock);// el proceso llega el siguente modulo
                             if (processing == true) {
-                                // The queue is not empty
-                                // The service time is calculated, the number of blocks read are calculated, we update the current module flag of the connection and the statistics are updated
-                                // Finally, the event is added to the event list
+                                // si es atendido
+                                //se calcula el numero de bloques de disco leidos, el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
+                                // y se añade el evento a la lista de eventos
                                 double diskBloks = transactions.loadDiskBloks(actualConnection.getType().toString());
                                 actualConnection.setBlocksRead(diskBloks);
                                 actualConnection.setCurrentModule(ModuleFlag.values()[3]);
@@ -445,7 +449,6 @@ public class Simulation  {
                         break;
 
                     case "TRANSACTION":
-                        // This 'do while' block was intended to occupy the free servers after the DDL is finished executing
                         //do {
                             Connection client_t = transactions.exit(clock);
                             if (client_t != null) {
@@ -485,7 +488,7 @@ public class Simulation  {
                             addQueryEvent(event);
                         }
                         if (checkTimeOut(actualConnection) == false) {
-                            //The connection returns to the Client Administrator module
+                            //regresa al modulo de administracion de clientes
                             double serviceTime = actualConnection.getBlocksRead() / 2;
                             actualConnection.setCurrentModule(ModuleFlag.values()[0]);
                             clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
@@ -498,11 +501,6 @@ public class Simulation  {
         }
     }
 
-    /**
-     * Updates the statistics of the type of query
-     * @param type: type of query
-     * @param arrival: time of arrival
-     */
     public void updateStatistics(String type, double arrival){
         switch (type){
             case "UPDATE":
@@ -543,11 +541,6 @@ public class Simulation  {
         this.timeOut = timeOut;
     }
 
-    /**
-     * Rounds the number to three decimals
-     * @param number
-     * @return
-     */
     public double round(double number){
         number = Math.round(number*1000);
         return number/1000;
@@ -558,11 +551,6 @@ public class Simulation  {
         return numSimulations;
     }
 
-    /**
-     * Generates the index file
-     * @param simulations: number of simulations
-     * @throws Exception
-     */
     public void generateHTMLindex(int simulations) throws Exception {
 
         File dir = new File("Statistics");
@@ -592,11 +580,6 @@ public class Simulation  {
         fw.close();
     }
 
-    /**
-     * Generates the HTML with the statistics
-     * @param currentSim: number of the simulation that just ended
-     * @throws Exception
-     */
     public void generateHTML(int currentSim) throws Exception {
 
         VelocityEngine ve = new VelocityEngine();
@@ -740,11 +723,23 @@ public class Simulation  {
     }
 
     /**
-     * Main
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        // Sets the GUI with a Nimbus look
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+
+        //prueba
+        int secSim=1000;
+        int numSim =1;
+        boolean slowMode=false;
+        int slowModeSecs=0;
+        //UserInterface gui = null; // Esto es para poder usar pruebas por consola
+        //Simulation simulation = new Simulation(numSim, secSim,slowMode,slowModeSecs,100,5,5,5,5, gui);
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -761,8 +756,9 @@ public class Simulation  {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(UserInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
 
-        // Creates the GUI form and displays it
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UserInterface().setVisible(true);
@@ -771,19 +767,16 @@ public class Simulation  {
     }
 
 
-    /**
-     * Nested class QueryComparator.
-     * Has the definition of the comparator that will use the Event List, which is a priority queue
-     */
+
     public class QueryComparator implements Comparator<QueryEvent> {
         /**
-         * Method that makes the comparision between the two queries
+         * Método que realiza la comparación de prioridades de la cola
          * @param query1
          * @param query2
          * @return
          */
         public int compare(QueryEvent query1, QueryEvent query2) {
-            // Makes a subtraction of the queries times to determined which one goes first in que queue
+            //Hace una resta entre las prioridades de cada conexión para determinar el orden
             int priority;
             if(query1.getEventTime() > query2.getEventTime()){
                 priority = 1;
