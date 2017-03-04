@@ -148,7 +148,11 @@ public class Simulation  {
                     }
                 }
                 //prueba
-                userInterface.showTextinGUI("Reloj: " + round(clock));
+                if(slowMode) {
+                    userInterface.showTextinGUI("Reloj: " + round(clock));
+                }
+                userInterface.showClock(round(clock));
+
                 // System.out.println("reloj "+clock);
                 //prueba
                 QueryEvent nextArrival = new QueryEvent(random.poisson(lambda),EventType.values()[0],null);
@@ -267,8 +271,8 @@ public class Simulation  {
             generateHTML(i+1);
 
         }
-        File htmlFile = new File("/statistics/");
-        Desktop.getDesktop().browse(htmlFile.toURI());
+        //File htmlFile = new File("/statistics/");
+        //Desktop.getDesktop().browse(htmlFile.toURI());
     }
 
     /**
@@ -292,7 +296,10 @@ public class Simulation  {
         //se procesa segun el tipo de evento
 
         //prueba
-        userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
+        if(slowMode) {
+            userInterface.showTextinGUI("\nEvento actual: " + actualEvent.getType());
+        }
+        userInterface.showActualEvent(actualEvent.getType());
         //prueba
 
         switch (actualEvent.getType()) {
@@ -330,7 +337,10 @@ public class Simulation  {
                 Connection actualConnection = actualEvent.getConnection();
                 ModuleFlag actualModule = actualConnection.getCurrentModule(); // se busca el modulo actual
 
-                userInterface.showTextinGUI("\nMódulo actual: "  + actualModule);
+                if(slowMode) {
+                    userInterface.showTextinGUI("\nMódulo actual: "  + actualModule);
+                }
+                userInterface.showActualModule("" + actualModule);
                 //userInterface.showTextinGUI("modulo: " + actualModule.getModule());
                 // si ya paso el tiempo de servicio se crea un evento de tipo time out
                 boolean processing;
