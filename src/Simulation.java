@@ -79,6 +79,7 @@ public class Simulation  {
                 }
             }
         }).start();
+
     }
 
     public void setStackQueries(PriorityQueue<QueryEvent> stackQueries) {
@@ -141,6 +142,13 @@ public class Simulation  {
             addQueryEvent(firstArrival); // We add the first arrival to the event list
 
             userInterface.showTextinGUI("Sumulación número: " + (i+1)); // GUI is refreshed
+            numConections=0;
+            numConectionServed=0;
+            numTimeOut=0;
+            numRejected=0;
+
+            //prueba
+            userInterface.showTextinGUI("Sumulación número: " + (i+1));
             userInterface.showSimulationNumber(i+1);
 
             while(secondsSimulation > clock) { // While the clack is below the time limit per Simulation, the simulations processes new events
