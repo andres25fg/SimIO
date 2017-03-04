@@ -75,7 +75,7 @@ public class TransactionsModule extends Module{
         Connection next = null;
         exitDDL();
         if (getPriorityQueueSize() > 0) {
-            if (  numDDL == 0) {
+            if (numDDL == 0) {
                 next = getFirstPriorityQueue();
                 reduceFreeServer();
             } else {
