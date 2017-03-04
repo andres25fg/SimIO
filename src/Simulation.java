@@ -661,7 +661,7 @@ public class Simulation  {
         vc.put("Wq5", transactions.getStatistic().getStackAverageTime());
 
         vc.put("Ws1", clientAdministrator.getStatistic().getWs());
-        vc.put("Whs2", processAdministrator.getStatistic().getWs());
+        vc.put("Ws2", processAdministrator.getStatistic().getWs());
         vc.put("Ws3", queryExecutions.getStatistic().getWs());
         vc.put("Ws4", queryProcessor.getStatistic().getWs());
         vc.put("Ws5", transactions.getStatistic().getWs());
