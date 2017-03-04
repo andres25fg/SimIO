@@ -331,6 +331,7 @@ public class Simulation  {
                     newConnection.setType();
                     newConnection.setArrivalTime(clock);
                     double serviceTime = processAdministrator.generateServiceTime();
+                    clientAdministrator.updateStatistics(newConnection, serviceTime, clock);
                     //userInterface.showTextinGUI("\nllegada: " + (serviceTime+clock));
                     QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], newConnection);
                     eventList.add(event);
@@ -374,7 +375,6 @@ public class Simulation  {
                                     //se calcula el tiempo de servicio  y se actualiza la variable del modulo actual, se actualizan las estadisticas
                                     // y se añade el evento a la lista de eventos
                                     double serviceTime = processAdministrator.generateServiceTime();
-                                    clientAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     actualConnection.setCurrentModule(ModuleFlag.values()[1]);
                                     processAdministrator.updateStatistics(actualConnection, serviceTime, clock);
                                     QueryEvent event = new QueryEvent((clock + serviceTime), EventType.values()[3], actualConnection);
