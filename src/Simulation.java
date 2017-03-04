@@ -1,16 +1,15 @@
-import javax.swing.*;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 /**
  * Class Simualation
  *
@@ -39,6 +38,23 @@ public class Simulation  {
     private int numConectionServed=0; // Number of connections served by the system
     private int numTimeOut=0; // Number of connections that end because of the timeout
     private int numRejected=0; // Number of connections rejected by the system
+
+
+    //statistics for multiple simulations
+    private int numConectionsMultiple=0; // Number of connections that
+    private int numConectionServedMultiple=0; // Number of connections served by the system
+    private int numTimeOutMultiple=0; // Number of connections that end because of the timeout
+    private int numRejectedMultiple=0; // Number of connections rejected by the system
+
+    private double AverageUpdateMultiple=0; // Average time of UPDATE queries
+    private double AverageSelectMultiple=0; // Average time of SELECT queries
+    private double AverageJoinMultiple=0; // Average time of JOIN queries
+    private double AverageDDlMultiple=0; // Average time of DDL queries
+
+    private int numUpdateMultiple=0; // Number of UPDATE queries
+    private int numSelectMultiple=0; // Number of SELECT queries
+    private int numJoinMultiple=0; // Number of JOIN queries
+    private int numDDlMultiple=0;// Number of DDL queries
     private UserInterface userInterface; // GUI objet for communication
 
     /**
@@ -173,7 +189,7 @@ public class Simulation  {
                 userInterface.showConnectionsInformation(this.getNumConectionServed(), this.getNumRejected());
             }
             // Every statistic is displayed at the end of the simulations inside the JTextArea
-            userInterface.showTextinGUI("\n---- Estádisticas globales del sistema:\n");
+            userInterface.showTextinGUI("\n---- Estádisticas globales de la Simulación:\n");
             userInterface.showTextinGUI("Número de conexiones: "+ numConections);
             userInterface.showTextinGUI("Total de conexiones atendidas:" + numConectionServed);
             userInterface.showTextinGUI("Total de conexiones que hicieron timeout: "+ numTimeOut);
@@ -280,6 +296,21 @@ public class Simulation  {
             userInterface.showTextinGUI("Ls: "+transactions.getStatistic().getLs());
             userInterface.showTextinGUI("Lq: "+transactions.getStatistic().getLq());
 
+            //Update the statistics of multiple simulations
+            numConectionsMultiple +=numConections;
+            numConectionServedMultiple+=numConectionServed;
+            numTimeOutMultiple+=numTimeOut;
+            numRejectedMultiple+=numRejected;
+
+            AverageUpdateMultiple+=statistics.getUpdateAverageTime();
+            AverageSelectMultiple+=statistics.getSelectAverageTime();
+            AverageJoinMultiple+=statistics.getJoinAverageTime();
+            AverageDDlMultiple+=statistics.getDdlAverageTime();
+            numUpdateMultiple+=statistics.getNumUdpate();
+            numSelectMultiple+=statistics.getNumSelect();
+            numJoinMultiple+=statistics.getNumJoin();
+            numDDlMultiple+=statistics.getNumDdl();
+
 
             // The HTML with the statistics is created
             generateHTML(i+1);
@@ -288,6 +319,17 @@ public class Simulation  {
             }
 
         }
+        //Print multiple simulations statistics
+        userInterface.showTextinGUI("\n---- Estádisticas globales del Sistema:\n");
+        userInterface.showTextinGUI("Número de conexiones: "+ numConectionsMultiple);
+        userInterface.showTextinGUI("Total de conexiones atendidas:" + numConectionServedMultiple);
+        userInterface.showTextinGUI("Total de conexiones que hicieron timeout: "+ numTimeOutMultiple);
+        userInterface.showTextinGUI("Total de conexiones rechazadas: "+ numRejectedMultiple);
+
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +round(AverageSelectMultiple/numSimulations)+" num "+numSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "    +round(AverageDDlMultiple/numSimulations)+" num "+numDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "   +round(AverageJoinMultiple/numSimulations)+" num "+numJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: " +round(AverageUpdateMultiple/numSimulations)+" num "+numUpdateMultiple);
         userInterface.activateReturnButton(); // The return button is activated again, so when the simulations are over, the user can return and change back parameters
         userInterface.showDialog("Las estadísticas se desplegarán en su buscador predeterminado automáticamente. \nTambién, el archivo con las estadísticas se encuentra dentro de la carpeta \"Statistics\"\nubicada en la misma carpeta de la aplicación.", "Simulación terminada");
         File htmlFile = new File("Statistics/index.html");
