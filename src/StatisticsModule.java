@@ -18,6 +18,7 @@ public class StatisticsModule {
     private double numJoin=0;
     private double uptdateAverageTime=0; // Tempo promedio de las consultas Update
     private double numUdpate=0;
+    private double moduleFreeTime =0;
 
     private double lambda =0;
     private double ws = 0;
@@ -26,6 +27,13 @@ public class StatisticsModule {
     private double serversFreeTime = 0; // suma del tiempo libre de los servidores
     private double timesFreeServers = 0; // cantidad de veces que se suman los servidores libres
 
+    public double getMododuleFreeTime(){
+        return round(moduleFreeTime);
+    }
+
+    public void setModuleFreeTime(double time){
+        moduleFreeTime +=time;
+    }
     public double getServersFreeTime() {
         return serversFreeTime;
     }

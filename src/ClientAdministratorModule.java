@@ -51,6 +51,9 @@ public class ClientAdministratorModule extends Module {
     public boolean arrive(Connection c, double clock) {
         getStatistic().setLambda(clock-getTimeLastArrive());
         getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
+        if(getFreeServers()==getMaxSimConnections()){
+            getStatistic().setModuleFreeTime(clock-getTimeLastEvent());
+        }
         setTimeLastEvent(clock);
         setTimeLastArrive (clock);
         boolean being_served=false;

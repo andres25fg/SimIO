@@ -192,6 +192,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+clientAdministrator.getStatistic().getUpdateAverageTime()+" para "+clientAdministrator.getStatistic().getNumUdpate()+ " consultas");
             userInterface.showTextinGUI("Promedio de servidores libres: "+clientAdministrator.getStatistic().getAverageFreeServers());
             userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+clientAdministrator.getStatistic().getAverageFreeTime(clientAdministrator.getMaxSimConnections()));
+            userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+clientAdministrator.getStatistic().getMododuleFreeTime());
 
             userInterface.showTextinGUI("Lambda: " +clientAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +clientAdministrator.getStatistic().getP(clientAdministrator.getMaxSimConnections()));
@@ -210,6 +211,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+processAdministrator.getStatistic().getUpdateAverageTime()+" para "+processAdministrator.getStatistic().getNumUdpate()+ " consultas");
             userInterface.showTextinGUI("Promedio de servidores libres: "+processAdministrator.getStatistic().getAverageFreeServers());
             userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+processAdministrator.getStatistic().getAverageFreeTime(processAdministrator.getMaxSimConnections()));
+            userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+processAdministrator.getStatistic().getMododuleFreeTime());
 
             userInterface.showTextinGUI("Lambda: " +processAdministrator.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +processAdministrator.getStatistic().getP(processAdministrator.getMaxSimConnections()));
@@ -228,6 +230,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryExecutions.getStatistic().getUpdateAverageTime()+" para "+queryExecutions.getStatistic().getNumUdpate()+ " consultas");
             userInterface.showTextinGUI("Promedio de servidores libres: "+queryExecutions.getStatistic().getAverageFreeServers());
             userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+queryExecutions.getStatistic().getAverageFreeTime(queryExecutions.getMaxSimConnections()));
+            userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+queryExecutions.getStatistic().getMododuleFreeTime());
 
             userInterface.showTextinGUI("Lambda: " +queryExecutions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryExecutions.getStatistic().getP(queryExecutions.getMaxSimConnections()));
@@ -246,6 +249,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryProcessor.getStatistic().getUpdateAverageTime()+" para "+queryProcessor.getStatistic().getNumUdpate()+ " consultas");
             userInterface.showTextinGUI("Promedio de servidores libres: "+queryProcessor.getStatistic().getAverageFreeServers());
             userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+queryProcessor.getStatistic().getAverageFreeTime(queryProcessor.getMaxSimConnections()));
+            userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+queryProcessor.getStatistic().getMododuleFreeTime());
 
             userInterface.showTextinGUI("Lambda: " +queryProcessor.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +queryProcessor.getStatistic().getP(queryProcessor.getMaxSimConnections()));
@@ -264,6 +268,7 @@ public class Simulation  {
             userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+transactions.getStatistic().getUpdateAverageTime()+" para "+transactions.getStatistic().getNumUdpate()+ " consultas");
             userInterface.showTextinGUI("Promedio de servidores libres: "+transactions.getStatistic().getAverageFreeServers());
             userInterface.showTextinGUI("Promedio de tiempo libre  por servidor: "+transactions.getStatistic().getAverageFreeTime(transactions.getMaxSimConnections()));
+            userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+transactions.getStatistic().getMododuleFreeTime());
 
             userInterface.showTextinGUI("Lambda: " +transactions.getStatistic().getLambda());
             userInterface.showTextinGUI("p: " +transactions.getStatistic().getP(transactions.getMaxSimConnections()));

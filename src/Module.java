@@ -141,6 +141,9 @@ public abstract class Module {
     public boolean arrive(Connection c, double clock) {
         statistics.setLambda(clock-timeLastArrive);
         statistics.setFreeServersAndFreeTime(freeServers,(clock-timeLastEvent));
+        if(getFreeServers()==getMaxSimConnections()){
+            statistics.setModuleFreeTime(clock-timeLastEvent);
+        }
         timeLastEvent = clock;
         timeLastArrive = clock;
         boolean being_served=false;

@@ -38,10 +38,12 @@ public class TransactionsModule extends Module{
     public boolean arrive(Connection c, double clock) {
         getStatistic().setLambda(clock-getTimeLastArrive());
         getStatistic().setFreeServersAndFreeTime(getFreeServers(),(clock-getTimeLastEvent()));
+        if(getFreeServers()==getMaxSimConnections()){
+            getStatistic().setModuleFreeTime(clock-getTimeLastEvent());
+        }
         setTimeLastEvent(clock);
         setTimeLastArrive(clock);
         boolean being_served=false;
-
         //se revisa si la conexion es de tipo ddl
         if((getFreeServers()>0 && numDDL ==0 && servingDDL==false && c.getType().toString() != "DDL" )|| (getFreeServers() == getMaxSimConnections() ) ) {
             reduceFreeServer();
