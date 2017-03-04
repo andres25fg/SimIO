@@ -33,7 +33,7 @@ public class Simulation  {
     private QueryProcessorModule queryProcessor; // Query Processor
     private TransactionsModule transactions; // Transactions
     private PriorityQueue<QueryEvent> eventList; // Lista de eventos del sistema
-    public StatisticsModule statistics = new StatisticsModule();
+    private StatisticsModule statistics = new StatisticsModule();
     private int numConections=0;
     private int numConectionServed=0;
     private int numTimeOut=0;
@@ -336,7 +336,7 @@ public class Simulation  {
                         // se revisa si la conexion ya paso por el modulo de transacciones
 
                         if (checkTimeOut(actualConnection) == false) {
-                            if (!actualConnection.getTransactionModule()) {
+                            //if (!actualConnection.getTransactionModule()) {
                                 //aun no pasa por el modulo de transacciones
                                 processing = processAdministrator.arrive(actualConnection, clock); // el proceso llega el siguente modulo
                                 if (processing == true) {
@@ -350,12 +350,12 @@ public class Simulation  {
                                     addQueryEvent(event);
                                 }
                                 //ya paso por el modulo de transacciones
-                            } else {
+                            //} else {
                                 // se saca el proceso del modulo
                                 //se crea un evento de tipo connection_out
-                                QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
-                                addQueryEvent(event);
-                            }
+                                //QueryEvent event = new QueryEvent(clock, EventType.values()[1], actualConnection);
+                                //addQueryEvent(event);
+                           // }
                         }
                         break;
 
@@ -429,7 +429,7 @@ public class Simulation  {
                                 QueryEvent event = new QueryEvent(clock + serviceTime, EventType.values()[3], client_t);
                                 addQueryEvent(event);
                             }
-                        }while (transactions.getFreeServers()>0 && transactions.getIsDDL()==false && transactions.getNumConectionsStack()>0);
+                        }while (transactions.getFreeServers()>0 && transactions.getIsDDL()==false && transactions.getPriorityQueueSize()>0);
                         actualConnection.setTransactionModuleTrue();
                         if (checkTimeOut(actualConnection) == false) {
                             processing = queryExecutions.arrive(actualConnection, clock);

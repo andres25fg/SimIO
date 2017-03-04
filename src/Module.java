@@ -13,19 +13,39 @@ import java.util.PriorityQueue;
  * Andrés González Caldas
  */
 public abstract class Module {
-    public StatisticsModule statistics = new StatisticsModule(); // Objeto de la clase StatisticsModule para guardar estadísticas
-    public int freeServers; // Número de servidores libres del módulo
-    public int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
-    public RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
-    public int numClientsServed; // Número total de clientes servidos por el módulo
+    private StatisticsModule statistics = new StatisticsModule(); // Objeto de la clase StatisticsModule para guardar estadísticas
+    private int freeServers; // Número de servidores libres del módulo
+    private int maxSimConnections; // Número máximo de conexiones simultaneas que le módulo puede procesar
+    private RandomGenerator random = new RandomGenerator(); // Objeto de la clase RandomGenerator para el procesamiento de los números aleatorios
+    private int numClientsServed; // Número total de clientes servidos por el módulo
     private Deque<Connection> stackConnections = new ArrayDeque<Connection>(); // Cola de conexiones del módulo
-    public PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
+    private PriorityQueue<Connection> stackQueries; // Cola de consultas que utiliza el módulo de Transactions
 
-    public double timeLastArrive=0;
-    public double timeLastEvent=0;
+    private double timeLastArrive=0;
+    private double timeLastEvent=0;
 
     public Module(){
 
+    }
+
+    public RandomGenerator getRandom(){
+        return random;
+    }
+
+    public void setTimeLastArrive(double time){
+         this.timeLastArrive = time;
+    }
+
+    public void setTimeLastEvent(double time){
+        this.timeLastEvent = time;
+    }
+
+    public double getTimeLastArrive(){
+        return timeLastArrive;
+    }
+
+    public double getTimeLastEvent(){
+        return timeLastEvent;
     }
 
     public void setFreeServers(int freeServers) {
@@ -36,8 +56,8 @@ public abstract class Module {
         this.maxSimConnections = maxSimConnections;
     }
 
-    public void setNumClientsServed(int numClientsServed) {
-        this.numClientsServed = numClientsServed;
+    public void incrementNumClientsServed() {
+        numClientsServed++;
     }
 
     public int getNumClientsServed() {
@@ -52,6 +72,7 @@ public abstract class Module {
         return maxSimConnections;
     }
 
+
     public void setStackQueries(PriorityQueue<Connection> stackQueries) {
         this.stackQueries = stackQueries;
     }
@@ -60,12 +81,24 @@ public abstract class Module {
         return stackQueries;
     }
 
+    public StatisticsModule getStatistic(){
+        return statistics;
+    }
+
     /**
      * Método que retorna el número de conexiones que hay dentro de la cola de prioridades
      * @return
      */
     public int getPriorityQueueSize() {
         return stackQueries.size();
+    }
+
+    public void sendToQuery(Connection c){
+        stackQueries.add(c);
+    }
+
+    public Connection getFirstPriorityQueue(){
+        return stackQueries.poll();
     }
 
     /**
@@ -100,8 +133,9 @@ public abstract class Module {
      */
 
 
-    /*public double generateServiceTime(){
-    }*/
+    public double generateServiceTime(){
+        return 0;
+    }
 
     // En este metodo no estoy my seguro e como manejar la lista de eventos
     public boolean arrive(Connection c, double clock) {
@@ -166,10 +200,5 @@ public abstract class Module {
                 statistics.setSelectAverageTime(stackTime+serviceTime);
         }
     }
-
-    public StatisticsModule getStatistic(){
-        return statistics;
-    }
-
 
 }
