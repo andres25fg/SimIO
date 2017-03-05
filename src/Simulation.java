@@ -57,6 +57,54 @@ public class Simulation  {
     private int numDDlMultiple=0;// Number of DDL queries
     private UserInterface userInterface; // GUI objet for communication
 
+    //statistics by module
+
+    //client administrator
+    private double clientAdminAverageUpdateMultiple=0; // Average time of UPDATE queries
+    private double clientAdminAverageSelectMultiple=0; // Average time of SELECT queries
+    private double clientAdminAverageJoinMultiple=0; // Average time of JOIN queries
+    private double clientAdminAverageDDlMultiple=0; // Average time of DDL queries
+    private double clientAdminLqeMultiple=0;        //Average deque size
+    private double clientAdminFreeModuleMultiple=0; // Free time the module spends
+
+    //proces administrator
+    private double procesAdminAverageUpdateMultiple=0; // Average time of UPDATE queries
+    private double procesAdminAverageSelectMultiple=0; // Average time of SELECT queries
+    private double procesAdminAverageJoinMultiple=0; // Average time of JOIN queries
+    private double procesAdminAverageDDlMultiple=0; // Average time of DDL queries
+    private double procesAdminLqeMultiple=0;        //Average deque size
+    private double procesAdminFreeModuleMultiple=0; // Free time the module spends
+
+    // query procesor
+    private double queryProcesorAverageUpdateMultiple=0; // Average time of UPDATE queries
+    private double queryProcesorAverageSelectMultiple=0; // Average time of SELECT queries
+    private double queryProcesorAverageJoinMultiple=0; // Average time of JOIN queries
+    private double queryProcesorAverageDDlMultiple=0; // Average time of DDL queries
+    private double queryProcesorLqMultiple=0;        //Average deque size
+    private double queryProcesorFreeModuleMultiple=0; // Free time the module spends
+
+    //transactions
+    private double transactionAverageUpdateMultiple=0; // Average time of UPDATE queries
+    private double transactionAverageSelectMultiple=0; // Average time of SELECT queries
+    private double transactionAverageJoinMultiple=0; // Average time of JOIN queries
+    private double transactionAverageDDlMultiple=0; // Average time of DDL queries
+    private double transactionLqMultiple=0;        //Average deque size
+    private double transactionFreeModuleMultiple=0; // Free time the module spends
+
+    //query executor
+    private double queryExeAverageUpdateMultiple=0; // Average time of UPDATE queries
+    private double queryExeAverageSelectMultiple=0; // Average time of SELECT queries
+    private double queryExeAverageJoinMultiple=0; // Average time of JOIN queries
+    private double queryExeAverageDDlMultiple=0; // Average time of DDL queries
+    private double queryExeLqeMultiple=0;        //Average deque size
+    private double queryExeFreeModuleMultiple=0; // Free time the module spends
+
+
+
+
+
+
+
     /**
      * Constructor
      *  @param numSims Number of simulations
@@ -311,6 +359,41 @@ public class Simulation  {
             numJoinMultiple+=statistics.getNumJoin();
             numDDlMultiple+=statistics.getNumDdl();
 
+            clientAdminAverageUpdateMultiple+=clientAdministrator.getStatistic().getUpdateAverageTime();
+            clientAdminAverageSelectMultiple+=clientAdministrator.getStatistic().getSelectAverageTime();
+            clientAdminAverageJoinMultiple+=clientAdministrator.getStatistic().getJoinAverageTime();
+            clientAdminAverageDDlMultiple+=clientAdministrator.getStatistic().getDdlAverageTime();
+            clientAdminLqeMultiple += clientAdministrator.getStatistic().getLq();
+            clientAdminFreeModuleMultiple += clientAdministrator.getStatistic().getMododuleFreeTime();
+
+            procesAdminAverageUpdateMultiple+=processAdministrator.getStatistic().getUpdateAverageTime();
+            procesAdminAverageSelectMultiple+=processAdministrator.getStatistic().getSelectAverageTime();
+            procesAdminAverageJoinMultiple+=processAdministrator.getStatistic().getJoinAverageTime();
+            procesAdminAverageDDlMultiple+=processAdministrator.getStatistic().getDdlAverageTime();
+            procesAdminLqeMultiple += processAdministrator.getStatistic().getLq();
+            procesAdminFreeModuleMultiple += processAdministrator.getStatistic().getMododuleFreeTime();
+
+            queryProcesorAverageUpdateMultiple+=queryProcessor.getStatistic().getUpdateAverageTime();
+            queryProcesorAverageSelectMultiple+=queryProcessor.getStatistic().getSelectAverageTime();
+            queryProcesorAverageJoinMultiple+=queryProcessor.getStatistic().getJoinAverageTime();
+            queryProcesorAverageDDlMultiple+=queryProcessor.getStatistic().getDdlAverageTime();
+            queryProcesorLqMultiple += queryProcessor.getStatistic().getLq();
+            queryProcesorFreeModuleMultiple += queryProcessor.getStatistic().getMododuleFreeTime();
+
+            transactionAverageUpdateMultiple+=transactions.getStatistic().getUpdateAverageTime();
+            transactionAverageSelectMultiple+=transactions.getStatistic().getSelectAverageTime();
+            transactionAverageJoinMultiple+=transactions.getStatistic().getJoinAverageTime();
+            transactionAverageDDlMultiple+=transactions.getStatistic().getDdlAverageTime();
+            transactionLqMultiple += transactions.getStatistic().getLq();
+            transactionFreeModuleMultiple += transactions.getStatistic().getMododuleFreeTime();
+
+            queryExeAverageUpdateMultiple+=queryExecutions.getStatistic().getUpdateAverageTime();
+            queryExeAverageSelectMultiple+=queryExecutions.getStatistic().getSelectAverageTime();
+            queryExeAverageJoinMultiple+=queryExecutions.getStatistic().getJoinAverageTime();
+            queryExeAverageDDlMultiple+=queryExecutions.getStatistic().getDdlAverageTime();
+            queryExeLqeMultiple += queryExecutions.getStatistic().getLq();
+            queryExeFreeModuleMultiple += queryExecutions.getStatistic().getMododuleFreeTime();
+
 
             // The HTML with the statistics is created
             generateHTML(i+1);
@@ -320,16 +403,96 @@ public class Simulation  {
 
         }
         //Print multiple simulations statistics
+
+        AverageUpdateMultiple=round(AverageUpdateMultiple/numSimulations);
+        AverageSelectMultiple=round(AverageSelectMultiple/numSimulations);
+        AverageJoinMultiple=round(AverageJoinMultiple/numSimulations);
+        AverageDDlMultiple=round(AverageDDlMultiple/numSimulations);
+
+        clientAdminAverageUpdateMultiple=round(clientAdminAverageUpdateMultiple/numSimulations);
+        clientAdminAverageSelectMultiple=round(clientAdminAverageSelectMultiple/numSimulations);
+        clientAdminAverageJoinMultiple=round(clientAdminAverageJoinMultiple/numSimulations);
+        clientAdminAverageDDlMultiple=round(clientAdminAverageDDlMultiple/numSimulations);
+        clientAdminLqeMultiple =round(clientAdminLqeMultiple/numSimulations);
+
+        procesAdminAverageUpdateMultiple=round(procesAdminAverageUpdateMultiple/numSimulations);
+        procesAdminAverageSelectMultiple=round(procesAdminAverageSelectMultiple/numSimulations);
+        procesAdminAverageJoinMultiple=round(procesAdminAverageJoinMultiple/numSimulations);
+        procesAdminAverageDDlMultiple=round(procesAdminAverageDDlMultiple/numSimulations);
+        procesAdminLqeMultiple =round(procesAdminLqeMultiple/numSimulations);
+
+        queryProcesorAverageUpdateMultiple=round(queryProcesorAverageUpdateMultiple/numSimulations);
+        queryProcesorAverageSelectMultiple=round(queryProcesorAverageSelectMultiple/numSimulations);
+        queryProcesorAverageJoinMultiple=round(queryProcesorAverageJoinMultiple/numSimulations);
+        queryProcesorAverageDDlMultiple=round(queryProcesorAverageDDlMultiple/numSimulations);
+        queryProcesorLqMultiple=round(queryProcesorLqMultiple/numSimulations);
+
+        transactionAverageUpdateMultiple=round(transactionAverageUpdateMultiple/numSimulations);
+        transactionAverageSelectMultiple=round(transactionAverageSelectMultiple/numSimulations);
+        transactionAverageJoinMultiple=round(transactionAverageJoinMultiple/numSimulations);
+        transactionAverageDDlMultiple=round(transactionAverageDDlMultiple/numSimulations);
+        transactionLqMultiple=round(transactionLqMultiple/numSimulations);
+
+        queryExeAverageUpdateMultiple=round(queryExeAverageUpdateMultiple/numSimulations);
+        queryExeAverageSelectMultiple=round(queryExeAverageSelectMultiple/numSimulations);
+        queryExeAverageJoinMultiple=round(queryExeAverageJoinMultiple/numSimulations);
+        queryExeAverageDDlMultiple=round(queryExeAverageDDlMultiple/numSimulations);
+        queryExeLqeMultiple=round(queryExeLqeMultiple/numSimulations);
+
         userInterface.showTextinGUI("\n---- Estádisticas globales del Sistema:\n");
         userInterface.showTextinGUI("Número de conexiones: "+ numConectionsMultiple);
         userInterface.showTextinGUI("Total de conexiones atendidas:" + numConectionServedMultiple);
         userInterface.showTextinGUI("Total de conexiones que hicieron timeout: "+ numTimeOutMultiple);
         userInterface.showTextinGUI("Total de conexiones rechazadas: "+ numRejectedMultiple);
 
-        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +round(AverageSelectMultiple/numSimulations)+" num "+numSelectMultiple);
-        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "    +round(AverageDDlMultiple/numSimulations)+" num "+numDDlMultiple);
-        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "   +round(AverageJoinMultiple/numSimulations)+" num "+numJoinMultiple);
-        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: " +round(AverageUpdateMultiple/numSimulations)+" num "+numUpdateMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +AverageSelectMultiple+" num "+numSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: "    +AverageDDlMultiple+" num "+numDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "   +AverageJoinMultiple+" num "+numJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: " +AverageUpdateMultiple+" num "+numUpdateMultiple);
+
+        userInterface.showTextinGUI("Módulo: Administración de Clientes");
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +clientAdminAverageSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +clientAdminAverageDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+clientAdminAverageJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+clientAdminAverageUpdateMultiple);
+        userInterface.showTextinGUI("lq: "+clientAdminLqeMultiple);
+        userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+clientAdminFreeModuleMultiple);
+
+
+        userInterface.showTextinGUI("\nMódulo: Administrador de procesos");
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " + procesAdminAverageSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " + procesAdminAverageDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+ procesAdminAverageJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+ procesAdminAverageUpdateMultiple);
+        userInterface.showTextinGUI("lq: "+procesAdminLqeMultiple);
+        userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+procesAdminFreeModuleMultiple);
+
+        userInterface.showTextinGUI("\nMódulo: Ejecutor de sentencias");
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +queryExeAverageSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +queryExeAverageDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryExeAverageJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryExeAverageUpdateMultiple);
+        userInterface.showTextinGUI("lq: "+queryExeLqeMultiple);
+        userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+queryExeFreeModuleMultiple);
+
+
+        userInterface.showTextinGUI("\nMódulo: Procesador de consultas");
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +queryProcesorAverageSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +queryProcesorAverageDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+queryProcesorAverageJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+queryProcesorAverageUpdateMultiple);
+        userInterface.showTextinGUI("lq: "+queryProcesorLqMultiple/numSimulations);
+        userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+queryProcesorFreeModuleMultiple);
+
+
+        userInterface.showTextinGUI("\nMódulo: Transacciones");
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia SELECT: " +transactionAverageSelectMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia DDL: " +transactionAverageDDlMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia JOIN: "+transactionAverageJoinMultiple);
+        userInterface.showTextinGUI("Promedio de tiempo de la sentencia UPDATE: "+transactionAverageUpdateMultiple);
+        userInterface.showTextinGUI("lq: "+transactionLqMultiple);
+        userInterface.showTextinGUI("Tiempo que el módulo paso ocioso: "+transactionFreeModuleMultiple);
+
         userInterface.activateReturnButton(); // The return button is activated again, so when the simulations are over, the user can return and change back parameters
         userInterface.showDialog("Las estadísticas se desplegarán en su buscador predeterminado automáticamente. \nTambién, el archivo con las estadísticas se encuentra dentro de la carpeta \"Statistics\"\nubicada en la misma carpeta de la aplicación.", "Simulación terminada");
         File htmlFile = new File("Statistics/index.html");
