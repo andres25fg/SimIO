@@ -1,6 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
-<link rel="stylesheet" type="text/css" href="../style.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+   <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+
+      title:{
+        text: "Tiempo promedio por tipo de sentencia"
+      },
+      animationEnabled: true,
+      axisY: {
+
+        title: "Segundos(s)"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+
+      {
+        type: "column",
+        showInLegend: true,
+        legendMarkerColor: "grey",
+        legendText: "s = one second",
+        dataPoints: [
+        {y: $ddl, label: "DDL"},
+        {y: $update,  label: "UPDATE" },
+        {y: $join,  label: "JOIN"},
+        {y: $select,  label: "SELECT"},
+       ]
+      }
+      ]
+    });
+
+
+
+	var chart3 = new CanvasJS.Chart("chartContainer3",
+		{
+			theme: "theme3",
+                        animationEnabled: true,
+			title:{
+				text: "Tiempo ocioso por modulo",
+				fontSize: 30
+			},
+			toolTip: {
+				shared: true
+			},
+			axisY: {
+				title: "Seconds(s)"
+			},
+
+			data: [
+
+			{
+				type: "column",
+
+				legendText: "Ocioso",
+				showInLegend: true,
+				dataPoints:[
+				{label: "Administrador de clientes", y: $lazy1},
+				{label: "Administrador de Procesos", y: $lazy2},
+				{label: "Ejecutor de sentencias", y: $lazy3},
+				{label: "Procesador de consultas", y: $lazy4},
+				{label: "Transacciones", y: $lazy5},
+
+
+				]
+			}
+
+			],
+          legend:{
+            cursor:"pointer",
+            itemclick: function(e){
+              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+              	e.dataSeries.visible = false;
+              }
+              else {
+                e.dataSeries.visible = true;
+              }
+            	chart3.render();
+            }
+          },
+        });
+
+    chart3.render();
+
+    chart.render();
+  }
+  </script>
+    <script type="text/javascript" src="canvasjs.min.js"></script>
+
 
 <body>
 
@@ -27,19 +120,18 @@
     </header>
 
 
-
 	<article>
 		<h1>Par&aacutemetros de la simulaci&oacuten</h1>
 		<ul style="list-style-type:square">
-			<li>N&uacutemero de veces que se va a correr la simulaci&oacuten.</li>
-			<li>Tiempo total en segundos para correr cada vez la simulaci&oacuten (M&aacuteximo de tiempo).</li>
-			<li>n&uacuteumero k de conexiones concurrentes que puede manejar el sistema.</li>
+			<li>N&uacutemero de veces que se va a correr la simulaci&oacuten: $time</li>
+			<li>Tiempo total en segundos para correr cada vez la simulaci&oacuten (M&aacuteximo de tiempo): $simtime</li>
+			<li>n&uacuteumero k de conexiones concurrentes que puede manejar el sistema: $k</li>
 			<li>n&uacutemero n de procesos disponibles para el procesamiento de consultas concurrentes que puede manejar
-			el sistema.</li>
-			<li>El n&uacutemero p de procesos disponibles para la ejecucion de transacciones.</li>
-			<li>El n&uacutemero m procesos disponibles para ejecutar consultas.</li>
-			<li>La cantidad t de segundos de timeout de las conexiones.</li>
-			<li>Si se elige correr la simulacion en modo lento, el n&uacutemero de segundos entre cada evento.</li>
+			el sistema: $n</li>
+			<li>El n&uacutemero p de procesos disponibles para la ejecucion de transacciones: $p</li>
+			<li>El n&uacutemero m procesos disponibles para ejecutar consultas: $m</li>
+			<li>La cantidad t de segundos de timeout de las conexiones: $t</li>
+			<li>Si se elige correr la simulacion en modo lento, el n&uacutemero de segundos entre cada evento: $slowmode</li>
 		</ul>
 	</article>
 
@@ -47,24 +139,26 @@
 		<h1>Estad&iacutesticas globales</h1>
 		<ul style="list-style-type:square">
 
-			<li>N&uacutemero de conexiones</li>
-			<li>Conexiones atendidas</li>
-			<li>Coenxiones que hicieron timeout</li>
-			<li>n&uacutemero de conexiones descartadas por el servidor.</li>
-			<li>Tiempo promedio pasado para DDL </li>
-			<li>Tiempo promedio pasado para JOIN </li>
-			<li>Tiempo promedio pasado para UPDATE </li>
-			<li>Tiempo promedio pasado para SELECT </li>
+			<li>N&uacutemero de conexiones: $connections</li>
+			<li>Conexiones atendidas: $served</li>
+			<li>Coenxiones que hicieron timeout: $timeout</li>
+			<li>n&uacutemero de conexiones descartadas por el servidor: $timeout</li>
 
-			<li>Tamano promedio de la cola en Administrador de clientes</li>
-			<li>Tamano promedio de la cola en Administrador de procesos</li>
-			<li>Tamano promedio de la cola en Ejecutor de sentencias</li>
-			<li>Tamano promedio de la cola en Procesador de consultas</li>
-			<li>Tamano promedio de la cola en Transacciones</li>
-            <li>Tiempo promedio de vida de una conexi&oacuten.</li>
-			<li>Cantidad de tiempo que cada m&oacutedulo pasa ocioso.</li>
+			<li>Tama&ntildeo promedio de la cola en Administrador de clientes: $lqc</li>
+			<li>Tama&ntildeo promedio de la cola en Administrador de procesos: $lqp</li>
+			<li>Tama&ntildeo promedio de la cola en Ejecutor de sentencias: $lqqe</li>
+			<li>Tama&ntildeo promedio de la cola en Procesador de consultas: $lqqp</li>
+			<li>Tama&ntildeo promedio de la cola en Transacciones: $lqt</li>
+
+
 	</article>
 
+<div id="chartContainer" style="height: 300px; width: 70%; margin: 0 auto;">
+    </div>
+    <br> </br>
+    <div id="chartContainer3" style="height: 300px; width: 70%; margin: 0 auto;">
+    </div>
+    <br> </br>
 	<footer>
 		<p>Kevin Mora, Felipe Rosabal,  Andr&eacutes Gonz&aacutelez</p>
 		<p>Copyright &copy;UCR 2017</p>

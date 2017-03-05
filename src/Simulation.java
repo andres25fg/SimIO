@@ -187,7 +187,7 @@ public class Simulation  {
      * @throws Exception
      */
     public void beginSimulation(int k,int n, int p, int m) throws Exception {
-        generateHTMLindex(getNumSimulations());
+
         for(int i=0; i<numSimulations; i++) { // Cycle that run all the simulations specified by the parameters
             // For the arrivals, a null connection is added because it hasn't been created yet
 
@@ -199,6 +199,7 @@ public class Simulation  {
             this.transactions = new TransactionsModule(p);
             this.statistics = new StatisticsModule();
 
+            generateHTMLindex(getNumSimulations());
             RandomGenerator random = new RandomGenerator(); // Random generator
             clock = 0; // The clock starts at 0
             eventList.clear(); // We clear the event list
@@ -402,6 +403,7 @@ public class Simulation  {
             }
 
         }
+        generateHTMLindex(getNumSimulations());
         //Print multiple simulations statistics
 
         AverageUpdateMultiple=round(AverageUpdateMultiple/numSimulations);
@@ -770,6 +772,174 @@ public class Simulation  {
         return numSimulations;
     }
 
+    public int getNumConectionsMultiple() {
+        return numConectionsMultiple;
+    }
+
+    public int getNumConectionServedMultiple() {
+        return numConectionServedMultiple;
+    }
+
+    public int getNumTimeOutMultiple() {
+        return numTimeOutMultiple;
+    }
+
+    public int getNumRejectedMultiple() {
+        return numRejectedMultiple;
+    }
+
+    public double getAverageUpdateMultiple() {
+        return AverageUpdateMultiple;
+    }
+
+    public double getAverageSelectMultiple() {
+        return AverageSelectMultiple;
+    }
+
+    public double getAverageJoinMultiple() {
+        return AverageJoinMultiple;
+    }
+
+    public double getAverageDDlMultiple() {
+        return AverageDDlMultiple;
+    }
+
+    public int getNumUpdateMultiple() {
+        return numUpdateMultiple;
+    }
+
+    public int getNumSelectMultiple() {
+        return numSelectMultiple;
+    }
+
+    public int getNumJoinMultiple() {
+        return numJoinMultiple;
+    }
+
+    public int getNumDDlMultiple() {
+        return numDDlMultiple;
+    }
+
+    public double getClientAdminAverageUpdateMultiple() {
+        return clientAdminAverageUpdateMultiple;
+    }
+
+    public double getClientAdminAverageSelectMultiple() {
+        return clientAdminAverageSelectMultiple;
+    }
+
+    public double getClientAdminAverageJoinMultiple() {
+        return clientAdminAverageJoinMultiple;
+    }
+
+    public double getClientAdminAverageDDlMultiple() {
+        return clientAdminAverageDDlMultiple;
+    }
+
+    public double getClientAdminLqeMultiple() {
+        return clientAdminLqeMultiple;
+    }
+
+    public double getClientAdminFreeModuleMultiple() {
+        return clientAdminFreeModuleMultiple;
+    }
+
+    public double getProcesAdminAverageUpdateMultiple() {
+        return procesAdminAverageUpdateMultiple;
+    }
+
+    public double getProcesAdminAverageSelectMultiple() {
+        return procesAdminAverageSelectMultiple;
+    }
+
+    public double getProcesAdminAverageJoinMultiple() {
+        return procesAdminAverageJoinMultiple;
+    }
+
+    public double getProcesAdminAverageDDlMultiple() {
+        return procesAdminAverageDDlMultiple;
+    }
+
+    public double getProcesAdminLqeMultiple() {
+        return procesAdminLqeMultiple;
+    }
+
+    public double getProcesAdminFreeModuleMultiple() {
+        return procesAdminFreeModuleMultiple;
+    }
+
+    public double getQueryProcesorAverageUpdateMultiple() {
+        return queryProcesorAverageUpdateMultiple;
+    }
+
+    public double getQueryProcesorAverageSelectMultiple() {
+        return queryProcesorAverageSelectMultiple;
+    }
+
+    public double getQueryProcesorAverageJoinMultiple() {
+        return queryProcesorAverageJoinMultiple;
+    }
+
+    public double getQueryProcesorAverageDDlMultiple() {
+        return queryProcesorAverageDDlMultiple;
+    }
+
+    public double getQueryProcesorLqMultiple() {
+        return queryProcesorLqMultiple;
+    }
+
+    public double getQueryProcesorFreeModuleMultiple() {
+        return queryProcesorFreeModuleMultiple;
+    }
+
+    public double getTransactionAverageUpdateMultiple() {
+        return transactionAverageUpdateMultiple;
+    }
+
+    public double getTransactionAverageSelectMultiple() {
+        return transactionAverageSelectMultiple;
+    }
+
+    public double getTransactionAverageJoinMultiple() {
+        return transactionAverageJoinMultiple;
+    }
+
+    public double getTransactionAverageDDlMultiple() {
+        return transactionAverageDDlMultiple;
+    }
+
+    public double getTransactionLqMultiple() {
+        return transactionLqMultiple;
+    }
+
+    public double getTransactionFreeModuleMultiple() {
+        return transactionFreeModuleMultiple;
+    }
+
+    public double getQueryExeAverageUpdateMultiple() {
+        return queryExeAverageUpdateMultiple;
+    }
+
+    public double getQueryExeAverageSelectMultiple() {
+        return queryExeAverageSelectMultiple;
+    }
+
+    public double getQueryExeAverageJoinMultiple() {
+        return queryExeAverageJoinMultiple;
+    }
+
+    public double getQueryExeAverageDDlMultiple() {
+        return queryExeAverageDDlMultiple;
+    }
+
+    public double getQueryExeLqeMultiple() {
+        return queryExeLqeMultiple;
+    }
+
+    public double getQueryExeFreeModuleMultiple() {
+        return queryExeFreeModuleMultiple;
+    }
+
     /**
      * Generates the index file
      * @param simulations: number of simulations
@@ -792,7 +962,38 @@ public class Simulation  {
 
         VelocityContext vc = new VelocityContext();
         vc.put("List", v);
+        //vc.put("name", "Simulaci&oacuten"+Integer.toString(currentSim));
+        vc.put("time", simulations);
+        vc.put("simtime", getSecondsSimulation());
+        vc.put("slowmode", getSlowModeSeconds());
+        vc.put("k", clientAdministrator.getMaxSimConnections());
+        vc.put("n", queryProcessor.getMaxSimConnections());
+        vc.put("p", transactions.getMaxSimConnections());
+        vc.put("m", queryExecutions.getMaxSimConnections());
 
+        vc.put("connections", getNumConectionsMultiple());
+        vc.put("served", getNumConectionServedMultiple());
+        vc.put("timeout", getNumTimeOutMultiple());
+        vc.put("rejected", getNumRejectedMultiple());
+        //vc.put("w",);
+
+        //average Lifetime per module
+        vc.put("lqc", getClientAdminLqeMultiple());
+        vc.put("lqqp", getQueryProcesorLqMultiple());
+        vc.put("lqt", getTransactionLqMultiple());
+        vc.put("lqqe", getQueryExeLqeMultiple());
+        vc.put("lqp", getProcesAdminLqeMultiple());
+
+        vc.put("ddl", getAverageDDlMultiple());
+        vc.put("join", getAverageJoinMultiple());
+        vc.put("select", getAverageSelectMultiple());
+        vc.put("update", getAverageUpdateMultiple());
+
+        vc.put("lazy1",getClientAdminFreeModuleMultiple());
+        vc.put("lazy2", getProcesAdminFreeModuleMultiple());
+        vc.put("lazy3", getQueryExeFreeModuleMultiple());
+        vc.put("lazy4", getQueryProcesorFreeModuleMultiple());
+        vc.put("lazy5", getTransactionFreeModuleMultiple());
 
         StringWriter sw = new StringWriter();
         t.merge(vc, sw);

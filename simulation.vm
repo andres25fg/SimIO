@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<link rel="stylesheet" type="text/css" href="../style.css">
+<link rel="stylesheet" type="text/css" href="style.css">
 
 <body>
 
@@ -82,7 +82,7 @@
 			theme: "theme3",
                         animationEnabled: true,
 			title:{
-				text: "Tiempo ocioso por m&oacutedulo",
+				text: "Tiempo ocioso por modulo",
 				fontSize: 30
 			},
 			toolTip: {
